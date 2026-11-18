@@ -83,3 +83,5 @@
 | 11-18 08:58 | t-paintbox | articulation | The lid rotates open upward about the hinge along the back top edge, up to about 100 degrees. | - | - | FAILED | <urlopen error [Errno 111] Connection refused> |
 | 11-18 08:58 | t-dollhouse | articulation | The two front doors swing open outward on vertical hinges at the left and right outer edges, about 120 degrees. | - | - | FAILED | <urlopen error [Errno 111] Connection refused> |
 | 11-18 08:47 | t-toolcabinet | articulation | The two top doors swing open outward on vertical hinges at their outer edges, about 110 degrees, and the three drawers below slide straight out forward about 60 percent of their depth. | 8296433 | 208 | assets/raw/t-toolcabinet/articulated.zip |  |
+| 11-18 09:07 | t-paintbox | articulation | The lid rotates open upward about the hinge along the back top edge, up to about 100 degrees. | 8298415 | 136 | assets/raw/t-paintbox/articulated.zip |  |
+| 11-18 09:09 | t-dollhouse | articulation | The two front doors swing open outward on vertical hinges at the left and right outer edges, about 120 degrees. | 8298592 | 145 | assets/raw/t-dollhouse/articulated.zip |  |
