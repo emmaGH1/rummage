@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<robot name="robot">
+  <link name="base">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/base.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="drawer_left">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/drawer_left.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="drawer_right">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/drawer_right.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <joint name="drawer_left_joint" type="prismatic">
+    <parent link="base" />
+    <child link="drawer_left" />
+    <origin rpy="0 0 0" xyz="0.61423100 0.13352214 0.51905600" />
+    <axis xyz="0.00000000 0.00000000 1.00000000" />
+    <limit lower="0.000000" upper="0.002211" effort="10" velocity="1" />
+  </joint>
+  <joint name="drawer_right_joint" type="prismatic">
+    <parent link="base" />
+    <child link="drawer_right" />
+    <origin rpy="0 0 0" xyz="-0.13814900 0.13294814 0.51682100" />
+    <axis xyz="0.00000000 0.00000000 1.00000000" />
+    <limit lower="-0.330176" upper="0.005009" effort="10" velocity="1" />
+  </joint>
+</robot>

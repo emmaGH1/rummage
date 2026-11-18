@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="robot">
+  <link name="body">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/body.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="drawer_left">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/drawer_left.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="drawer_middle">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/drawer_middle.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="drawer_right">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/drawer_right.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <joint name="drawer_left_joint" type="prismatic">
+    <parent link="body" />
+    <child link="drawer_left" />
+    <origin rpy="0 0 0" xyz="-0.35119800 0.46762228 0.03270900" />
+    <axis xyz="0.00000000 0.00000000 1.00000000" />
+    <limit lower="0" upper="0.427006" effort="10" velocity="1" />
+  </joint>
+  <joint name="drawer_middle_joint" type="prismatic">
+    <parent link="body" />
+    <child link="drawer_middle" />
+    <origin rpy="0 0 0" xyz="-0.00003000 0.46789328 0.03357900" />
+    <axis xyz="0.00000000 0.00000000 1.00000000" />
+    <limit lower="0.000000" upper="0.426593" effort="10" velocity="1" />
+  </joint>
+  <joint name="drawer_right_joint" type="prismatic">
+    <parent link="body" />
+    <child link="drawer_right" />
+    <origin rpy="0 0 0" xyz="0.35382900 0.46768528 0.03249400" />
+    <axis xyz="0.00000000 0.00000000 1.00000000" />
+    <limit lower="0" upper="0.426683" effort="10" velocity="1" />
+  </joint>
+</robot>
