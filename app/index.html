@@ -26,12 +26,27 @@
         <button id="challengeBtn" class="btn">Challenge a friend</button>
       </div>
       <p class="credit">Every drawer, door and lid was generated and articulated by Aholo Lux3D.</p>
+      <button id="luxBtn" class="link">See how Lux3D built this room</button>
     </div>
 
     <div id="map" class="center dim hidden">
       <div class="badge">The Manor</div>
       <div id="mapGrid" class="mapgrid"></div>
+      <div class="btns">
+        <button id="mapLuxBtn" class="btn small">Made with Lux3D</button>
+        <button id="mapChallengeBtn" class="btn small">Challenge a friend</button>
+      </div>
     </div>
+
+    <aside id="lux" class="lux hidden">
+      <div class="lux-head">
+        <div class="badge small">Made with Lux3D</div>
+        <button id="luxClose" class="btn small" aria-label="Close">✕</button>
+      </div>
+      <p class="lux-intro">Every piece below was generated from a text prompt by <b>Aholo Lux3D</b>, then split into moving parts and given joints by
+        Lux3D's articulation from a one-line motion prompt. Tap a card to watch it move.</p>
+      <div id="luxList" class="lux-list"></div>
+    </aside>
 
     <div id="intro" class="center dim hidden">
       <div id="introNum" class="badge alt">Room 1</div>

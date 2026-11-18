@@ -514,6 +514,61 @@ async function copyLink(btn) {
   setTimeout(() => (btn.textContent = btn.dataset.label), 1600);
 }
 
+// ---------- "Made with Lux3D" panel ----------
+let manifest = null;
+async function openLux() {
+  if (!manifest) {
+    try { manifest = await (await fetch(`${import.meta.env.BASE_URL}lux3d-manifest.json`)).json(); }
+    catch { manifest = { pieces: [] }; }
+  }
+  S.luxPrev = S.mode;
+  S.mode = 'lux';
+  screen();
+  const list = $('luxList');
+  list.innerHTML = '';
+  const bySlug = new Map(manifest.pieces.map((p) => [p.slug, p]));
+  for (const pc of world.pieces) {
+    const m = bySlug.get(pc.slug);
+    if (!m) continue;
+    const g = m.timings.generate?.seconds, a = m.timings.articulate?.seconds;
+    const card = document.createElement('button');
+    card.className = 'lux-card';
+    card.innerHTML = `<div class="lux-title">${m.slug.replace(/^[a-z]-/, '').replace(/-/g, ' ')}</div>
+      <div class="lux-row"><span class="label">Prompt</span><span>${m.prompt}</span></div>
+      <div class="lux-row"><span class="label">Motion prompt</span><span>${m.motion}</span></div>
+      <div class="lux-meta">
+        <span>${m.joints.length} joint${m.joints.length === 1 ? '' : 's'}: ${m.joints.map((j) => j.type).join(', ')}</span>
+        ${g ? `<span>generated in ${g}s</span>` : ''}${a ? `<span>articulated in ${a}s</span>` : ''}
+        <span>style: ${m.style}</span>
+      </div>`;
+    card.onclick = () => demoPiece(pc);
+    list.appendChild(card);
+  }
+  $('lux').classList.remove('hidden');
+}
+function closeLux() {
+  $('lux').classList.add('hidden');
+  world.parts.forEach((p) => (p.target = 0));
+  focus = null;
+  controls.target.set(0, 0.7, -0.2);
+  if (S.luxPrev === 'map') showMap();
+  else showTitle();
+}
+function demoPiece(pc) {
+  sfx('tick');
+  const c = new THREE.Box3().setFromObject(pc.robot).getCenter(new THREE.Vector3());
+  focus = { t0: performance.now(), from: controls.target.clone(), to: c, phase: 'in' };
+  world.parts.forEach((p) => (p.target = 0));
+  pc.parts.forEach((p, i) => setTimeout(() => {
+    p.target = p.open;
+    sfx(p.joint.jointType === 'prismatic' ? 'slide' : 'creak');
+  }, 300 + i * 250));
+}
+$('luxBtn').onclick = openLux;
+$('mapLuxBtn').onclick = openLux;
+$('mapChallengeBtn').onclick = () => startHide();
+$('luxClose').onclick = closeLux;
+
 // ---------- loop ----------
 const clock = new THREE.Clock();
 function frame() {

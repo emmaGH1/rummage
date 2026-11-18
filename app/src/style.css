@@ -130,3 +130,18 @@ canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; c
   .levelname { display: none; }
   .stars { font-size: 48px; }
 }
+
+/* ---- Made with Lux3D panel ---- */
+.lux { position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100vw); background: var(--cream); border-left: 4px solid var(--ink);
+  box-shadow: -6px 0 0 var(--ink); padding: 14px 16px; overflow-y: auto; z-index: 15; }
+.lux-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.lux-intro { font-size: 14px; margin: 6px 0 12px; }
+.lux-list { display: flex; flex-direction: column; gap: 10px; }
+.lux-card { text-align: left; font: inherit; background: #fff; border: 3px solid var(--ink); border-radius: 14px; padding: 10px 12px;
+  box-shadow: 4px 4px 0 var(--ink); cursor: pointer; display: flex; flex-direction: column; gap: 6px; }
+.lux-card:hover { background: #fffbe8; transform: translate(-1px, -1px); }
+.lux-title { font-family: 'Lilita One', sans-serif; font-size: 20px; text-transform: capitalize; }
+.lux-row { display: flex; flex-direction: column; font-size: 13px; font-weight: 700; line-height: 1.35; }
+.lux-row .label { font-size: 10px; }
+.lux-meta { display: flex; flex-wrap: wrap; gap: 6px; font-size: 11px; }
+.lux-meta span { background: var(--ink); color: #fff; border-radius: 999px; padding: 2px 8px; }
