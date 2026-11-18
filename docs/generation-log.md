@@ -120,3 +120,34 @@
 | 11-18 09:26 | x-sacks | text-to-3d | cartoon two burlap flour sacks leaning together, chunky simple shapes, single isolated object | 8301350 | 135 | assets/raw/x-sacks/base.glb |  |
 | 11-18 09:26 | x-easel | text-to-3d | cartoon artist easel with a colourful splashy painting, chunky simple shapes, single isolated object | 8301349 | 117 | assets/raw/x-easel/base.glb |  |
 | 11-18 09:26 | x-pots | text-to-3d | cartoon stack of three copper cooking pots, chunky simple shapes, single isolated object | 8301419 | 109 | assets/raw/x-pots/base.glb |  |
+| 11-18 10:16 | i-sock | text-to-3d | cartoon single striped orange and white sock, single isolated object | 8303942 | 90 | assets/raw/i-sock/base.glb |  |
+| 11-18 10:16 | i-coins | text-to-3d | cartoon small pile of shiny gold coins, single isolated object | 8303946 | 125 | assets/raw/i-coins/base.glb |  |
+| 11-18 10:16 | l-pianobench | text-to-3d | cartoon piano bench with a hinged seat lid for sheet music storage, glossy black with gold legs, chunky simple shapes, single isolated object, closed | 8303941 | 125 | assets/raw/l-pianobench/base.glb |  |
+| 11-18 10:16 | k-cookiejar | text-to-3d | cartoon ceramic cookie jar shaped like a fat cat with a hinged lid head, cream with orange spots, chunky simple shapes, single isolated object, closed | 8303943 | 125 | assets/raw/k-cookiejar/base.glb |  |
+| 11-18 10:16 | i-rubberduck | text-to-3d | cartoon yellow rubber duck, single isolated object | 8303944 | 197 | assets/raw/i-rubberduck/base.glb |  |
+| 11-18 10:16 | x-cat | text-to-3d | cartoon black cat sitting with big yellow eyes, chunky simple shapes, single isolated object | 8304113 | 81 | assets/raw/x-cat/base.glb |  |
+| 11-18 10:16 | x-treasurepile | text-to-3d | cartoon pile of gold coins and gems spilling, chunky simple shapes, single isolated object | 8304068 | 117 | assets/raw/x-treasurepile/base.glb |  |
+| 11-18 10:16 | w-spellbox | text-to-3d | cartoon box shaped like a thick purple spell book with a hinged front cover lid and gold star clasp, chunky simple shapes, single isolated object, closed | 8304110 | 126 | assets/raw/w-spellbox/base.glb |  |
+| 11-18 10:16 | i-spoon | text-to-3d | cartoon silver spoon, single isolated object | 8304111 | 117 | assets/raw/i-spoon/base.glb |  |
+| 11-18 10:16 | i-lockkey | text-to-3d | cartoon small light blue brass key with a simple round bow, single isolated object | 8304175 | 90 | assets/raw/i-lockkey/base.glb |  |
+| 11-18 10:16 | k-spicerack | text-to-3d | cartoon kitchen spice cabinet with six tiny drawers in a three by two grid, mint green with white knobs, chunky simple shapes, single isolated object | 8304201 | 99 | assets/raw/k-spicerack/base.glb |  |
+| 11-18 10:16 | p-jewelbox | text-to-3d | cartoon small treasure jewellery casket with a domed lid, gold with red gems, chunky simple shapes, single isolated object, closed | 8304200 | 99 | assets/raw/p-jewelbox/base.glb |  |
+| 11-18 10:16 | l-mapchest | text-to-3d | cartoon low map chest with three very wide flat drawers, honey wood with brass pulls, chunky simple shapes, single isolated object | 8304267 | 90 | assets/raw/l-mapchest/base.glb |  |
+| 11-18 10:16 | x-telescope | text-to-3d | cartoon brass telescope on a wooden tripod, chunky simple shapes, single isolated object | 8304286 | 126 | assets/raw/x-telescope/base.glb |  |
+| 11-18 10:18 | k-cookiejar | articulation | The lid on top rotates open upward about a hinge at the back of its rim, about 100 degrees. | 8304371 | 153 | assets/raw/k-cookiejar/articulated.zip |  |
+| 11-18 10:16 | i-key | text-to-3d | cartoon big golden skeleton key with an ornate round bow and chunky teeth, shiny gold, single isolated object | 8304368 | 161 | assets/raw/i-key/base.glb |  |
+| 11-18 10:18 | l-pianobench | articulation | The seat lid rotates open upward about the hinge along the back edge, about 100 degrees. | 8304318 | 197 | assets/raw/l-pianobench/articulated.zip |  |
+| 11-18 10:22 | l-mapchest | articulation | Each of the three wide flat drawers slides straight out forward along the depth axis, about 60 percent of its depth. | 8304405 | 161 | assets/raw/l-mapchest/articulated.zip |  |
+| 11-18 10:16 | l-writingbox | text-to-3d | cartoon antique writing slope box with a slanted hinged lid and a small drawer at the front, mahogany with brass corners, chunky simple shapes, single isolated object, closed | 8304531 | 99 | assets/raw/l-writingbox/base.glb |  |
+| 11-18 10:22 | p-jewelbox | articulation | The domed lid rotates open upward about the hinge along the back top edge, about 100 degrees. | 8304453 | 188 | assets/raw/p-jewelbox/articulated.zip |  |
+| 11-18 10:21 | w-spellbox | articulation | The book-cover lid on top rotates open upward about the hinge along the spine edge, about 100 degrees. | 8304534 | 189 | assets/raw/w-spellbox/articulated.zip |  |
+| 11-18 10:16 | t-toolbox | text-to-3d | cartoon red metal toolbox with a hinged lid and a carry handle, chunky simple shapes, single isolated object, closed | 8304675 | 126 | assets/raw/t-toolbox/base.glb |  |
+| 11-18 10:16 | x-broomstick2 | text-to-3d | cartoon mop and bucket, blue bucket, chunky simple shapes, single isolated object | 8304712 | 126 | assets/raw/x-broomstick2/base.glb |  |
+| 11-18 10:16 | x-candles | text-to-3d | cartoon three melting candles of different heights on a brass holder, chunky simple shapes, single isolated object | 8304811 | 108 | assets/raw/x-candles/base.glb |  |
+| 11-18 10:16 | i-teacup | text-to-3d | cartoon white teacup on a blue saucer, single isolated object | 8304556 | 90 | assets/raw/i-teacup/base.glb |  |
+| 11-18 10:26 | l-writingbox | articulation | The slanted lid rotates open upward about the hinge along the back edge, about 100 degrees, and the small front drawer slides straight out forward about 60 percent of its depth. | 8304667 | 207 | assets/raw/l-writingbox/articulated.zip |  |
+| 11-18 10:28 | t-toolbox | articulation | The lid rotates open upward about the hinge along the back top edge, about 100 degrees. | 8304890 | 144 | assets/raw/t-toolbox/articulated.zip |  |
+| 11-18 10:16 | k-wallcupboard | text-to-3d | cartoon small kitchen wall cupboard with two doors, purple paint with brass knobs, chunky simple shapes, single isolated object, doors closed | 8304946 | 90 | assets/raw/k-wallcupboard/base.glb |  |
+| 11-18 10:16 | x-trainset | text-to-3d | cartoon little red toy steam train engine, chunky simple shapes, single isolated object | - | - | FAILED | [Errno 28] No space left on device: '/data/home/.t3/projects/aholo-hackathon/assets/raw/x-trainset' |
+| 11-18 10:16 | w-nightstand | text-to-3d | cartoon small round wizard nightstand with one drawer and a little door below, teal paint with orange knobs, chunky simple shapes, single isolated object | - | - | FAILED | [Errno 28] No space left on device: '/data/home/.t3/projects/aholo-hackathon/assets/raw/w-nightstand' |
+| 11-18 10:16 | t-loc
