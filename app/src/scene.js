@@ -153,3 +153,33 @@ export function buildRoom(scene, [w, d], t) {
   scene.add(g);
   return g;
 }
+
+// Generated bodies are exterior shells: once a door/lid/drawer is cut out there is no inside.
+// Add a dark inner box (rendered back-face only) to each parent link so openings reveal a cavity.
+const cavityMat = new THREE.MeshBasicMaterial({ color: '#231a4a', side: THREE.BackSide });
+export function addCavities(robot) {
+  const parents = new Set(
+    Object.values(robot.joints).filter((j) => j.jointType !== 'fixed').map((j) => j.parent),
+  );
+  robot.updateMatrixWorld(true);
+  for (const link of parents) {
+    const inv = new THREE.Matrix4().copy(link.matrixWorld).invert();
+    const box = new THREE.Box3();
+    link.traverse((o) => {
+      if (!o.isMesh || o.userData.isOutline) return;
+      // only this link's own meshes, not child links
+      let p = o.parent;
+      while (p && !p.isURDFLink) p = p.parent;
+      if (p !== link) return;
+      o.geometry.computeBoundingBox();
+      const b = o.geometry.boundingBox.clone().applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv, o.matrixWorld));
+      box.union(b);
+    });
+    if (box.isEmpty()) continue;
+    const size = box.getSize(new THREE.Vector3()).multiplyScalar(0.94);
+    const cav = new THREE.Mesh(new THREE.BoxGeometry(size.x, size.y, size.z), cavityMat);
+    box.getCenter(cav.position);
+    cav.raycast = () => {};
+    link.add(cav);
+  }
+}
