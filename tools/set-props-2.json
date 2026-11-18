@@ -1,0 +1,21 @@
+{
+  "gen": {"style": "cartoon", "faceCount": 20000},
+  "skipSplit": true,
+  "objects": {
+    "x-pots": {"prompt": "cartoon stack of three copper cooking pots, chunky simple shapes, single isolated object"},
+    "x-stool": {"prompt": "cartoon round kitchen stool with three legs, red seat, chunky simple shapes, single isolated object"},
+    "x-sacks": {"prompt": "cartoon two burlap flour sacks leaning together, chunky simple shapes, single isolated object"},
+    "x-ghostjar": {"prompt": "cartoon big glass jar with a cute friendly little ghost inside, chunky simple shapes, single isolated object"},
+    "x-pumpkin": {"prompt": "cartoon orange pumpkin with a small green stem, chunky simple shapes, single isolated object"},
+    "x-rockinghorse": {"prompt": "cartoon wooden rocking horse, red with yellow mane, chunky simple shapes, single isolated object"},
+    "x-robot": {"prompt": "cartoon tin toy robot standing, blue with red buttons, chunky simple shapes, single isolated object"},
+    "x-blocks": {"prompt": "cartoon pile of colourful wooden alphabet blocks, chunky simple shapes, single isolated object"},
+    "x-teddy": {"prompt": "cartoon sitting teddy bear, brown with a red bow, chunky simple shapes, single isolated object"},
+    "x-easel": {"prompt": "cartoon artist easel with a colourful splashy painting, chunky simple shapes, single isolated object"},
+    "x-armchair": {"prompt": "cartoon cosy wingback reading armchair, deep green velvet, chunky simple shapes, single isolated object"},
+    "x-bookstack": {"prompt": "cartoon tall wobbly stack of colourful old books on the floor, chunky simple shapes, single isolated object"},
+    "x-lamp": {"prompt": "cartoon tall brass floor lamp with a green glass shade, chunky simple shapes, single isolated object"},
+    "x-ladder": {"prompt": "cartoon wooden library ladder leaning, honey wood, chunky simple shapes, single isolated object"},
+    "x-owl": {"prompt": "cartoon stuffed owl on a wooden perch stand, brown and cream, chunky simple shapes, single isolated object"}
+  }
+}
