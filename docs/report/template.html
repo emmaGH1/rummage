@@ -55,7 +55,7 @@
     <div class="stat"><b>{{PARTS}}</b><span>moving parts / hiding spots</span></div>
     <div class="stat"><b>{{PROPS}}</b><span>Lux3D props &amp; items</span></div>
   </div>
-  <p class="links"><b>Play:</b> <a href="https://rummage-game.vercel.app">rummage-game.vercel.app</a> &nbsp;·&nbsp; <a href="https://www.modelscope.ai/studios/heisemma/rummage">modelscope.ai/studios/heisemma/rummage</a> &nbsp;·&nbsp;
+  <p class="links"><b>Play:</b> <a href="https://rummage-game.vercel.app">rummage-game.vercel.app</a> &nbsp;·&nbsp;
     <b>Source:</b> <a href="https://github.com/emmaGH1/rummage">github.com/emmaGH1/rummage</a></p>
   <p>Manycore Aholo Global 3D AI Hackathon · November 2026 · built with <b>Aholo Lux3D</b> (text-to-3D + articulation)</p>
 </section>
@@ -128,6 +128,12 @@
   <figure><img src="img/title.png"><figcaption>Title screen with the key wordmark (the R doubles as a key). The key alone is the favicon and phone home-screen icon.</figcaption></figure>
   <figure><img src="img/logo.png"><figcaption>The chosen logo out of four candidates (the others: drawer burst, flashlight, manor crest).</figcaption></figure>
 </div>
+<div class="grid2">
+  <figure><img src="img/hint.png"><figcaption>Hints give a clue in words first (“Something that slides out, near the side cabinet”); a second hint makes the piece glow.</figcaption></figure>
+  <figure><img src="img/bets.png"><figcaption>Levels 5–10: the dice button offers bets while the clock runs — a safe trade, a coin flip or a long shot.</figcaption></figure>
+  <figure><img src="img/reveal.png"><figcaption>Out of time: the lights come on and the camera visits every missed key before the result screen.</figcaption></figure>
+  <figure><img src="img/intro-card.png"><figcaption>Every level opens with a card listing its rules: keys, clock, hints, decoys, padlocks, mimics.</figcaption></figure>
+</div>
 <h3>Game design details</h3>
 <ul>
   <li><b>Fair, unpredictable hiding:</b> every openable part is equally likely to hold a key, keys never share a piece and vary across drawers, doors and lids, and each key sits left, centre or right inside its compartment. Secret spots are a surprise (30% of night runs), not a habit. A placement test (<code>tools/key_stats.mjs</code>, 2,000 runs per level) checks no spot holds a key in more than 25% of runs. Playtesting caught the earlier version, which favoured the smallest parts so strongly that one writing box held a key in 99% of library runs.</li>
@@ -147,6 +153,9 @@
   {{ROOMTABLE}}
 </table>
 
+<h3>Demo video</h3>
+<p>The 2-minute demo video is real footage of the live game. Because the build machine has no GPU, a screen recording would stutter, so we recorded frame by frame: the game's clock (timers, animations, physics springs) is frozen and stepped 1/30 s at a time while each frame is captured (<code>tools/video/capture.mjs</code>). The game logs every sound it plays, so the sound effects in the video land on the exact frames where the game played them. The edit, music bed and narration are assembled from one timeline (<code>tools/video/build_edit.py</code>).</p>
+
 <h2 class="page">6. Every Lux3D piece</h2>
 <table>
   <tr><th>Piece</th><th>Prompt (abridged)</th><th>Joints</th><th>Gen / Artic. (s)</th></tr>
@@ -159,10 +168,14 @@
   <tr><td><b>Aholo Lux3D</b> (API, G1-Turbo)</td><td>All furniture, props and items: text-to-3D generation, plus <b>articulation</b> (part split + joints) for every interactive piece. Core of the game.</td></tr>
   <tr><td>three.js, urdf-loader</td><td>Real-time rendering; loading Lux3D's URDF joints and per-part GLBs.</td></tr>
   <tr><td>gltf-transform</td><td>Compressing Lux3D models for the web (WebP textures, meshopt geometry).</td></tr>
-  <tr><td>Vite</td><td>Build tooling. Hosted as a static site on Vercel (rummage-game.vercel.app) and as a ModelScope Studio.</td></tr>
+  <tr><td>Vite</td><td>Build tooling. Hosted as a static site on Vercel (rummage-game.vercel.app).</td></tr>
   <tr><td>OpenAI image generation (via Codex)</td><td>2D concept mockups for choosing the art direction (none appear in the game), and the logo and app icon.</td></tr>
   <tr><td>Claude (Anthropic) and Codex (OpenAI)</td><td>AI coding assistants used to write and debug the game code and asset scripts.</td></tr>
-  <tr><td>Web Audio API</td><td>All music and sound effects are synthesized in code (no audio files).</td></tr>
+  <tr><td>Web Audio API</td><td>In the game, all music and sound effects are synthesized in code (no audio files).</td></tr>
+  <tr><td><b>Demo video only:</b> ElevenLabs</td><td>Voiceover narration (voice “Emmaline”, eleven_multilingual_v2).</td></tr>
+  <tr><td><b>Demo video only:</b> HyperFrames (HeyGen)</td><td>Video composition and render; the music track and some sound effects come from its catalog.</td></tr>
+  <tr><td><b>Demo video only:</b> Freesound (CC0)</td><td>Drawer, hinge, creak and trombone sound effects (public domain; credited in <code>video/assets/sfx/CREDITS.md</code>).</td></tr>
+  <tr><td>Puppeteer + headless Chromium</td><td>Automated playtests, report screenshots and the frame-by-frame video capture.</td></tr>
 </table>
 <p>All code is original and lives in the repository above. Lux3D outputs are used under the Aholo product terms.</p>
 </body>
