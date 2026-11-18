@@ -43,7 +43,9 @@ function note(m, t, dur, type, vol) {
 }
 function tick() {
   const s16 = 60 / (song.bpm * (hurry === 2 ? 1.45 : hurry === 1 ? 1.2 : 1)) / 4;
-  while (nextT < ctx.currentTime + 0.15) {
+  // schedule well ahead so a slow frame on a phone can't starve the audio
+  if (nextT < ctx.currentTime) nextT = ctx.currentTime + 0.05;
+  while (nextT < ctx.currentTime + 0.8) {
     const i = step % 32;
     const lift = hurry === 2 ? 2 : 0; // panic: everything a whole tone higher
     if (song.bass[i]) note(song.bass[i] + lift, nextT, s16 * 2.2, song.bassWave, 0.15);
@@ -62,7 +64,7 @@ export function startMusic() {
     master.gain.value = muted ? 0 : 0.5;
     master.connect(ctx.destination);
     nextT = ctx.currentTime + 0.1;
-    timer = setInterval(tick, 50);
+    timer = setInterval(tick, 120);
   } catch { /* audio unavailable */ }
 }
 export function setSong(name) {

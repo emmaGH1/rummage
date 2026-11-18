@@ -11,9 +11,11 @@ import './style.css';
 // ---------- renderer / camera ----------
 const canvas = document.getElementById('c');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+const TOUCH = matchMedia('(pointer: coarse)').matches;
+renderer.setPixelRatio(Math.min(devicePixelRatio, TOUCH ? 1.5 : 2));
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.shadowMap.autoUpdate = false; // shadows re-render only while something moves (see frame loop)
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
 const controls = new OrbitControls(camera, canvas);
@@ -23,7 +25,7 @@ scene.add(new THREE.HemisphereLight('#fff7e0', '#3040c0', 1.4));
 const sun = new THREE.DirectionalLight('#ffffff', 2.2);
 sun.position.set(4, 8, 5);
 sun.castShadow = true;
-sun.shadow.mapSize.set(2048, 2048);
+sun.shadow.mapSize.set(TOUCH ? 1024 : 2048, TOUCH ? 1024 : 2048);
 Object.assign(sun.shadow.camera, { left: -7, right: 7, top: 7, bottom: -7 });
 sun.shadow.bias = -0.0005;
 scene.add(sun);
@@ -83,6 +85,7 @@ async function enterRoom(roomId) {
   clearItems();
   unloadRoom(scene, world);
   world = await loadRoom(scene, roomId, (f) => ($('loadbar').style.width = `${f * 100}%`));
+  renderer.shadowMap.needsUpdate = true;
   frameCamera();
   return world;
 }
@@ -672,6 +675,7 @@ function frame() {
       // never swing past closed into the body
       if (p.open > 0 ? p.value < 0 : p.value > 0) { p.value = 0; p.vel = 0; }
       p.joint.setJointValue(p.value);
+      renderer.shadowMap.needsUpdate = true;
     }
     for (const it of items) {
       const f = it.part.open ? it.part.value / it.part.open : 0;
