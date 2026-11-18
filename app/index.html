@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Rummage</title>
-    <meta name="description" content="Hide-and-seek in a room where everything opens. Furniture generated and articulated with Aholo Lux3D." />
+    <meta name="description" content="Hide-and-seek in a manor where everything opens. Furniture generated and articulated with Aholo Lux3D." />
     <link rel="icon" href="favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@700;900&display=swap" />
@@ -12,24 +12,65 @@
   <body>
     <canvas id="c"></canvas>
 
-    <div id="loading" class="center">
+    <div id="loading" class="center dim">
       <div class="badge big">Rummage</div>
       <p id="loadmsg">Unpacking the furniture…</p>
       <div class="bar"><div id="loadbar"></div></div>
     </div>
 
-    <div id="menu" class="center hidden">
+    <div id="title" class="center hidden">
       <div class="badge big">Rummage</div>
-      <p class="tag">Hide-and-seek in a room where <b>everything opens.</b></p>
-      <div class="card how">
-        <ol>
-          <li>Open a drawer, door or lid and <b>hide the key</b>.</li>
-          <li>Pick a time limit and <b>send the link</b> (or pass the device).</li>
-          <li>Your friend <b>rummages</b> until they find it.</li>
-        </ol>
+      <p class="tag">The wizard lost his manor keys. <b>Everything opens.</b> Start rummaging.</p>
+      <div class="btns">
+        <button id="playBtn" class="btn primary">Play</button>
+        <button id="challengeBtn" class="btn">Challenge a friend</button>
       </div>
-      <button id="hideStart" class="btn primary">Hide a key</button>
-      <p class="credit">Every piece of furniture was generated and articulated by Aholo Lux3D.</p>
+      <p class="credit">Every drawer, door and lid was generated and articulated by Aholo Lux3D.</p>
+    </div>
+
+    <div id="map" class="center dim hidden">
+      <div class="badge">The Manor</div>
+      <div id="mapGrid" class="mapgrid"></div>
+    </div>
+
+    <div id="intro" class="center dim hidden">
+      <div id="introNum" class="badge alt">Room 1</div>
+      <div class="card intro">
+        <h2 id="introName"></h2>
+        <p id="introBlurb"></p>
+        <ul id="introRules" class="rules"></ul>
+      </div>
+      <div class="btns">
+        <button id="goBtn" class="btn primary">Start rummaging</button>
+        <button id="introBack" class="btn">Back to map</button>
+      </div>
+    </div>
+
+    <div id="hud" class="hidden">
+      <div class="top">
+        <div class="hud-left">
+          <div class="badge small">Rummage</div>
+          <div id="hudLevel" class="levelname"></div>
+        </div>
+        <div id="timer" class="pill timer">0:00</div>
+        <div class="hud-right">
+          <div id="keys" class="keys"></div>
+          <div id="opened" class="badge alt">Opened: 0</div>
+        </div>
+      </div>
+      <div id="riddle" class="riddle hidden"></div>
+      <div class="hud-bottom">
+        <button id="hintBtn" class="btn small">Sniff (3)</button>
+        <button id="pauseBtn" class="btn small" aria-label="Pause">II</button>
+      </div>
+    </div>
+
+    <div id="pause" class="center dim hidden">
+      <div class="badge big">Paused</div>
+      <div class="btns">
+        <button id="resumeBtn" class="btn primary">Resume</button>
+        <button id="quitBtn" class="btn">Back to map</button>
+      </div>
     </div>
 
     <div id="hidebar" class="bottom hidden">
@@ -46,7 +87,7 @@
       </div>
     </div>
 
-    <div id="ready" class="center hidden">
+    <div id="ready" class="center dim hidden">
       <div class="badge">Challenge ready</div>
       <div class="card">
         <p class="big-line">A key is hidden somewhere in this room.</p>
@@ -56,26 +97,24 @@
         <button id="seekBtn" class="btn primary">Start searching</button>
         <button id="copyBtn" class="btn" data-label="Copy challenge link">Copy challenge link</button>
       </div>
-      <button id="menuBtn" class="link">Hide a different key</button>
+      <button id="readyMapBtn" class="link">Play the story instead</button>
     </div>
 
-    <div id="hud" class="top hidden">
-      <div class="badge">Rummage</div>
-      <div id="timer" class="pill timer">0:00</div>
-      <div id="opened" class="badge alt">Opened: 0</div>
-    </div>
-
-    <div id="result" class="center hidden">
+    <div id="result" class="center dim hidden">
       <div id="resultTitle" class="badge big">Found it!</div>
+      <div id="stars" class="stars"></div>
       <div class="card stats">
         <div><div class="label">Time</div><div id="resultTime" class="num">0:00</div></div>
         <div><div class="label">Things opened</div><div id="resultOpened" class="num">0</div></div>
       </div>
+      <p id="parLine" class="parline"></p>
       <div class="btns">
+        <button id="nextBtn" class="btn primary">Next room</button>
         <button id="shareBtn" class="btn primary" data-label="Share this challenge">Share this challenge</button>
-        <button id="againBtn" class="btn">Play again</button>
+        <button id="retryBtn" class="btn">Try again</button>
+        <button id="mapBtn" class="btn">Map</button>
       </div>
-      <button id="newBtn" class="link">Hide a new key</button>
+      <button id="hideAgainBtn" class="link">Hide a key for a friend</button>
     </div>
 
     <script type="module" src="/src/main.js"></script>

@@ -1,7 +1,9 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { ROOMS, DEFAULT_ROOM, TIME_OPTIONS } from './rooms.js';
-import { buildRoom, loadArticulated, whenMeshesReady, movableParts, inkify, makeKey, addCavities } from './scene.js';
+import { ROOMS, TIME_OPTIONS } from './rooms.js';
+import { LEVELS, loadProgress, saveProgress, starsFor, rng, shuffle } from './levels.js';
+import { loadRoom, unloadRoom } from './world.js';
+import { makeKey, makeLockKey, makePadlock, makeDecoy, DECOY_TYPES, DECOY_LINES } from './items.js';
 import { sfx } from './sfx.js';
 import './style.css';
 
@@ -12,22 +14,16 @@ renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const scene = new THREE.Scene();
-scene.background = new THREE.Color('#1d2a9e');
 const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
 const controls = new OrbitControls(camera, canvas);
-controls.enablePan = false;
-controls.enableDamping = true;
-controls.minDistance = 6;
-controls.maxDistance = 16;
-controls.minPolarAngle = 0.55;
-controls.maxPolarAngle = 1.25;
+Object.assign(controls, { enablePan: false, enableDamping: true, minDistance: 4, maxDistance: 16, minPolarAngle: 0.5, maxPolarAngle: 1.25 });
 
 scene.add(new THREE.HemisphereLight('#fff7e0', '#3040c0', 1.4));
 const sun = new THREE.DirectionalLight('#ffffff', 2.2);
 sun.position.set(4, 8, 5);
 sun.castShadow = true;
 sun.shadow.mapSize.set(2048, 2048);
-Object.assign(sun.shadow.camera, { left: -6, right: 6, top: 6, bottom: -6 });
+Object.assign(sun.shadow.camera, { left: -7, right: 7, top: 7, bottom: -7 });
 sun.shadow.bias = -0.0005;
 scene.add(sun);
 
@@ -35,126 +31,197 @@ function resize() {
   const w = innerWidth, h = innerHeight;
   renderer.setSize(w, h, false);
   camera.aspect = w / h;
-  // pull back on portrait screens so the whole room fits
-  camera.fov = w / h < 1 ? 48 : 32;
+  camera.fov = w / h < 1 ? 50 : 32;
   camera.updateProjectionMatrix();
 }
 addEventListener('resize', resize);
+resize();
+
+// ---------- DOM helpers ----------
+const $ = (id) => document.getElementById(id);
+const SCREENS = ['loading', 'title', 'map', 'intro', 'hud', 'result', 'hidebar', 'ready', 'pause'];
+function screen(...ids) {
+  SCREENS.forEach((id) => $(id)?.classList.toggle('hidden', !ids.includes(id)));
+}
+function toast(text, worldPos, kind = '') {
+  const el = document.createElement('div');
+  el.className = `toast ${kind}`;
+  el.textContent = text;
+  let x = innerWidth / 2, y = innerHeight * 0.3;
+  if (worldPos) {
+    const v = worldPos.clone().project(camera);
+    x = (v.x * 0.5 + 0.5) * innerWidth;
+    y = (-v.y * 0.5 + 0.5) * innerHeight - 40;
+  }
+  el.style.left = `${Math.max(90, Math.min(innerWidth - 90, x))}px`;
+  el.style.top = `${Math.max(90, y)}px`;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1600);
+}
 
 // ---------- state ----------
-const params = new URLSearchParams(location.search);
-const challenge = decodeChallenge(params.get('c'));
-const roomId = challenge?.r || params.get('room') || DEFAULT_ROOM;
-const room = ROOMS[roomId] || ROOMS[DEFAULT_ROOM];
+let world = null;
+const progress = loadProgress();
 const S = {
-  mode: 'loading', // loading | menu | hide | ready | seek | result
-  parts: [], // movable parts across all furniture
-  byId: new Map(),
-  spot: challenge?.s || null,
-  timeLimit: challenge?.t ?? 120,
-  opened: 0,
-  openedIds: new Set(),
-  t0: 0,
-  elapsed: 0,
+  mode: 'loading', // title | map | intro | play | result | hide | ready | pause
+  run: null,
   hover: null,
   lastOpened: null,
+  challenge: { spot: null, time: 120, room: 'wizard' },
 };
-const key = makeKey();
-key.visible = false;
-scene.add(key);
 
-// ---------- load ----------
-async function load() {
-  buildRoom(scene, room.size);
-  const [w, d] = room.size;
-  camera.position.set(w * 1.05, w * 0.95, d * 1.3);
+async function enterRoom(roomId) {
+  if (world?.roomId === roomId) {
+    world.parts.forEach((p) => { p.target = 0; p.value = 0; p.joint.setJointValue(0); });
+    clearItems();
+    return world;
+  }
+  screen('loading');
+  $('loadbar').style.width = '0%';
+  clearItems();
+  unloadRoom(scene, world);
+  world = await loadRoom(scene, roomId, (f) => ($('loadbar').style.width = `${f * 100}%`));
+  frameCamera();
+  return world;
+}
+function frameCamera() {
+  const [w, d] = world.room.size;
+  camera.position.set(w * 1.0, Math.max(w, d) * 0.95, d * 1.3);
   controls.target.set(0, 0.7, -0.2);
   controls.update();
-  resize();
-  let done = 0;
-  const bar = document.getElementById('loadbar');
-  await Promise.all(
-    room.items.map(async (it) => {
-      const robot = await loadArticulated(it.slug);
-      await whenMeshesReady(robot);
-      inkify(robot);
-      addCavities(robot);
-      // sit on the floor, centred on its footprint
-      const box = new THREE.Box3().setFromObject(robot);
-      const c = box.getCenter(new THREE.Vector3());
-      robot.position.set(-c.x, -box.min.y, -c.z);
-      const holder = new THREE.Group();
-      holder.add(robot);
-      if (it.h) holder.scale.setScalar(it.h / (box.max.y - box.min.y));
-      holder.position.set(it.x, 0, it.z);
-      holder.rotation.y = THREE.MathUtils.degToRad(it.rot || 0);
-      scene.add(holder);
-      for (const p of movableParts(it.slug, robot)) {
-        p.link = p.joint.children.find((c) => c.isURDFLink);
-        fixDoorSwing(p, robot);
-        p.link.traverse((o) => o.isMesh && (o.userData.part = p));
-        S.parts.push(p);
-        S.byId.set(p.id, p);
-      }
-      bar.style.width = `${(++done / room.items.length) * 100}%`;
-    }),
-  );
-  scene.updateMatrixWorld(true);
-  if (S.spot && !S.byId.has(S.spot)) S.spot = null;
-  go(S.spot ? 'ready' : 'menu');
 }
 
-// Lux3D sometimes gives both doors of a pair the same swing sign, so one opens into the cabinet.
-// For vertical-hinge doors, flip the open direction if opening moves the door toward the back (-z).
-function fixDoorSwing(p, robot) {
-  const ax = p.joint.axis;
-  if (p.joint.jointType !== 'revolute' || Math.abs(ax.y) < 0.9) return;
-  const centre = () => {
-    robot.updateMatrixWorld(true);
-    const c = new THREE.Box3().setFromObject(p.link).getCenter(new THREE.Vector3());
-    return robot.worldToLocal(c);
-  };
-  const closed = centre();
-  p.joint.setJointValue(p.open);
-  const opened = centre();
-  p.joint.setJointValue(0);
-  if (opened.z < closed.z) p.open = -p.open;
+// ---------- items inside furniture ----------
+let items = []; // { obj, part, kind: 'key'|'lockkey'|'decoy', found }
+function clearItems() {
+  items.forEach((it) => it.obj.parent?.remove(it.obj));
+  items = [];
+  world?.pieces.forEach((pc) => {
+    if (pc.padlock) { pc.holder.remove(pc.padlock); pc.padlock = null; }
+    pc.locked = false;
+  });
 }
-
-// ---------- key placement ----------
-function placeKey(part) {
+function itemSpot(part) {
   const childBox = new THREE.Box3().setFromObject(part.link);
-  const parentBox = new THREE.Box3().setFromObject(part.joint.parent);
   const cc = childBox.getCenter(new THREE.Vector3());
-  let host, local;
   if (part.joint.jointType === 'prismatic') {
-    // inside the drawer, resting near its bottom; moves with the drawer
     const h = childBox.max.y - childBox.min.y;
-    host = part.link;
-    local = host.worldToLocal(new THREE.Vector3(cc.x, childBox.min.y + Math.min(0.05, h * 0.3), cc.z));
-  } else {
-    // behind the door / under the lid: halfway from the door's centre to the body's centre
-    const pc = parentBox.getCenter(new THREE.Vector3());
-    const p = cc.clone().lerp(pc, 0.5);
-    p.y = Math.min(p.y, cc.y);
-    host = part.joint.parent;
-    local = host.worldToLocal(p);
+    return { host: part.link, world: new THREE.Vector3(cc.x, childBox.min.y + Math.min(0.05, h * 0.3), cc.z) };
   }
-  host.add(key);
-  key.position.copy(local);
+  const pb = new THREE.Box3().setFromObject(part.joint.parent);
+  const p = cc.clone().lerp(pb.getCenter(new THREE.Vector3()), 0.5);
+  // keep the item low inside tall cupboards so it sits on a "shelf"
+  p.y = Math.max(pb.min.y + 0.08, Math.min(p.y, cc.y, pb.min.y + (pb.max.y - pb.min.y) * 0.45));
+  return { host: part.joint.parent, world: p };
+}
+function putItem(obj, part, kind, extra = {}) {
+  world.parts.forEach((p) => p.joint.setJointValue(0));
+  world.group.updateMatrixWorld(true);
+  const { host, world: wp } = itemSpot(part);
+  host.add(obj);
+  obj.position.copy(host.worldToLocal(wp));
   const s = 1 / host.getWorldScale(new THREE.Vector3()).x;
-  key.scale.setScalar(s);
+  obj.scale.multiplyScalar(s);
+  obj.visible = false;
+  const it = { obj, part, kind, found: false, ...extra };
+  items.push(it);
+  return it;
+}
+function lockPiece(piece) {
+  piece.locked = true;
+  const pad = makePadlock();
+  piece.holder.updateMatrixWorld(true);
+  const inv = new THREE.Matrix4().copy(piece.holder.matrixWorld).invert();
+  const box = new THREE.Box3().setFromObject(piece.robot).applyMatrix4(inv);
+  const s = 1 / piece.holder.scale.x;
+  pad.scale.setScalar(s * 1.4);
+  pad.position.set((box.min.x + box.max.x) / 2, box.min.y + (box.max.y - box.min.y) * 0.55, box.max.z + 0.03 * s);
+  piece.holder.add(pad);
+  piece.padlock = pad;
+}
+
+// ---------- runs ----------
+async function startLevel(level, seed = (Math.random() * 1e9) | 0) {
+  await enterRoom(level.room);
+  setupLevel(level, seed);
+  showIntro(level);
+}
+function setupLevel(level, seed) {
+  const rand = rng(seed);
+  clearItems();
+  const used = new Set();
+  const take = (pool) => {
+    const p = pool.find((q) => !used.has(q));
+    if (p) used.add(p);
+    return p;
+  };
+  const run = { kind: 'story', level, seed, keysTotal: level.keys, keysFound: 0, opened: 0, openedIds: new Set(),
+    time: level.time, hints: level.hints, elapsed: 0, penalty: 0, t0: 0, mimics: new Set(), riddle: null };
+  const lockedPiece = level.locks ? shuffle(world.pieces.filter((pc) => pc.parts.length), rand)[0] : null;
+  const free = shuffle(world.parts.filter((p) => p.piece !== lockedPiece), rand);
+  const keyParts = [];
+  if (lockedPiece) keyParts.push(take(shuffle(lockedPiece.parts, rand)));
+  while (keyParts.length < level.keys) keyParts.push(take(free));
+  keyParts.forEach((p, i) => putItem(makeKey(), p, 'key', { n: i }));
+  if (lockedPiece) {
+    putItem(makeLockKey(), take(free), 'lockkey');
+    lockPiece(lockedPiece);
+  }
+  for (let i = 0; i < (level.mimics || 0); i++) {
+    const m = take(free.filter((p) => p.joint.jointType === 'revolute'));
+    if (m) run.mimics.add(m);
+  }
+  const types = shuffle(DECOY_TYPES, rand);
+  for (let i = 0; i < (level.decoys || 0); i++) {
+    const p = take(free);
+    if (p) putItem(makeDecoy(types[i % types.length]), p, 'decoy');
+  }
+  if (level.riddle) {
+    const target = keyParts[keyParts.length - 1];
+    const it = world.room.items.find((x) => x.slug === target.piece.slug);
+    run.riddle = it?.clue || 'Where things are kept but never read…';
+  }
+  S.run = run;
+}
+function startChallengeSeek() {
+  clearItems();
+  putItem(makeKey(), world.byId.get(S.challenge.spot), 'key', { n: 0 });
+  S.run = { kind: 'challenge', keysTotal: 1, keysFound: 0, opened: 0, openedIds: new Set(), time: S.challenge.time,
+    hints: 1, elapsed: 0, penalty: 0, t0: 0, mimics: new Set() };
+  beginPlay();
+}
+function beginPlay() {
+  world.parts.forEach((p) => { p.target = 0; });
+  S.mode = 'play';
+  S.run.t0 = performance.now();
+  screen('hud');
+  $('hudLevel').textContent = S.run.kind === 'story' ? `${S.run.level.id}. ${S.run.level.name}` : 'Challenge';
+  $('riddle').classList.toggle('hidden', !S.run.riddle);
+  if (S.run.riddle) $('riddle').textContent = `Riddle: “${S.run.riddle}”`;
+  hud();
 }
 
 // ---------- interaction ----------
 const ray = new THREE.Raycaster();
 const ndc = new THREE.Vector2();
 function pick(e) {
+  if (!world) return null;
   const r = canvas.getBoundingClientRect();
   ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
   ray.setFromCamera(ndc, camera);
-  const hit = ray.intersectObjects(scene.children, true).find((h) => h.object.userData.part);
-  return hit ? hit.object.userData.part : null;
+  for (const h of ray.intersectObjects(world.group.children, true)) {
+    if (h.object.userData.part) return { part: h.object.userData.part, point: h.point };
+    if (h.object.userData.piece) {
+      // clicked the body: pick the nearest part of that piece (forgiving on touch screens)
+      let best = null, bd = Infinity;
+      for (const p of h.object.userData.piece.parts) {
+        const d = new THREE.Box3().setFromObject(p.link).getCenter(new THREE.Vector3()).distanceTo(h.point);
+        if (d < bd) { bd = d; best = p; }
+      }
+      return best ? { part: best, point: h.point } : null;
+    }
+  }
+  return null;
 }
 function setHover(p) {
   if (S.hover === p) return;
@@ -170,145 +237,275 @@ function setHover(p) {
 let down = null;
 canvas.addEventListener('pointerdown', (e) => (down = [e.clientX, e.clientY]));
 canvas.addEventListener('pointermove', (e) => {
-  if (['hide', 'seek'].includes(S.mode) && e.pointerType === 'mouse') setHover(pick(e));
+  if (['hide', 'play'].includes(S.mode) && e.pointerType === 'mouse') setHover(pick(e)?.part || null);
 });
 canvas.addEventListener('pointerup', (e) => {
   if (!down || Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 6) return;
-  const p = pick(e);
-  if (p) toggle(p);
+  const hit = pick(e);
+  if (hit) toggle(hit.part, hit.point);
 });
 
-function toggle(p) {
-  if (!['hide', 'seek'].includes(S.mode)) return;
-  if (S.mode === 'seek' && S.t0 === 0) startClock();
+function toggle(p, point) {
+  if (!['hide', 'play'].includes(S.mode)) return;
+  const where = point || new THREE.Box3().setFromObject(p.link).getCenter(new THREE.Vector3());
+  if (S.mode === 'play' && p.piece.locked) {
+    sfx('shut');
+    p.piece.shake = performance.now();
+    toast('Locked!', where, 'bad');
+    return;
+  }
   const opening = p.target === 0;
   p.target = opening ? p.open : 0;
   sfx(opening ? (p.joint.jointType === 'prismatic' ? 'slide' : 'creak') : 'shut');
-  if (opening) {
-    S.lastOpened = p;
-    if (S.mode === 'seek' && !S.openedIds.has(p.id)) {
-      S.openedIds.add(p.id);
-      S.opened++;
-      hud();
+  if (S.mode === 'hide') {
+    S.lastOpened = opening ? p : world.parts.find((q) => q.target !== 0) || null;
+    hideUI();
+    return;
+  }
+  if (!opening) return;
+  const run = S.run;
+  run.openedIds.add(p.id);
+  run.opened++;
+  hud();
+  if (run.mimics.has(p)) {
+    setTimeout(() => {
+      p.target = 0;
+      run.penalty += 5;
+      sfx('chomp');
+      toast('CHOMP! +5s', where, 'bad');
+    }, 380);
+    return;
+  }
+  setTimeout(() => discover(p, where), 420);
+}
+const EMPTY = ['Empty!', 'Nothing here.', 'Just dust.', 'Nope!', 'Zilch.', 'Cobwebs…'];
+function discover(p, where) {
+  if (S.mode !== 'play') return;
+  const run = S.run;
+  const inside = items.filter((it) => it.part === p && !it.found);
+  if (!inside.length) { toast(EMPTY[(Math.random() * EMPTY.length) | 0], where); return; }
+  for (const it of inside) {
+    it.found = true;
+    it.pop = performance.now();
+    if (it.kind === 'decoy') { sfx('nope'); toast(DECOY_LINES[it.obj.userData.decoy], where); }
+    if (it.kind === 'lockkey') {
+      sfx('drop');
+      toast('A little brass key! Something unlocked…', where, 'good');
+      world.pieces.forEach((pc) => {
+        if (pc.locked) { pc.locked = false; pc.unlockAnim = performance.now(); }
+      });
     }
-    if (S.mode === 'seek' && p.id === S.spot) setTimeout(() => found(), 450);
-  } else if (S.lastOpened === p) {
-    S.lastOpened = S.parts.find((q) => q.target !== 0) || null;
-  }
-  if (S.mode === 'hide') hideUI();
-}
-
-function closeAll(instant = false) {
-  for (const p of S.parts) {
-    p.target = 0;
-    if (instant) p.joint.setJointValue((p.value = 0));
+    if (it.kind === 'key') {
+      run.keysFound++;
+      sfx('key');
+      toast(run.keysFound >= run.keysTotal ? 'GOT IT!' : `Key ${run.keysFound} of ${run.keysTotal}!`, where, 'good');
+      focusOn(it.obj);
+      hud();
+      if (run.keysFound >= run.keysTotal) setTimeout(win, 1100);
+    }
   }
 }
 
-// ---------- modes ----------
-const $ = (id) => document.getElementById(id);
-function show(id, on = true) { $(id).classList.toggle('hidden', !on); }
-function go(mode) {
-  S.mode = mode;
-  ['loading', 'menu', 'hidebar', 'ready', 'hud', 'result'].forEach((id) => show(id, false));
-  setHover(null);
-  if (mode === 'menu') { show('menu'); key.visible = false; closeAll(); }
-  if (mode === 'hide') { show('hidebar'); key.visible = false; closeAll(); S.lastOpened = null; hideUI(); }
-  if (mode === 'ready') { show('ready'); closeAll(); key.visible = false; readyUI(); }
-  if (mode === 'seek') {
-    show('hud');
-    S.opened = 0; S.openedIds.clear(); S.t0 = 0; S.elapsed = 0;
-    closeAll(true);
-    placeKey(S.byId.get(S.spot));
-    key.visible = false;
-    hud();
-  }
-  if (mode === 'result') show('result');
+// brief camera glance toward a found key, then back
+let focus = null;
+function focusOn(obj) {
+  focus = { t0: performance.now(), from: controls.target.clone(), to: obj.getWorldPosition(new THREE.Vector3()), phase: 'in' };
 }
 
+// ---------- hints ----------
+$('hintBtn').onclick = () => {
+  const run = S.run;
+  if (S.mode !== 'play' || run.hints <= 0) return;
+  const next = items.find((it) => it.kind === 'key' && !it.found);
+  if (!next) return;
+  run.hints--;
+  next.part.piece.sniff = performance.now();
+  sfx('hint');
+  toast('Sniff sniff… around here!', next.part.piece.holder.getWorldPosition(new THREE.Vector3()).add(new THREE.Vector3(0, 1.4, 0)));
+  hud();
+};
+
+// ---------- results ----------
+function win() {
+  if (S.mode !== 'play') return;
+  S.mode = 'result';
+  sfx('win');
+  const run = S.run;
+  $('resultTitle').textContent = 'Found it!';
+  $('resultTime').textContent = fmt(run.elapsed);
+  $('resultOpened').textContent = run.opened;
+  if (run.kind === 'story') {
+    const stars = starsFor(run.level, { time: run.elapsed, opens: run.opened });
+    progress.stars[run.level.id] = Math.max(progress.stars[run.level.id] || 0, stars);
+    progress.unlocked = Math.max(progress.unlocked, run.level.id + 1);
+    saveProgress(progress);
+    resultButtons(stars);
+  } else resultButtons(0);
+  setTimeout(() => screen('result'), 700);
+}
+function lose() {
+  S.mode = 'result';
+  sfx('lose');
+  const run = S.run;
+  items.filter((it) => it.kind === 'key' && !it.found).forEach((it) => {
+    it.part.piece.locked = false;
+    it.part.target = it.part.open;
+    it.found = true;
+    it.pop = performance.now();
+  });
+  $('resultTitle').textContent = "Time's up!";
+  $('resultTime').textContent = fmt(run.time);
+  $('resultOpened').textContent = run.opened;
+  resultButtons(-1);
+  setTimeout(() => screen('result'), 1400);
+}
+function resultButtons(stars) {
+  const el = $('stars');
+  el.innerHTML = '';
+  el.classList.toggle('hidden', stars === 0);
+  const story = S.run.kind === 'story';
+  for (let i = 1; i <= 3 && stars !== 0; i++) {
+    const s = document.createElement('span');
+    s.className = 'star' + (i <= stars ? ' on' : '');
+    s.style.animationDelay = `${0.25 * i}s`;
+    s.textContent = '★';
+    el.appendChild(s);
+  }
+  $('parLine').textContent = story ? `Par: ${fmt(S.run.level.par.time)} and ${S.run.level.par.opens} opens` : '';
+  const hasNext = story && stars > 0 && LEVELS.some((l) => l.id === S.run.level.id + 1 && ROOMS[l.room]);
+  $('nextBtn').classList.toggle('hidden', !hasNext);
+  $('shareBtn').classList.toggle('hidden', story);
+}
+
+function hud() {
+  const run = S.run;
+  if (!run) return;
+  $('opened').textContent = `Opened: ${run.opened}`;
+  const left = run.time ? Math.max(0, run.time - run.elapsed) : run.elapsed;
+  $('timer').textContent = fmt(left);
+  $('timer').classList.toggle('urgent', !!run.time && left <= 10);
+  $('keys').innerHTML = Array.from({ length: run.keysTotal }, (_, i) => `<span class="k${i < run.keysFound ? ' on' : ''}"></span>`).join('');
+  $('hintBtn').textContent = `Sniff (${run.hints})`;
+  $('hintBtn').disabled = run.hints <= 0;
+}
+const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+
+// ---------- screens ----------
+function showTitle() { S.mode = 'title'; screen('title'); }
+function showMap() {
+  S.mode = 'map';
+  history.replaceState(null, '', location.pathname);
+  const grid = $('mapGrid');
+  grid.innerHTML = '';
+  for (const l of LEVELS) {
+    const ready = !!ROOMS[l.room];
+    const open = ready && l.id <= progress.unlocked;
+    const b = document.createElement('button');
+    b.className = `panel theme-${l.room}${open ? '' : ' locked'}`;
+    const stars = progress.stars[l.id] || 0;
+    b.innerHTML = `<span class="num">${l.id}</span><span class="pname">${l.name}</span>
+      <span class="pstars">${'★'.repeat(stars)}<i>${'★'.repeat(3 - stars)}</i></span>
+      <span class="ptag">${ready ? (open ? l.tip : 'Locked: finish the room before') : 'Under construction'}</span>`;
+    b.disabled = !open;
+    b.onclick = () => { sfx('tick'); startLevel(l); };
+    grid.appendChild(b);
+  }
+  screen('map');
+}
+function showIntro(level) {
+  S.mode = 'intro';
+  $('introNum').textContent = `Room ${level.id}`;
+  $('introName').textContent = level.name;
+  $('introBlurb').textContent = level.blurb;
+  const rules = [`Find ${level.keys} key${level.keys > 1 ? 's' : ''}`, `${fmt(level.time)} on the clock`, `${level.hints} sniff hint${level.hints === 1 ? '' : 's'}`];
+  if (level.decoys) rules.push(`${level.decoys} decoys`);
+  if (level.locks) rules.push('1 padlocked piece');
+  if (level.mimics) rules.push(`${level.mimics} mimics`);
+  if (level.riddle) rules.push('a riddle');
+  $('introRules').innerHTML = rules.map((r) => `<li>${r}</li>`).join('');
+  screen('intro');
+}
+$('playBtn').onclick = () => { sfx('tick'); showMap(); };
+$('goBtn').onclick = () => { sfx('tick'); beginPlay(); };
+$('introBack').onclick = () => showMap();
+$('retryBtn').onclick = () => (S.run.kind === 'story' ? startLevel(S.run.level) : startChallengeSeek());
+$('nextBtn').onclick = () => startLevel(LEVELS.find((l) => l.id === S.run.level.id + 1));
+$('mapBtn').onclick = () => showMap();
+$('pauseBtn').onclick = () => {
+  if (S.mode !== 'play') return;
+  S.mode = 'pause';
+  S.pausedAt = performance.now();
+  screen('hud', 'pause');
+};
+$('resumeBtn').onclick = () => {
+  S.run.t0 += performance.now() - S.pausedAt;
+  S.mode = 'play';
+  screen('hud');
+};
+$('quitBtn').onclick = () => showMap();
+
+// ---------- challenge (2 players) ----------
+async function startHide() {
+  sfx('tick');
+  const rooms = LEVELS.filter((l) => l.id <= progress.unlocked && ROOMS[l.room]);
+  const room = (rooms[rooms.length - 1] || LEVELS[0]).room;
+  await enterRoom(room);
+  S.challenge.room = room;
+  S.mode = 'hide';
+  S.lastOpened = null;
+  world.parts.forEach((p) => (p.target = 0));
+  screen('hidebar');
+  hideUI();
+}
+$('challengeBtn').onclick = startHide;
+$('hideAgainBtn').onclick = startHide;
 function hideUI() {
   $('hideBtn').disabled = !S.lastOpened;
   $('hideHint').textContent = S.lastOpened
     ? 'Nice spot. Pick a time limit, then hide the key here.'
     : 'Open a drawer, door or lid to choose a hiding spot.';
-  renderChips('chipsHide');
-}
-function renderChips(id) {
-  const el = $(id);
+  const el = $('chipsHide');
   el.innerHTML = '';
   for (const o of TIME_OPTIONS) {
     const b = document.createElement('button');
-    b.className = 'chip' + (o.s === S.timeLimit ? ' on' : '');
+    b.className = 'chip' + (o.s === S.challenge.time ? ' on' : '');
     b.textContent = o.label;
-    b.onclick = () => { S.timeLimit = o.s; sfx('tick'); renderChips(id); readyUI(); };
+    b.onclick = () => { S.challenge.time = o.s; sfx('tick'); hideUI(); };
     el.appendChild(b);
   }
 }
-function readyUI() {
-  const t = TIME_OPTIONS.find((o) => o.s === S.timeLimit)?.label || '∞';
-  $('readyTime').textContent = S.timeLimit ? `${t} to find it` : 'No timer';
-  $('readyCount').textContent = `${S.parts.length} things to open`;
-}
-
-$('hideStart').onclick = () => go('hide');
 $('hideBtn').onclick = () => {
   if (!S.lastOpened) return;
-  S.spot = S.lastOpened.id;
-  placeKey(S.lastOpened);
-  key.visible = true;
+  S.challenge.spot = S.lastOpened.id;
+  clearItems();
+  const it = putItem(makeKey(), S.lastOpened, 'key');
+  it.obj.visible = true;
   sfx('drop');
-  setTimeout(() => { key.visible = false; history.replaceState(null, '', shareUrl()); go('ready'); }, 900);
+  setTimeout(() => {
+    clearItems();
+    history.replaceState(null, '', shareUrl());
+    showReady();
+  }, 900);
 };
-$('seekBtn').onclick = () => go('seek');
+function showReady() {
+  S.mode = 'ready';
+  world.parts.forEach((p) => (p.target = 0));
+  const t = TIME_OPTIONS.find((o) => o.s === S.challenge.time)?.label || '∞';
+  $('readyTime').textContent = S.challenge.time ? `${t} to find it` : 'No timer';
+  $('readyCount').textContent = `${world.parts.length} things to open`;
+  screen('ready');
+}
+$('seekBtn').onclick = () => startChallengeSeek();
 $('copyBtn').onclick = () => copyLink($('copyBtn'));
 $('shareBtn').onclick = () => copyLink($('shareBtn'));
-$('againBtn').onclick = () => go('ready');
-$('newBtn').onclick = () => { history.replaceState(null, '', location.pathname); go('hide'); };
-$('menuBtn').onclick = () => go('menu');
+$('readyMapBtn').onclick = () => showMap();
 
-function startClock() { S.t0 = performance.now(); }
-function found() {
-  if (S.mode !== 'seek') return;
-  S.mode = 'result';
-  key.visible = true;
-  key.userData.pop = performance.now();
-  sfx('win');
-  setTimeout(() => {
-    $('resultTitle').textContent = 'Found it!';
-    $('resultTime').textContent = fmt(S.elapsed);
-    $('resultOpened').textContent = S.opened;
-    go('result');
-  }, 900);
-}
-function timeUp() {
-  S.mode = 'result';
-  const p = S.byId.get(S.spot);
-  p.target = p.open;
-  key.visible = true;
-  key.userData.pop = performance.now();
-  sfx('lose');
-  setTimeout(() => {
-    $('resultTitle').textContent = "Time's up!";
-    $('resultTime').textContent = fmt(S.timeLimit);
-    $('resultOpened').textContent = S.opened;
-    go('result');
-  }, 1200);
-}
-function hud() {
-  $('opened').textContent = `Opened: ${S.opened}`;
-  const left = S.timeLimit ? Math.max(0, S.timeLimit - S.elapsed) : S.elapsed;
-  $('timer').textContent = fmt(left);
-  $('timer').classList.toggle('urgent', !!S.timeLimit && left <= 10);
-}
-const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
-
-// ---------- share ----------
 function encodeChallenge(o) { return btoa(JSON.stringify(o)).split('').reverse().join(''); }
 function decodeChallenge(c) {
   try { return c ? JSON.parse(atob(c.split('').reverse().join(''))) : null; } catch { return null; }
 }
 function shareUrl() {
-  return `${location.origin}${location.pathname}?c=${encodeURIComponent(encodeChallenge({ r: roomId, s: S.spot, t: S.timeLimit }))}`;
+  return `${location.origin}${location.pathname}?c=${encodeURIComponent(encodeChallenge({ r: S.challenge.room, s: S.challenge.spot, t: S.challenge.time }))}`;
 }
 async function copyLink(btn) {
   const url = shareUrl();
@@ -321,30 +518,80 @@ async function copyLink(btn) {
 const clock = new THREE.Clock();
 function frame() {
   const dt = Math.min(clock.getDelta(), 0.05);
-  for (const p of S.parts) {
-    if (p.value !== p.target) {
-      const step = (p.joint.jointType === 'prismatic' ? 1.6 : 4.2) * Math.abs(p.open) * dt;
-      p.value = Math.abs(p.target - p.value) <= step ? p.target : p.value + Math.sign(p.target - p.value) * step;
-      p.joint.setJointValue(p.value);
+  const now = performance.now();
+  if (world) {
+    for (const p of world.parts) {
+      if (p.value !== p.target) {
+        const step = (p.joint.jointType === 'prismatic' ? 1.6 : 4.2) * Math.abs(p.open) * dt;
+        p.value = Math.abs(p.target - p.value) <= step ? p.target : p.value + Math.sign(p.target - p.value) * step;
+        p.joint.setJointValue(p.value);
+      }
+    }
+    for (const it of items) {
+      const f = it.part.open ? it.part.value / it.part.open : 0;
+      if (S.mode !== 'hide') it.obj.visible = it.found || f > 0.45;
+      if (it.pop && it.kind !== 'decoy') {
+        const t = (now - it.pop) / 1000;
+        if (it.obj.userData.glow) it.obj.userData.glow.intensity = 3 + Math.sin(t * 6) * 1.5;
+        it.obj.rotation.z = t * 2.5;
+      }
+    }
+    for (const pc of world.pieces) {
+      let wob = 0, sc = 1;
+      if (pc.shake && now - pc.shake < 400) wob = Math.sin((now - pc.shake) / 25) * 0.04;
+      if (pc.sniff && now - pc.sniff < 1500) sc = 1 + Math.abs(Math.sin((now - pc.sniff) / 120)) * 0.05;
+      pc.robot.rotation.y = wob;
+      pc.robot.scale.setScalar(sc);
+      if (pc.padlock && pc.unlockAnim) {
+        pc.padlock.position.y -= dt * 2 / pc.holder.scale.x;
+        pc.padlock.rotation.z += dt * 6;
+        if (now - pc.unlockAnim > 600) { pc.holder.remove(pc.padlock); pc.padlock = null; pc.unlockAnim = 0; }
+      }
     }
   }
-  if (S.mode === 'seek') {
-    if (S.t0) S.elapsed = (performance.now() - S.t0) / 1000;
-    hud();
-    if (S.timeLimit && S.elapsed >= S.timeLimit) timeUp();
+  if (focus) {
+    const t = Math.min(1, (now - focus.t0) / 600);
+    const e = t * (2 - t);
+    if (focus.phase === 'in') controls.target.lerpVectors(focus.from, focus.to, e * 0.6);
+    if (focus.phase === 'out') controls.target.lerpVectors(focus.to.clone().lerp(focus.from, 0.4), focus.from, e);
+    if (t >= 1 && focus.phase === 'in') { focus.phase = 'hold'; focus.t0 = now; }
+    else if (focus.phase === 'hold' && now - focus.t0 > 700) { focus.phase = 'out'; focus.t0 = now; }
+    else if (t >= 1 && focus.phase === 'out') focus = null;
   }
-  if (key.visible && key.userData.pop) {
-    const t = (performance.now() - key.userData.pop) / 1000;
-    key.userData.glow.intensity = 3 + Math.sin(t * 6) * 1.5;
-    key.rotation.z = t * 2.5;
+  if (S.mode === 'play') {
+    S.run.elapsed = (now - S.run.t0) / 1000 + S.run.penalty;
+    hud();
+    if (S.run.time && S.run.elapsed >= S.run.time) lose();
+  }
+  if (S.mode === 'title' && world) {
+    const a = now / 9000, [w, d] = world.room.size;
+    controls.target.set(0, 0.7, -0.2);
+    camera.position.set(w + Math.sin(a) * 1.5, Math.max(w, d) * 0.95, d * 1.3 + Math.cos(a) * 1.5);
   }
   controls.update();
   renderer.render(scene, camera);
   requestAnimationFrame(frame);
 }
-window.__rummage = { S, camera, controls, scene, go, toggle };
+
+// ---------- boot ----------
+window.__rummage = { S, camera, controls, scene, get world() { return world; }, toggle, startLevel, beginPlay, items: () => items };
 frame();
-load().catch((e) => {
-  console.error(e);
-  $('loadmsg').textContent = 'Could not load the room. Please refresh.';
-});
+(async () => {
+  const params = new URLSearchParams(location.search);
+  const ch = decodeChallenge(params.get('c'));
+  try {
+    if (ch && ROOMS[ch.r]) {
+      await enterRoom(ch.r);
+      if (world.byId.has(ch.s)) {
+        Object.assign(S.challenge, { room: ch.r, spot: ch.s, time: ch.t ?? 120 });
+        showReady();
+        return;
+      }
+    }
+    await enterRoom(params.get('room') && ROOMS[params.get('room')] ? params.get('room') : 'wizard');
+    showTitle();
+  } catch (e) {
+    console.error(e);
+    $('loadmsg').textContent = 'Could not load the room. Please refresh.';
+  }
+})();
