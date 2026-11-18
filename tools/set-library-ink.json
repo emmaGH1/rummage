@@ -1,0 +1,46 @@
+{
+  "gen": {"style": "cartoon", "faceCount": 40000},
+  "skipSplit": true,
+  "objects": {
+    "l-bookcase": {
+      "prompt": "cartoon tall library bookcase full of colourful books with two glass-panel doors on the lower half, deep red wood with gold trim, chunky simple shapes, single isolated object",
+      "motion": "The two lower glass doors swing open outward on vertical hinges at their outer edges, about 110 degrees."
+    },
+    "l-catalog": {
+      "prompt": "cartoon library card catalogue cabinet with six small drawers in a three by two grid with brass label plates, honey wood, chunky simple shapes, single isolated object",
+      "motion": "Each of the six small drawers slides straight out forward along the depth axis, about 60 percent of its depth."
+    },
+    "l-desk": {
+      "prompt": "cartoon librarian's writing desk with a roll top cover and two side drawers, dark green with gold handles, chunky simple shapes, single isolated object",
+      "motion": "The two side drawers slide straight out forward along the depth axis about 60 percent of their depth."
+    },
+    "l-globe": {
+      "prompt": "cartoon globe drinks cabinet, a large globe on a stand whose top half lifts open on a hinge, blue and gold, chunky simple shapes, single isolated object, closed",
+      "motion": "The top half of the globe rotates open upward about a hinge along its back edge, about 100 degrees."
+    },
+    "l-lectern": {
+      "prompt": "cartoon wooden lectern book stand with a slanted top and a small cupboard door in its base, red wood, chunky simple shapes, single isolated object",
+      "motion": "The small cupboard door in the base swings open outward on a vertical hinge at its left edge, about 110 degrees."
+    },
+    "l-cabinet": {
+      "prompt": "cartoon curiosity cabinet with two tall glass doors and a drawer at the bottom, teal paint with gold trim, chunky simple shapes, single isolated object",
+      "motion": "The two tall doors swing open outward on vertical hinges at their outer edges, about 110 degrees, and the bottom drawer slides straight out forward about 60 percent of its depth."
+    },
+    "l-chest": {
+      "prompt": "cartoon ancient scroll chest with a domed lid and brass straps, purple wood, chunky simple shapes, single isolated object, closed",
+      "motion": "The domed lid rotates open upward about the hinge along the back top edge, up to about 100 degrees."
+    },
+    "l-clock": {
+      "prompt": "cartoon tall grandfather clock with a glass front door on the lower case showing the pendulum, dark wood with gold face, chunky simple shapes, single isolated object",
+      "motion": "The lower front door of the clock case swings open outward on a vertical hinge at its left edge, about 110 degrees."
+    },
+    "l-sidetable": {
+      "prompt": "cartoon round side table with one small drawer, mustard yellow with red knob, chunky simple shapes, single isolated object",
+      "motion": "The small drawer slides straight out forward along the depth axis, about 60 percent of its depth."
+    },
+    "l-safe": {
+      "prompt": "cartoon little iron safe with a round dial and a front door, dark green with gold dial, chunky simple shapes, single isolated object, closed",
+      "motion": "The front door swings open outward on a vertical hinge at its left edge, about 110 degrees."
+    }
+  }
+}
