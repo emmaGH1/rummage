@@ -254,7 +254,8 @@ function setupLevel(level, seed) {
   if (level.riddle) {
     const target = keyParts[keyParts.length - 1];
     const it = world.room.items.find((x) => x.slug === target.piece.slug);
-    run.riddle = it?.clue || 'Where things are kept but never read…';
+    const SECRET_CLUES = { picture: 'Behind a face that watches from the wall.', floorboard: 'Underfoot, where one board creaks.' };
+    run.riddle = it?.clue || SECRET_CLUES[target.secret?.name] || 'Where things are kept but never read…';
   }
   world.pieces.forEach((pc) => delete pc.lockedFlag);
   S.run = run;
@@ -843,6 +844,13 @@ frame();
         showReady();
         return;
       }
+    }
+    // test link: ?level=7&seed=1 jumps straight into that level with a fixed key layout (see docs/KEY-SHEET.md)
+    const tl = LEVELS.find((l) => String(l.id) === params.get('level'));
+    if (tl && ROOMS[tl.room]) {
+      const seed = Number.parseInt(params.get('seed'), 10);
+      await startLevel(tl, Number.isFinite(seed) ? seed : undefined);
+      return;
     }
     await enterRoom(params.get('room') && ROOMS[params.get('room')] ? params.get('room') : 'wizard');
     showTitle();

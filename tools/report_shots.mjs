@@ -50,6 +50,22 @@ await wait(1200);
 await page.evaluate(() => document.querySelectorAll('.lux-card')[2]?.click());
 await wait(2500);
 await snap('lux-panel');
+await page.evaluate(() => document.getElementById('luxClose').click());
+await wait(600);
+// night level with the flashlight, then a secret spot opened (wizard study, picture + floorboard)
+await ev(async () => { const R = window.__rummage; await R.startLevel(R.levels.find((l) => l.id === 6), 1); R.beginPlay(); });
+await wait(1500);
+await page.mouse.move(560, 420);
+await wait(1200);
+await snap('night');
+await ev(async () => { const R = window.__rummage; await R.startLevel(R.levels[0], 5); R.beginPlay(); R.world.parts.filter((p) => p.secret).forEach((p) => (p.target = p.open)); });
+await wait(2500);
+await snap('secret');
+// title screen with the logo
+await page.goto(base, { waitUntil: 'networkidle0' });
+await page.waitForFunction(() => window.__rummage?.S.mode === 'title', { timeout: 90000 });
+await wait(1500);
+await snap('title');
 // photoreal capability test room vs cartoon
 await page.goto(`${base}?room=test`, { waitUntil: 'networkidle0' });
 await page.waitForFunction(() => window.__rummage?.S.mode === 'title', { timeout: 90000 });
@@ -67,4 +83,5 @@ await browser.close();
 const root = new URL('../', import.meta.url).pathname;
 copyFileSync(`${root}docs/concept/seek-toy-like-diorama.png`, `${out}concept-r1.png`);
 copyFileSync(`${root}docs/concept/round2/02-ink-wizard-study.png`, `${out}concept-r2.png`);
+copyFileSync(`${root}docs/logo/01-key-wordmark.png`, `${out}logo.png`);
 console.log('report screenshots ->', out);
