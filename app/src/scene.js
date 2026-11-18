@@ -31,6 +31,8 @@ export function inkify(root, { outline = true, thickness } = {}) {
   const meshes = [];
   root.traverse((o) => o.isMesh && !o.userData.isOutline && meshes.push(o));
   for (const m of meshes) {
+    // simplified assets ship without normals (smaller files); compute smooth ones here
+    if (!m.geometry.attributes.normal) m.geometry.computeVertexNormals();
     const src = Array.isArray(m.material) ? m.material : [m.material];
     const mats = src.map((s) => {
       const t = toon(s.color ? s.color.clone() : 0xffffff, s.map || null);
