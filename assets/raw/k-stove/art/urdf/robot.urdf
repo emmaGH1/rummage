@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<robot name="robot">
+  <link name="base">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/base.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="oven_door">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/oven_door.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="bottom_drawer">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/bottom_drawer.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <joint name="oven_door_joint" type="revolute">
+    <parent link="base" />
+    <child link="oven_door" />
+    <origin rpy="0 0 0" xyz="-0.00030100 0.13801500 0.05668700" />
+    <axis xyz="-0.99999100 0.00422300 -0.00010700" />
+    <limit lower="-0.731579" upper="1.624615" effort="10" velocity="1" />
+  </joint>
+  <joint name="bottom_drawer_joint" type="prismatic">
+    <parent link="base" />
+    <child link="bottom_drawer" />
+    <origin rpy="0 0 0" xyz="0.00220600 0.08601900 0.05824100" />
+    <axis xyz="0.00000000 0.00000000 1.00000000" />
+    <limit lower="0.000000" upper="0.119711" effort="10" velocity="1" />
+  </joint>
+</robot>

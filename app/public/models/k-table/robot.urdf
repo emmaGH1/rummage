@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="robot">
+  <link name="table_body">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/table_body.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="drawer">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/drawer.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <joint name="drawer_joint" type="prismatic">
+    <parent link="table_body" />
+    <child link="drawer" />
+    <origin rpy="0 0 0" xyz="-0.00000100 0.27133730 0.02427800" />
+    <axis xyz="0.00000000 0.00000000 1.00000000" />
+    <limit lower="0" upper="0.239944694188" effort="10" velocity="1" />
+  </joint>
+</robot>

@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="robot">
+  <link name="body">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/body.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="drawer_left">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/drawer_left.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="drawer_right">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/drawer_right.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="door_left">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/door_left.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="door_right">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/door_right.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <joint name="drawer_left_joint" type="prismatic">
+    <parent link="body" />
+    <child link="drawer_left" />
+    <origin rpy="0 0 0" xyz="-0.12984200 0.39786499 0.00635600" />
+    <axis xyz="0.00000000 0.00000000 1.00000000" />
+    <limit lower="0" upper="0.196714" effort="10" velocity="1" />
+  </joint>
+  <joint name="drawer_right_joint" type="prismatic">
+    <parent link="body" />
+    <child link="drawer_right" />
+    <origin rpy="0 0 0" xyz="0.12890900 0.39699099 0.00610800" />
+    <axis xyz="0.00000000 0.00000000 1.00000000" />
+    <limit lower="0" upper="0.196634" effort="10" velocity="1" />
+  </joint>
+  <joint name="door_left_joint" type="revolute">
+    <parent link="body" />
+    <child link="door_left" />
+    <origin rpy="0 0 0" xyz="-0.24742000 0.18028599 0.11480100" />
+    <axis xyz="-0.00078000 -1.00000000 -0.00014400" />
+    <limit lower="0.000000" upper="1.570000" effort="10" velocity="1" />
+  </joint>
+  <joint name="door_right_joint" type="revolute">
+    <parent link="body" />
+    <child link="door_right" />
+    <origin rpy="0 0 0" xyz="0.25724900 0.11182799 0.10826500" />
+    <axis xyz="0.00345900 0.99999300 -0.00128500" />
+    <limit lower="0.000000" upper="1.570000" effort="10" velocity="1" />
+  </joint>
+</robot>
