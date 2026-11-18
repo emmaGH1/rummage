@@ -69,7 +69,13 @@ export const ROOMS = {
       { slug: 'k-breadbin', x: 0.75, z: 0.45, y: 0.8, rot: -20, h: 0.32 },
       { slug: 'k-icebox', x: 2.3, z: 0.85, rot: -30, h: 0.6 },
     ],
-    props: [],
+    props: [
+      { slug: 'x-pots', x: 1.55, z: -2.35, y: 1.0, rot: 0, h: 0.35 },
+      { slug: 'x-stool', x: -0.55, z: 0.95, rot: 0, h: 0.6 },
+      { slug: 'x-sacks', x: 2.55, z: -1.2, rot: -40, h: 0.7 },
+      { slug: 'x-ghostjar', x: -1.0, z: -2.45, y: 0, rot: 15, h: 0.6 },
+      { slug: 'x-pumpkin', x: 1.3, z: 1.9, rot: 0, h: 0.45 },
+    ],
   },
   workshop: {
     name: 'Toy workshop',
@@ -85,7 +91,13 @@ export const ROOMS = {
       { slug: 't-trunk', x: 2.3, z: 0.55, rot: -40, h: 0.7 },
       { slug: 't-paintbox', x: 0.95, z: 1.65, rot: 20, h: 0.35 },
     ],
-    props: [],
+    props: [
+      { slug: 'x-rockinghorse', x: -0.9, z: 1.5, rot: 40, h: 0.8 },
+      { slug: 'x-robot', x: 2.55, z: -1.3, rot: -50, h: 0.8 },
+      { slug: 'x-blocks', x: -0.6, z: -0.6, rot: 0, h: 0.35 },
+      { slug: 'x-teddy', x: 1.2, z: -2.25, y: 0.95, rot: -10, h: 0.4 },
+      { slug: 'x-easel', x: 1.9, z: 1.9, rot: -45, h: 1.4 },
+    ],
   },
   library: {
     name: 'Grand library',
@@ -104,7 +116,13 @@ export const ROOMS = {
       { slug: 'l-chest', x: 0.6, z: 1.9, rot: -10, h: 0.6, clue: 'Locked away with the scrolls of old.' },
       { slug: 'l-sidetable', x: 2.8, z: 1.45, rot: -45, h: 0.65, clue: 'Small and round, by the reading chair.' },
     ],
-    props: [],
+    props: [
+      { slug: 'x-armchair', x: 2.2, z: 2.2, rot: -60, h: 1.1 },
+      { slug: 'x-bookstack', x: -1.7, z: 1.9, rot: 0, h: 0.7 },
+      { slug: 'x-lamp', x: 3.05, z: 0.5, rot: 0, h: 1.8 },
+      { slug: 'x-ladder', x: -1.55, z: -2.4, rot: 0, h: 2.4 },
+      { slug: 'x-owl', x: 2.35, z: -2.55, y: 1.3, rot: -10, h: 0.45 },
+    ],
   },
 };
 
