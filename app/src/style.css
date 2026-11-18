@@ -1,0 +1,70 @@
+:root {
+  --ink: #14121f;
+  --blue: #1d2a9e;
+  --orange: #f0542a;
+  --yellow: #ffc82e;
+  --cream: #fff6e6;
+  --lime: #b6f03c;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--blue); color: var(--ink);
+  font-family: 'Nunito', system-ui, sans-serif; font-weight: 700; }
+canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
+.hidden { display: none !important; }
+
+.center { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 16px; padding: 16px; text-align: center; pointer-events: none; }
+.center > * { pointer-events: auto; }
+#menu, #ready, #result, #loading { background: rgba(20, 18, 70, 0.35); }
+.top { position: fixed; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 16px; pointer-events: none; gap: 8px; }
+.bottom { position: fixed; left: 0; right: 0; bottom: 0; padding: 16px; display: flex; justify-content: center; }
+
+.badge { font-family: 'Lilita One', sans-serif; font-size: 28px; color: #fff; background: var(--orange);
+  border: 4px solid var(--ink); border-radius: 14px; padding: 4px 18px 6px; transform: rotate(-3deg);
+  box-shadow: 5px 5px 0 var(--ink); -webkit-text-stroke: 1.5px var(--ink); paint-order: stroke fill; letter-spacing: 0.5px; }
+.badge.big { font-size: clamp(44px, 10vw, 88px); padding: 6px 28px 12px; }
+.badge.alt { transform: rotate(3deg); font-size: 22px; }
+.pill.timer { font-family: 'Lilita One', sans-serif; font-size: 40px; color: #fff; background: var(--ink); border-radius: 999px;
+  padding: 2px 26px 6px; border: 4px solid #fff; box-shadow: 0 0 0 4px var(--ink); min-width: 140px; text-align: center; }
+.pill.timer.urgent { background: var(--orange); animation: pulse 0.6s infinite alternate; }
+@keyframes pulse { to { transform: scale(1.08); } }
+
+.card { background: var(--cream); border: 4px solid var(--ink); border-radius: 18px; box-shadow: 6px 6px 0 var(--ink);
+  padding: 14px 20px; max-width: 560px; }
+.card.row { display: flex; align-items: center; gap: 20px; max-width: 920px; width: 100%; text-align: left; }
+.card.row > div:first-child { flex: 1; }
+.card p { margin: 4px 0; }
+.how ol { text-align: left; margin: 0; padding-left: 22px; line-height: 1.6; }
+.tag { color: #fff; font-size: 20px; margin: 0; text-shadow: 2px 2px 0 var(--ink); }
+.big-line { font-size: 20px; }
+.credit { color: #dfe4ff; font-size: 13px; margin: 0; }
+.label { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.65; }
+
+.btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.btn { font-family: 'Lilita One', sans-serif; font-size: 22px; padding: 10px 24px 12px; border: 4px solid var(--ink);
+  border-radius: 14px; background: #fff; color: var(--ink); box-shadow: 4px 4px 0 var(--ink); cursor: pointer;
+  transition: transform 0.08s, box-shadow 0.08s; }
+.btn:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+.btn:active:not(:disabled) { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink); }
+.btn.primary { background: var(--yellow); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.link { background: none; border: 0; color: #fff; text-decoration: underline; font: inherit; cursor: pointer; }
+
+.chips { display: flex; gap: 6px; margin-top: 4px; }
+.chip { font-family: 'Lilita One', sans-serif; font-size: 18px; min-width: 48px; padding: 4px 10px 6px; border: 3px solid var(--ink);
+  border-radius: 999px; background: #fff; cursor: pointer; }
+.chip.on { background: var(--lime); box-shadow: 3px 3px 0 var(--ink); }
+
+.stats { display: flex; gap: 36px; }
+.num { font-family: 'Lilita One', sans-serif; font-size: 44px; }
+.bar { width: 220px; height: 14px; border: 3px solid var(--ink); border-radius: 999px; background: #fff; overflow: hidden; }
+#loadbar { height: 100%; width: 0; background: var(--yellow); transition: width 0.3s; }
+#loadmsg { color: #fff; margin: 0; }
+
+@media (max-width: 700px) {
+  .card.row { flex-direction: column; align-items: stretch; gap: 10px; }
+  .badge { font-size: 20px; }
+  .pill.timer { font-size: 28px; min-width: 100px; }
+  .badge.alt { font-size: 16px; }
+}

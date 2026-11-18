@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rummage</title>
+    <meta name="description" content="Hide-and-seek in a room where everything opens. Furniture generated and articulated with Aholo Lux3D." />
+    <link rel="icon" href="favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@700;900&display=swap" />
+  </head>
+  <body>
+    <canvas id="c"></canvas>
+
+    <div id="loading" class="center">
+      <div class="badge big">Rummage</div>
+      <p id="loadmsg">Unpacking the furniture…</p>
+      <div class="bar"><div id="loadbar"></div></div>
+    </div>
+
+    <div id="menu" class="center hidden">
+      <div class="badge big">Rummage</div>
+      <p class="tag">Hide-and-seek in a room where <b>everything opens.</b></p>
+      <div class="card how">
+        <ol>
+          <li>Open a drawer, door or lid and <b>hide the key</b>.</li>
+          <li>Pick a time limit and <b>send the link</b> (or pass the device).</li>
+          <li>Your friend <b>rummages</b> until they find it.</li>
+        </ol>
+      </div>
+      <button id="hideStart" class="btn primary">Hide a key</button>
+      <p class="credit">Every piece of furniture was generated and articulated by Aholo Lux3D.</p>
+    </div>
+
+    <div id="hidebar" class="bottom hidden">
+      <div class="card row">
+        <div>
+          <div class="label">Hiding</div>
+          <p id="hideHint"></p>
+        </div>
+        <div class="col">
+          <div class="label">Time limit</div>
+          <div id="chipsHide" class="chips"></div>
+        </div>
+        <button id="hideBtn" class="btn primary" disabled>Hide here</button>
+      </div>
+    </div>
+
+    <div id="ready" class="center hidden">
+      <div class="badge">Challenge ready</div>
+      <div class="card">
+        <p class="big-line">A key is hidden somewhere in this room.</p>
+        <p><span id="readyTime"></span> · <span id="readyCount"></span></p>
+      </div>
+      <div class="btns">
+        <button id="seekBtn" class="btn primary">Start searching</button>
+        <button id="copyBtn" class="btn" data-label="Copy challenge link">Copy challenge link</button>
+      </div>
+      <button id="menuBtn" class="link">Hide a different key</button>
+    </div>
+
+    <div id="hud" class="top hidden">
+      <div class="badge">Rummage</div>
+      <div id="timer" class="pill timer">0:00</div>
+      <div id="opened" class="badge alt">Opened: 0</div>
+    </div>
+
+    <div id="result" class="center hidden">
+      <div id="resultTitle" class="badge big">Found it!</div>
+      <div class="card stats">
+        <div><div class="label">Time</div><div id="resultTime" class="num">0:00</div></div>
+        <div><div class="label">Things opened</div><div id="resultOpened" class="num">0</div></div>
+      </div>
+      <div class="btns">
+        <button id="shareBtn" class="btn primary" data-label="Share this challenge">Share this challenge</button>
+        <button id="againBtn" class="btn">Play again</button>
+      </div>
+      <button id="newBtn" class="link">Hide a new key</button>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
