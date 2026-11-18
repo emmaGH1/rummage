@@ -135,9 +135,9 @@ export const ROOMS = {
       { slug: 'l-globe', x: -0.6, z: 0.15, rot: 0, h: 1.1, clue: 'Inside the whole wide world.' },
       { slug: 'l-chest', x: 0.6, z: 1.9, rot: -10, h: 0.6, clue: 'Locked away with the scrolls of old.' },
       { slug: 'l-sidetable', x: 2.8, z: 1.45, rot: -45, h: 0.65, clue: 'Small and round, by the reading chair.' },
-      { slug: 'l-pianobench', x: -1.0, z: 1.35, rot: 10, h: 0.55 },
-      { slug: 'l-mapchest', x: -1.55, z: -1.3, rot: 0, h: 0.7 },
-      { slug: 'l-writingbox', x: 1.75, z: -0.35, y: 0.9, rot: -20, h: 0.24 },
+      { slug: 'l-pianobench', x: -1.0, z: 1.35, rot: 10, h: 0.55, clue: 'Under where the music sits.' },
+      { slug: 'l-mapchest', x: -1.55, z: -1.3, rot: 0, h: 0.7, clue: 'Flat and wide, where maps lie sleeping.' },
+      { slug: 'l-writingbox', x: 1.75, z: -0.35, y: 0.9, rot: -20, h: 0.24, clue: 'Beneath a slanted lid, where letters are born.' },
     ],
     props: [
       { slug: 'x-armchair', x: 2.3, z: 2.25, rot: -60, h: 0.95 },
