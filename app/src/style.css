@@ -1,3 +1,8 @@
+/* fonts are bundled (Google Fonts is blocked in mainland China); the Chinese display face is cut down to the
+   characters the game uses (app/src/i18n.js) */
+@font-face { font-family: 'Lilita One'; src: url('./fonts/LilitaOne.woff2') format('woff2'); font-display: swap; }
+@font-face { font-family: 'Nunito'; src: url('./fonts/Nunito.woff2') format('woff2'); font-weight: 200 1000; font-display: swap; }
+@font-face { font-family: 'ZCOOL KuaiLe'; src: url('./fonts/ZCOOLKuaiLe-subset.woff2') format('woff2'); font-display: swap; }
 :root {
   --ink: #14121f;
   --blue: #1d2a9e;
@@ -8,7 +13,7 @@
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; overflow: hidden; background: var(--blue); color: var(--ink);
-  font-family: 'Nunito', system-ui, sans-serif; font-weight: 700; }
+  font-family: 'Nunito', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', system-ui, sans-serif; font-weight: 700; }
 canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
 .hidden { display: none !important; }
 
@@ -20,12 +25,12 @@ canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; c
   padding: 16px; pointer-events: none; gap: 8px; }
 .bottom { position: fixed; left: 0; right: 0; bottom: 0; padding: 16px; display: flex; justify-content: center; }
 
-.badge { font-family: 'Lilita One', sans-serif; font-size: 28px; color: #fff; background: var(--orange);
+.badge { font-family: 'Lilita One', 'ZCOOL KuaiLe', sans-serif; font-size: 28px; color: #fff; background: var(--orange);
   border: 4px solid var(--ink); border-radius: 14px; padding: 4px 18px 6px; transform: rotate(-3deg);
   box-shadow: 5px 5px 0 var(--ink); -webkit-text-stroke: 1.5px var(--ink); paint-order: stroke fill; letter-spacing: 0.5px; }
 .badge.big { font-size: clamp(44px, 10vw, 88px); padding: 6px 28px 12px; }
 .badge.alt { transform: rotate(3deg); font-size: 22px; }
-.pill.timer { font-family: 'Lilita One', sans-serif; font-size: 40px; color: #fff; background: var(--ink); border-radius: 999px;
+.pill.timer { font-family: 'Lilita One', 'ZCOOL KuaiLe', sans-serif; font-size: 40px; color: #fff; background: var(--ink); border-radius: 999px;
   padding: 2px 26px 6px; border: 4px solid #fff; box-shadow: 0 0 0 4px var(--ink); min-width: 140px; text-align: center; }
 .pill.timer.urgent { background: var(--orange); animation: pulse 0.6s infinite alternate; }
 @keyframes pulse { to { transform: scale(1.08); } }
@@ -42,7 +47,7 @@ canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; c
 .label { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.65; }
 
 .btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-.btn { font-family: 'Lilita One', sans-serif; font-size: 22px; padding: 10px 24px 12px; border: 4px solid var(--ink);
+.btn { font-family: 'Lilita One', 'ZCOOL KuaiLe', sans-serif; font-size: 22px; padding: 10px 24px 12px; border: 4px solid var(--ink);
   border-radius: 14px; background: #fff; color: var(--ink); box-shadow: 4px 4px 0 var(--ink); cursor: pointer;
   transition: transform 0.08s, box-shadow 0.08s; }
 .btn:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
@@ -52,12 +57,12 @@ canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; c
 .link { background: none; border: 0; color: #fff; text-decoration: underline; font: inherit; cursor: pointer; }
 
 .chips { display: flex; gap: 6px; margin-top: 4px; }
-.chip { font-family: 'Lilita One', sans-serif; font-size: 18px; min-width: 48px; padding: 4px 10px 6px; border: 3px solid var(--ink);
+.chip { font-family: 'Lilita One', 'ZCOOL KuaiLe', sans-serif; font-size: 18px; min-width: 48px; padding: 4px 10px 6px; border: 3px solid var(--ink);
   border-radius: 999px; background: #fff; cursor: pointer; }
 .chip.on { background: var(--lime); box-shadow: 3px 3px 0 var(--ink); }
 
 .stats { display: flex; gap: 36px; }
-.num { font-family: 'Lilita One', sans-serif; font-size: 44px; }
+.num { font-family: 'Lilita One', 'ZCOOL KuaiLe', sans-serif; font-size: 44px; }
 .bar { width: 220px; height: 14px; border: 3px solid var(--ink); border-radius: 999px; background: #fff; overflow: hidden; }
 #loadbar { height: 100%; width: 0; background: var(--yellow); transition: width 0.3s; }
 #loadmsg { color: #fff; margin: 0; }
@@ -93,8 +98,8 @@ canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; c
 .panel::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(rgba(0,0,0,0.18) 1.5px, transparent 1.6px);
   background-size: 9px 9px; pointer-events: none; }
 .panel:hover:not(:disabled) { transform: translate(-2px, -3px) rotate(-1deg); }
-.panel .num { font-family: 'Lilita One', sans-serif; font-size: 40px; line-height: 1; -webkit-text-stroke: 1.5px var(--ink); paint-order: stroke fill; }
-.panel .pname { font-family: 'Lilita One', sans-serif; font-size: 22px; text-shadow: 2px 2px 0 var(--ink); }
+.panel .num { font-family: 'Lilita One', 'ZCOOL KuaiLe', sans-serif; font-size: 40px; line-height: 1; -webkit-text-stroke: 1.5px var(--ink); paint-order: stroke fill; }
+.panel .pname { font-family: 'Lilita One', 'ZCOOL KuaiLe', sans-serif; font-size: 22px; text-shadow: 2px 2px 0 var(--ink); }
 .panel .pstars { color: var(--yellow); font-size: 22px; letter-spacing: 2px; text-shadow: 2px 2px 0 var(--ink); }
 .panel .pstars i { font-style: normal; color: rgba(255,255,255,0.3); }
 .panel .ptag { font-size: 13px; background: rgba(20,18,31,0.55); border-radius: 8px; padding: 4px 8px; margin-top: auto; }
@@ -106,7 +111,7 @@ canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; c
 .theme-library { --panel: #7a1f2b; }
 
 .card.intro { text-align: left; min-width: min(460px, 90vw); }
-.card.intro h2 { font-family: 'Lilita One', sans-serif; font-size: 32px; margin: 0 0 4px; font-weight: 400; }
+.card.intro h2 { font-family: 'Lilita One', 'ZCOOL KuaiLe', sans-serif; font-size: 32px; margin: 0 0 4px; font-weight: 400; }
 .rules { margin: 10px 0 0; padding-left: 20px; line-height: 1.7; }
 
 .stars { display: flex; gap: 8px; font-size: 64px; line-height: 1; }
@@ -116,7 +121,7 @@ canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; c
 .parline { color: #fff; margin: 0; text-shadow: 2px 2px 0 var(--ink); }
 
 .toast { position: fixed; transform: translate(-50%, -50%) rotate(-3deg); background: #fff; border: 4px solid var(--ink); border-radius: 18px;
-  padding: 6px 14px 8px; font-family: 'Lilita One', sans-serif; font-size: 22px; box-shadow: 4px 4px 0 var(--ink); pointer-events: none;
+  padding: 6px 14px 8px; font-family: 'Lilita One', 'ZCOOL KuaiLe', sans-serif; font-size: 22px; box-shadow: 4px 4px 0 var(--ink); pointer-events: none;
   animation: toast 1.6s forwards; z-index: 20; white-space: nowrap; }
 .toast.good { background: var(--yellow); }
 .toast.bad { background: var(--orange); color: #fff; -webkit-text-stroke: 1px var(--ink); paint-order: stroke fill; }
@@ -140,7 +145,7 @@ canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; c
 .lux-card { text-align: left; font: inherit; background: #fff; border: 3px solid var(--ink); border-radius: 14px; padding: 10px 12px;
   box-shadow: 4px 4px 0 var(--ink); cursor: pointer; display: flex; flex-direction: column; gap: 6px; }
 .lux-card:hover { background: #fffbe8; transform: translate(-1px, -1px); }
-.lux-title { font-family: 'Lilita One', sans-serif; font-size: 20px; text-transform: capitalize; }
+.lux-title { font-family: 'Lilita One', 'ZCOOL KuaiLe', sans-serif; font-size: 20px; text-transform: capitalize; }
 .lux-row { display: flex; flex-direction: column; font-size: 13px; font-weight: 700; line-height: 1.35; }
 .lux-row .label { font-size: 10px; }
 .lux-meta { display: flex; flex-wrap: wrap; gap: 6px; font-size: 11px; }
@@ -194,7 +199,7 @@ canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; c
 #hud .top, #hud .hud-bottom, #riddle, .sound { z-index: 3; }
 
 /* ---- touch screens: every control lives at the top (embeds can hide the bottom) ---- */
-.fullbtn { position: fixed; top: 12px; left: 12px; z-index: 30; font-family: 'Lilita One', sans-serif;
+.fullbtn { position: fixed; top: 12px; left: 12px; z-index: 30; font-family: 'Lilita One', 'ZCOOL KuaiLe', sans-serif;
   font-size: 18px; color: var(--ink); background: var(--yellow); border: 3px solid var(--ink); border-radius: 999px;
   padding: 6px 16px 8px; box-shadow: 3px 3px 0 var(--ink); text-decoration: none; white-space: nowrap; }
 body.embedded #hud .top { padding-top: 60px; }
@@ -215,7 +220,7 @@ body.embedded .center { padding-top: 64px; }
 .hud-logo img { height: 46px; display: block; filter: drop-shadow(3px 3px 0 var(--ink)); }
 .iconbtn { pointer-events: auto; position: relative; width: 54px; height: 54px; border-radius: 16px; border: 4px solid var(--ink);
   background: #fff; box-shadow: 4px 4px 0 var(--ink); cursor: pointer; display: grid; place-items: center;
-  font-family: 'Lilita One', sans-serif; font-size: 30px; color: var(--ink); padding: 0; }
+  font-family: 'Lilita One', 'ZCOOL KuaiLe', sans-serif; font-size: 30px; color: var(--ink); padding: 0; }
 .iconbtn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink); }
 .iconbtn .bars { width: 20px; height: 22px; border-left: 7px solid var(--ink); border-right: 7px solid var(--ink); box-sizing: border-box; }
 .iconbtn.hint { background: var(--yellow); width: 58px; height: 58px; border-radius: 50%; }
@@ -224,7 +229,7 @@ body.embedded .center { padding-top: 64px; }
   color: #fff; border: 3px solid var(--ink); font-size: 14px; line-height: 18px; text-align: center; padding: 0 4px; }
 .hud-row2 { position: fixed; top: 92px; left: 16px; right: 16px; display: flex; justify-content: space-between; align-items: flex-start; pointer-events: none; z-index: 3; }
 .hud-stats { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
-.chip-stat { background: var(--ink); color: #fff; border-radius: 999px; padding: 3px 12px 5px; font-family: 'Lilita One', sans-serif; font-size: 16px; }
+.chip-stat { background: var(--ink); color: #fff; border-radius: 999px; padding: 3px 12px 5px; font-family: 'Lilita One', 'ZCOOL KuaiLe', sans-serif; font-size: 16px; }
 .hud-bottom { display: none !important; }
 .riddle { position: fixed; left: 16px; bottom: 16px; top: auto; transform: none; display: flex; align-items: center; gap: 8px; max-width: 54px;
   height: 54px; overflow: hidden; white-space: nowrap; padding: 0 12px; cursor: pointer; font: inherit; font-size: 15px; text-align: left;
@@ -244,7 +249,7 @@ body.embedded .center { padding-top: 64px; }
 
 /* ---- map v2: day row + night row ---- */
 .mapgrid { grid-template-columns: repeat(5, minmax(120px, 170px)); gap: 12px; max-width: 920px; }
-.map-row-label { grid-column: 1 / -1; font-family: 'Lilita One', sans-serif; font-size: 20px; color: #fff; text-align: left;
+.map-row-label { grid-column: 1 / -1; font-family: 'Lilita One', 'ZCOOL KuaiLe', sans-serif; font-size: 20px; color: #fff; text-align: left;
   text-shadow: 2px 2px 0 var(--ink); margin-top: 4px; }
 .panel { min-height: 118px; padding: 10px 12px; gap: 4px; }
 .panel .num { font-size: 32px; }
@@ -296,8 +301,15 @@ body.embedded .center { padding-top: 64px; }
 .bet-list { display: flex; flex-direction: column; gap: 12px; width: min(440px, calc(100vw - 32px)); }
 .bet-opt { display: grid; grid-template-columns: 1fr auto; text-align: left; gap: 2px 10px; font-size: 20px; }
 .bet-opt .odds { font-size: 15px; align-self: center; background: var(--ink); color: #fff; border-radius: 10px; padding: 2px 8px; }
-.bet-opt .what { grid-column: 1 / -1; font-family: 'Nunito', system-ui, sans-serif; font-size: 14px; font-weight: 700; }
+.bet-opt .what { grid-column: 1 / -1; font-family: 'Nunito', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', system-ui, sans-serif; font-size: 14px; font-weight: 700; }
 @media (max-width: 600px), (max-height: 500px) {
   .clue { font-size: 14px; bottom: 12px; left: 76px; right: 12px; transform: rotate(-1deg); max-width: none; }
   .iconbtn.bet { width: 50px; height: 50px; font-size: 22px; }
 }
+
+/* language button sits with the sound toggles */
+.mute.lang { min-width: 52px; }
+/* Chinese text runs longer per glyph and has no capitals: relax a few tight spots */
+body.zh .lux-title { text-transform: none; }
+body.zh .panel .pname { font-size: 20px; }
+@media (max-width: 600px) { body.zh .panel .pname { font-size: 15px; line-height: 1.15; } }

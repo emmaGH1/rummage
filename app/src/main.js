@@ -6,6 +6,7 @@ import { loadRoom, unloadRoom } from './world.js';
 import { makeKey, makeLockKey, makePadlock, makeDecoy, DECOY_TYPES, DECOY_LINES, preloadItems } from './items.js';
 import { sfx, toggleSfx, isSfxMuted } from './sfx.js';
 import { startMusic, toggleMute, isMuted, setSong, setHurry, duck } from './music.js';
+import { LANG, setLang, t as tr, levelText, NAMES_ZH, CLUES_ZH, SECRET_CLUES_EN, DECOY_ZH, EMPTY, timeLabel } from './i18n.js';
 import './style.css';
 
 // ---------- renderer / camera ----------
@@ -256,8 +257,7 @@ function setupLevel(level, seed) {
   if (level.riddle) {
     const target = keyParts[keyParts.length - 1];
     const it = world.room.items.find((x) => x.slug === target.piece.slug);
-    const SECRET_CLUES = { picture: 'Behind a face that watches from the wall.', floorboard: 'Underfoot, where one board creaks.' };
-    run.riddle = it?.clue || SECRET_CLUES[target.secret?.name] || 'Where things are kept but never read…';
+    run.riddle = { slug: it ? target.piece.slug : null, clue: it?.clue, secret: target.secret?.name };
   }
   world.pieces.forEach((pc) => delete pc.lockedFlag);
   S.run = run;
@@ -278,12 +278,12 @@ function beginPlay() {
   S.mode = 'play';
   S.run.t0 = performance.now();
   screen('hud');
-  $('hudLevel').textContent = S.run.kind === 'story' ? `${S.run.level.id}. ${S.run.level.name}` : 'Challenge';
+  $('hudLevel').textContent = S.run.kind === 'story' ? `${S.run.level.id}. ${levelText(S.run.level).name}` : tr('challengeHud');
   $('riddle').classList.toggle('hidden', !S.run.riddle);
   $('clue').classList.add('hidden');
   $('hud').classList.remove('revealing');
   if (S.run.riddle) {
-    $('riddleText').textContent = `“${S.run.riddle}”`;
+    $('riddleText').textContent = riddleText(S.run.riddle);
     setRiddle(true);
     clearTimeout(S.riddleTimer);
     S.riddleTimer = setTimeout(() => setRiddle(false), 5000); // read it, then it tucks away
@@ -351,7 +351,7 @@ function toggle(p, point) {
   if (S.mode === 'play' && p.piece.locked) {
     sfx('shut');
     p.piece.shake = performance.now();
-    toast('Locked!', where, 'bad');
+    toast(tr('locked'), where, 'bad');
     return;
   }
   const opening = p.target === 0;
@@ -373,25 +373,24 @@ function toggle(p, point) {
       p.target = 0;
       run.penalty += 5;
       sfx('chomp');
-      toast('CHOMP! +5s', where, 'bad');
+      toast(tr('chomp'), where, 'bad');
     }, 380);
     return;
   }
   setTimeout(() => discover(p, where), 420);
 }
-const EMPTY = ['Empty!', 'Nothing here.', 'Just dust.', 'Nope!', 'Zilch.', 'Cobwebs…'];
 function discover(p, where) {
   if (S.mode !== 'play') return;
   const run = S.run;
   const inside = items.filter((it) => it.part === p && !it.found);
-  if (!inside.length) { sfx('empty'); toast(EMPTY[(Math.random() * EMPTY.length) | 0], where); return; }
+  if (!inside.length) { sfx('empty'); { const e = EMPTY[LANG === 'zh' ? 1 : 0]; toast(e[(Math.random() * e.length) | 0], where); } return; }
   for (const it of inside) {
     it.found = true;
     it.pop = performance.now();
-    if (it.kind === 'decoy') { sfx('nope'); toast(DECOY_LINES[it.obj.userData.decoy], where); }
+    if (it.kind === 'decoy') { sfx('nope'); toast((LANG === 'zh' ? DECOY_ZH : DECOY_LINES)[it.obj.userData.decoy], where); }
     if (it.kind === 'lockkey') {
       sfx('unlock');
-      toast('A little brass key! Something unlocked…', where, 'good');
+      toast(tr('brass'), where, 'good');
       world.pieces.forEach((pc) => {
         if (pc.locked) { pc.locked = false; pc.unlockAnim = performance.now(); }
       });
@@ -399,7 +398,7 @@ function discover(p, where) {
     if (it.kind === 'key') {
       run.keysFound++;
       sfx('key');
-      toast(run.keysFound >= run.keysTotal ? 'GOT IT!' : `Key ${run.keysFound} of ${run.keysTotal}!`, where, 'good');
+      toast(run.keysFound >= run.keysTotal ? tr('gotIt') : tr('keyOf', { a: run.keysFound, b: run.keysTotal }), where, 'good');
       focusOn(it.obj);
       hud();
       if (run.keysFound >= run.keysTotal) setTimeout(win, 1100);
@@ -418,26 +417,31 @@ function setRiddle(open) {
   $('riddle').classList.toggle('open', open);
   $('riddle').setAttribute('aria-expanded', String(open));
 }
+function riddleText(r) {
+  const zh = LANG === 'zh';
+  const s = zh ? (CLUES_ZH[r.slug] || CLUES_ZH[r.secret]) : (r.clue || SECRET_CLUES_EN[r.secret]);
+  return zh ? `“${s || tr('riddleFallback')}”` : `“${s || tr('riddleFallback')}”`;
+}
 $('riddle').onclick = () => setRiddle(!$('riddle').classList.contains('open'));
 // What the player should look for next: an unfound key they can reach, else the brass key that opens the padlock.
 function nextTarget() {
   const keys = items.filter((it) => it.kind === 'key' && !it.found);
   return keys.find((it) => !it.part.piece.locked) || items.find((it) => it.kind === 'lockkey' && !it.found) || keys[0] || null;
 }
-const nameOf = (pc) => NAMES[pc.slug] || pc.slug.replace(/^[a-z]+-/, '');
+const nameOf = (pc) => (LANG === 'zh' ? NAMES_ZH[pc.slug] : NAMES[pc.slug]) || pc.slug.replace(/^[a-z]+-/, '');
 const piecePos = (pc) => new THREE.Box3().setFromObject(pc.robot).getCenter(new THREE.Vector3());
 function whereIs(pc) {
   const [w, d] = world.room.size;
   const p = piecePos(pc);
-  if (p.x < -w / 4) return 'by the left wall';
-  if (p.z < -d / 4) return 'by the back wall';
-  if (p.x > w / 4) return 'on the right side';
-  return 'in the middle of the room';
+  if (p.x < -w / 4) return tr('wLeft');
+  if (p.z < -d / 4) return tr('wBack');
+  if (p.x > w / 4) return tr('wRight');
+  return tr('wMid');
 }
 function clueFor(it) {
   const p = it.part, pc = p.piece;
-  if (p.secret) return p.secret.name === 'picture' ? 'Not in the furniture at all. Look at the walls.' : 'Not in the furniture at all. Look at the floor.';
-  const what = { drawer: 'Something that slides out', door: 'Behind a door', lid: 'Under a lid' }[partKind(p)];
+  if (p.secret) return p.secret.name === 'picture' ? tr('cWalls') : tr('cFloor');
+  const what = tr({ drawer: 'cDrawer', door: 'cDoor', lid: 'cLid' }[partKind(p)]);
   // nearest other piece as a landmark
   const here = piecePos(pc);
   let near = null, nd = Infinity;
@@ -446,8 +450,9 @@ function clueFor(it) {
     const dd = piecePos(q).distanceTo(here);
     if (dd < nd) { nd = dd; near = q; }
   }
-  const brass = it.kind === 'lockkey' ? 'The brass key: ' : '';
-  const lm = near && nd < 1.6 ? `, near the ${nameOf(near)}` : '';
+  const brass = it.kind === 'lockkey' ? tr('cBrass') : '';
+  const lm = near && nd < 1.6 ? tr('cNear', { name: nameOf(near) }) : '';
+  if (LANG === 'zh') return `${brass}${what}${lm}，${whereIs(pc)}。`;
   return `${brass}${brass ? what.toLowerCase() : what}${lm}, ${whereIs(pc)}.`;
 }
 function showClue(text) {
@@ -469,24 +474,24 @@ $('hintBtn').onclick = () => {
     const pc = it.part.piece;
     pc.glow = performance.now();
     pc.sniff = performance.now();
-    showClue(it.part.secret ? `It's the ${nameOf(pc)}!` : `It's in the ${nameOf(pc)}! (glowing)`);
+    showClue(it.part.secret ? tr('itsThe', { name: nameOf(pc) }) : tr('itsIn', { name: nameOf(pc) }));
   }
   run.hint.stage++;
   hud();
 };
 
 // ---------- risk: the dice button (levels 5+) ----------
-const BETS = [
-  { id: 'peek', name: 'Safe trade', odds: 'Pay 15 seconds', text: 'The piece holding a key glows.' },
-  { id: 'flip', name: 'Coin flip', odds: '50 / 50', text: 'Heads: a key jumps out. Tails: you lose half your remaining time.' },
-  { id: 'long', name: 'Long shot', odds: '1 in 4', text: 'Win: every key jumps out. Lose: the clock drops to 15 seconds.', min: 2 },
+const BETS = () => [
+  { id: 'peek', name: tr('bPeek'), odds: tr('bPeekOdds'), text: tr('bPeekText') },
+  { id: 'flip', name: tr('bFlip'), odds: tr('bFlipOdds'), text: tr('bFlipText') },
+  { id: 'long', name: tr('bLong'), odds: tr('bLongOdds'), text: tr('bLongText'), min: 2 },
 ];
 function openBets() {
   const run = S.run;
   if (S.mode !== 'play' || run.bets <= 0) return;
   const left = items.filter((it) => it.kind === 'key' && !it.found).length;
   $('betList').innerHTML = '';
-  for (const b of BETS) {
+  for (const b of BETS()) {
     const btn = document.createElement('button');
     btn.className = 'btn bet-opt';
     btn.disabled = left < (b.min || 1);
@@ -513,18 +518,18 @@ function placeBet(id) {
   if (id === 'peek') {
     run.penalty += 15;
     const it = nextTarget();
-    if (it) { it.part.piece.glow = performance.now(); it.part.piece.sniff = performance.now(); showClue(`It's in the ${nameOf(it.part.piece)}! (glowing)`); }
-    toast('-15s', null, 'bad');
+    if (it) { it.part.piece.glow = performance.now(); it.part.piece.sniff = performance.now(); showClue(tr('itsIn', { name: nameOf(it.part.piece) })); }
+    toast(tr('minus15'), null, 'bad');
     return;
   }
   sfx('tick');
-  toast(id === 'flip' ? 'Flipping…' : 'Rolling…');
+  toast(id === 'flip' ? tr('flipping') : tr('rolling'));
   setTimeout(() => {
     if (S.mode !== 'play') return;
     const win = Math.random() < (id === 'flip' ? 0.5 : 0.25);
     if (win) {
       sfx('unlock');
-      toast(id === 'flip' ? 'HEADS! A key jumps out!' : 'JACKPOT! Every key jumps out!', null, 'good');
+      toast(id === 'flip' ? tr('heads') : tr('jackpot'), null, 'good');
       if (id === 'flip') { const it = nextTarget(); if (it) grantKey(it); }
       else {
         const lk = items.find((it) => it.kind === 'lockkey' && !it.found);
@@ -533,8 +538,8 @@ function placeBet(id) {
       }
     } else {
       sfx('chomp');
-      if (id === 'flip') { run.penalty += left() / 2; toast('TAILS! Half your time is gone.', null, 'bad'); }
-      else { run.penalty += Math.max(0, left() - 15); toast('BUST! 15 seconds left!', null, 'bad'); }
+      if (id === 'flip') { run.penalty += left() / 2; toast(tr('tails'), null, 'bad'); }
+      else { run.penalty += Math.max(0, left() - 15); toast(tr('bust'), null, 'bad'); }
     }
   }, 900);
 }
@@ -548,7 +553,7 @@ function win() {
   calmDown();
   sfx('win');
   const run = S.run;
-  $('resultTitle').textContent = 'Found it!';
+  $('resultTitle').textContent = tr('foundIt');
   $('resultTime').textContent = fmt(run.elapsed);
   $('resultOpened').textContent = run.opened;
   if (run.kind === 'story') {
@@ -578,9 +583,9 @@ function lose() {
   missed.forEach((it, i) => setTimeout(() => {
     if (S.mode !== 'reveal') return;
     focusOn(it.obj);
-    toast(`Key ${it.n + 1} was here: the ${nameOf(it.part.piece)}`, it.obj.getWorldPosition(new THREE.Vector3()), 'good');
+    toast(tr('keyWasHere', { n: it.n + 1, name: nameOf(it.part.piece) }), it.obj.getWorldPosition(new THREE.Vector3()), 'good');
   }, 600 + i * 2200));
-  $('revealText').textContent = missed.length === 1 ? 'Here is the key you missed.' : `Here are the ${missed.length} keys you missed.`;
+  $('revealText').textContent = missed.length === 1 ? tr('revealOne') : tr('revealMany', { n: missed.length });
   screen('hud', 'reveal');
   $('hud').classList.add('revealing');
 }
@@ -591,7 +596,7 @@ function showLoseResult() {
   S.mode = 'result';
   $('hud').classList.remove('revealing');
   world.pieces.forEach((pc) => (pc.glow = 0));
-  $('resultTitle').textContent = "Time's up!";
+  $('resultTitle').textContent = tr('timesUp');
   $('resultTime').textContent = fmt(run.time);
   $('resultOpened').textContent = run.opened;
   resultButtons(-1);
@@ -609,7 +614,7 @@ function resultButtons(stars) {
     s.textContent = '★';
     el.appendChild(s);
   }
-  $('parLine').textContent = story ? `Par: ${fmt(S.run.level.par.time)} and ${S.run.level.par.opens} opens` : '';
+  $('parLine').textContent = story ? tr('par', { t: fmt(S.run.level.par.time), o: S.run.level.par.opens }) : '';
   const hasNext = story && stars > 0 && LEVELS.some((l) => l.id === S.run.level.id + 1 && ROOMS[l.room]);
   $('nextBtn').classList.toggle('hidden', !hasNext);
   $('shareBtn').classList.toggle('hidden', story);
@@ -618,7 +623,7 @@ function resultButtons(stars) {
 function hud() {
   const run = S.run;
   if (!run) return;
-  $('opened').textContent = `Opened ${run.opened}`;
+  $('opened').textContent = tr('opened', { n: run.opened });
   const left = run.time ? Math.max(0, run.time - run.elapsed) : run.elapsed;
   $('timer').textContent = fmt(left);
   $('timer').classList.toggle('urgent', !!run.time && left <= 10);
@@ -638,7 +643,7 @@ function deadline(left, now) {
   const sec = Math.ceil(left);
   if (sec !== S.lastSec) {
     if (S.lastSec != null) {
-      if (sec === 30 && S.run.time > 30) { sfx('hurry'); toast('HURRY!', null, 'bad'); }
+      if (sec === 30 && S.run.time > 30) { sfx('hurry'); toast(tr('hurry'), null, 'bad'); }
       if (sec === 10) { sfx('hurry'); toast('10 SECONDS!', null, 'bad'); }
       if (sec <= 10 && sec > 0) sfx(sec <= 5 ? 'clockHi' : 'clock');
     }
@@ -670,7 +675,7 @@ function showMap() {
   history.replaceState(null, '', location.pathname);
   const grid = $('mapGrid');
   grid.innerHTML = '';
-  for (const [label, night] of [['☀ Day', false], ['🌙 Night', true]]) {
+  for (const [label, night] of [[tr('day'), false], [tr('night'), true]]) {
     const h = document.createElement('div');
     h.className = `map-row-label${night ? ' night' : ''}`;
     h.textContent = label;
@@ -680,8 +685,8 @@ function showMap() {
       const b = document.createElement('button');
       b.className = `panel theme-${l.room}${night ? ' night' : ''}${open ? '' : ' locked'}`;
       const stars = progress.stars[l.id] || 0;
-      b.title = open ? l.tip : 'Finish the previous room to unlock';
-      b.innerHTML = `<span class="num">${l.id}</span><span class="pname">${l.name}</span>
+      b.title = open ? levelText(l).tip : tr('lockedTip');
+      b.innerHTML = `<span class="num">${l.id}</span><span class="pname">${levelText(l).name}</span>
         <span class="pstars">${open ? '★'.repeat(stars) + `<i>${'★'.repeat(3 - stars)}</i>` : '🔒'}</span>`;
       b.disabled = !open;
       b.onclick = () => { sfx('tick'); startLevel(l); };
@@ -692,14 +697,14 @@ function showMap() {
 }
 function showIntro(level) {
   S.mode = 'intro';
-  $('introNum').textContent = `Room ${level.id}`;
-  $('introName').textContent = level.name;
-  $('introBlurb').textContent = level.blurb;
-  const rules = [`Find ${level.keys} key${level.keys > 1 ? 's' : ''}`, `${fmt(level.time)} on the clock`, `${level.hints} hint${level.hints === 1 ? "" : "s"} (the ? button)`];
-  if (level.decoys) rules.push(`${level.decoys} decoys`);
-  if (level.locks) rules.push('1 padlocked piece');
-  if (level.mimics) rules.push(`${level.mimics} mimics`);
-  if (level.riddle) rules.push('a riddle');
+  $('introNum').textContent = tr('room', { n: level.id });
+  $('introName').textContent = levelText(level).name;
+  $('introBlurb').textContent = levelText(level).blurb;
+  const rules = [tr('rFind', { n: level.keys }), tr('rClock', { t: fmt(level.time) }), tr('rHints', { n: level.hints })];
+  if (level.decoys) rules.push(tr('rDecoys', { n: level.decoys }));
+  if (level.locks) rules.push(tr('rLock'));
+  if (level.mimics) rules.push(tr('rMimics', { n: level.mimics }));
+  if (level.riddle) rules.push(tr('rRiddle'));
   $('introRules').innerHTML = rules.map((r) => `<li>${r}</li>`).join('');
   screen('intro');
 }
@@ -743,14 +748,14 @@ $('hideAgainBtn').onclick = startHide;
 function hideUI() {
   $('hideBtn').disabled = !S.lastOpened;
   $('hideHint').textContent = S.lastOpened
-    ? 'Nice spot. Pick a time limit, then hide the key here.'
-    : 'Open a drawer, door or lid to choose a hiding spot.';
+    ? tr('hideOpen')
+    : tr('hideClosed');
   const el = $('chipsHide');
   el.innerHTML = '';
   for (const o of TIME_OPTIONS) {
     const b = document.createElement('button');
     b.className = 'chip' + (o.s === S.challenge.time ? ' on' : '');
-    b.textContent = o.label;
+    b.textContent = timeLabel(o.label);
     b.onclick = () => { S.challenge.time = o.s; sfx('tick'); hideUI(); };
     el.appendChild(b);
   }
@@ -771,9 +776,9 @@ $('hideBtn').onclick = () => {
 function showReady() {
   S.mode = 'ready';
   world.parts.forEach((p) => (p.target = 0));
-  const t = TIME_OPTIONS.find((o) => o.s === S.challenge.time)?.label || '∞';
-  $('readyTime').textContent = S.challenge.time ? `${t} to find it` : 'No timer';
-  $('readyCount').textContent = `${world.parts.length} things to open`;
+  const t = timeLabel(TIME_OPTIONS.find((o) => o.s === S.challenge.time)?.label || '∞');
+  $('readyTime').textContent = S.challenge.time ? tr('toFind', { t }) : tr('noTimer');
+  $('readyCount').textContent = tr('thingsToOpen', { n: world.parts.length });
   screen('ready');
 }
 $('seekBtn').onclick = () => startChallengeSeek();
@@ -790,9 +795,9 @@ function shareUrl() {
 }
 async function copyLink(btn) {
   const url = shareUrl();
-  try { await navigator.clipboard.writeText(url); btn.textContent = 'Link copied!'; }
-  catch { prompt('Copy this challenge link', url); }
-  setTimeout(() => (btn.textContent = btn.dataset.label), 1600);
+  try { await navigator.clipboard.writeText(url); btn.textContent = tr('linkCopied'); }
+  catch { prompt(tr('copyPrompt'), url); }
+  setTimeout(() => (btn.textContent = tr(btn.dataset.i18n)), 1600);
 }
 
 // ---------- "Made with Lux3D" panel ----------
@@ -814,13 +819,13 @@ async function openLux() {
     const g = m.timings.generate?.seconds, a = m.timings.articulate?.seconds;
     const card = document.createElement('button');
     card.className = 'lux-card';
-    card.innerHTML = `<div class="lux-title">${m.slug.replace(/^[a-z]-/, '').replace(/-/g, ' ')}</div>
-      <div class="lux-row"><span class="label">Prompt</span><span>${m.prompt}</span></div>
-      <div class="lux-row"><span class="label">Motion prompt</span><span>${m.motion}</span></div>
+    card.innerHTML = `<div class="lux-title">${LANG === 'zh' ? nameOf(pc) : m.slug.replace(/^[a-z]-/, '').replace(/-/g, ' ')}</div>
+      <div class="lux-row"><span class="label">${tr('luxPrompt')}</span><span>${m.prompt}</span></div>
+      <div class="lux-row"><span class="label">${tr('luxMotion')}</span><span>${m.motion}</span></div>
       <div class="lux-meta">
-        <span>${m.joints.length} joint${m.joints.length === 1 ? '' : 's'}: ${m.joints.map((j) => j.type).join(', ')}</span>
-        ${g ? `<span>generated in ${g}s</span>` : ''}${a ? `<span>articulated in ${a}s</span>` : ''}
-        <span>style: ${m.style}</span>
+        <span>${tr('luxJoints', { n: m.joints.length, types: m.joints.map((j) => j.type).join(', ') })}</span>
+        ${g ? `<span>${tr('luxGen', { s: g })}</span>` : ''}${a ? `<span>${tr('luxArt', { s: a })}</span>` : ''}
+        <span>${tr('luxStyle', { s: m.style })}</span>
       </div>`;
     card.onclick = () => demoPiece(pc);
     list.appendChild(card);
@@ -942,11 +947,11 @@ function frame() {
 // ---------- music ----------
 addEventListener('pointerdown', startMusic, { once: true });
 const muteBtn = $('muteBtn');
-const paintMute = () => (muteBtn.textContent = isMuted() ? 'Music: off' : 'Music: on');
+const paintMute = () => (muteBtn.textContent = isMuted() ? tr('musicOff') : tr('musicOn'));
 muteBtn.onclick = (e) => { e.stopPropagation(); startMusic(); toggleMute(); paintMute(); };
 paintMute();
 const sfxBtn = $('sfxBtn');
-const paintSfx = () => (sfxBtn.textContent = isSfxMuted() ? 'Sounds: off' : 'Sounds: on');
+const paintSfx = () => (sfxBtn.textContent = isSfxMuted() ? tr('sfxOff') : tr('sfxOn'));
 sfxBtn.onclick = (e) => { e.stopPropagation(); toggleSfx(); paintSfx(); sfx('click'); };
 paintSfx();
 $('pMusic').onclick = () => { muteBtn.click(); syncPause(); };
@@ -976,6 +981,30 @@ embedCheck();
 addEventListener('resize', embedCheck);
 [500, 1500, 4000].forEach((ms) => setTimeout(embedCheck, ms));
 
+// ---------- language ----------
+function applyStatic() {
+  document.querySelectorAll('[data-i18n]').forEach((el) => { el.innerHTML = tr(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-aria]').forEach((el) => el.setAttribute('aria-label', tr(el.dataset.i18nAria)));
+  paintMute(); paintSfx(); syncPause();
+}
+$('langBtn').onclick = (e) => {
+  e.stopPropagation();
+  setLang(LANG === 'zh' ? 'en' : 'zh');
+  applyStatic();
+  // re-render whatever is on screen in the new language
+  if (S.mode === 'map') showMap();
+  else if (S.mode === 'intro' && S.run?.level) showIntro(S.run.level);
+  else if (S.mode === 'hide') hideUI();
+  else if (S.mode === 'ready') showReady();
+  if (S.run && ['play', 'pause'].includes(S.mode)) {
+    hud();
+    $('hudLevel').textContent = S.run.kind === 'story' ? `${S.run.level.id}. ${levelText(S.run.level).name}` : tr('challengeHud');
+    if (S.run.riddle) $('riddleText').textContent = riddleText(S.run.riddle);
+  }
+};
+setLang(LANG);
+applyStatic();
+
 // ---------- boot ----------
 window.__rummage = { THREE, S, progress, showTitle, showMap, startHide, camera, controls, scene, get world() { return world; }, toggle, startLevel, setupLevel, beginPlay, lose, placeBet, items: () => items, levels: LEVELS, ROOMS };
 frame();
@@ -1003,6 +1032,6 @@ frame();
     showTitle();
   } catch (e) {
     console.error(e);
-    $('loadmsg').textContent = 'Could not load the room. Please refresh.';
+    $('loadmsg').textContent = tr('loadFail');
   }
 })();

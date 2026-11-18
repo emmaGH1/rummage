@@ -4,7 +4,7 @@
 import puppeteer from '../app/node_modules/puppeteer-core/lib/esm/puppeteer/puppeteer-core.js';
 
 const base = process.argv[2] || 'http://localhost:4173/';
-const browser = await puppeteer.launch({ executablePath: '/usr/bin/chromium', headless: true,
+const browser = await puppeteer.launch({ executablePath: '/usr/bin/chromium', headless: true, protocolTimeout: 0,
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--window-size=1280,720'] });
 const page = await browser.newPage();
 await page.setViewport({ width: 1280, height: 720 });
