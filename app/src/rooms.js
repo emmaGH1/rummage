@@ -25,7 +25,13 @@ export const ROOMS = {
       { slug: 'w-desk', x: 1.75, z: 0.15, rot: -15, h: 0.85 },
       { slug: 'w-chest', x: 0.35, z: 0.85, rot: -20, h: 0.6 },
     ],
-    props: [],
+    props: [
+      { slug: 'x-cauldron', x: -0.75, z: -0.85, rot: 20, h: 0.65 },
+      { slug: 'x-globe', x: 2.1, z: -1.35, rot: -30, h: 1.0 },
+      { slug: 'x-crystalball', x: -0.9, z: 1.95, rot: 0, h: 0.55 },
+      { slug: 'x-plant', x: -2.15, z: -2.1, rot: 0, h: 0.95 },
+      { slug: 'x-broom', x: 2.25, z: -2.25, rot: 10, h: 1.5 },
+    ],
   },
   pirate: {
     name: "Captain's cabin",
@@ -41,7 +47,13 @@ export const ROOMS = {
       { slug: 'p-barrel', x: 2.3, z: 0.2, rot: 0, h: 0.95 },
       { slug: 'p-crate', x: 1.4, z: 1.6, rot: 15, h: 0.6 },
     ],
-    props: [],
+    props: [
+      { slug: 'x-wheel', x: -1.05, z: -0.95, rot: 30, h: 1.15 },
+      { slug: 'x-cannon', x: 2.45, z: 1.9, rot: -60, h: 0.7 },
+      { slug: 'x-anchor', x: 0.95, z: -2.45, rot: 0, h: 1.0 },
+      { slug: 'x-rope', x: -0.55, z: 1.7, rot: 0, h: 0.25 },
+      { slug: 'x-parrotperch', x: 2.7, z: -0.85, rot: -30, h: 1.4 },
+    ],
   },
   kitchen: {
     name: 'Haunted kitchen',
