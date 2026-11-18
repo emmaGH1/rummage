@@ -256,6 +256,81 @@
    }
   },
   {
+   "slug": "k-spicerack",
+   "prompt": "cartoon kitchen spice cabinet with six tiny drawers in a three by two grid, mint green with white knobs, chunky simple shapes, single isolated object",
+   "motion": "Each of the six tiny drawers slides straight out forward along the depth axis, about 60 percent of its depth.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "drawer_top_left",
+    "drawer_top_right",
+    "drawer_middle_left",
+    "drawer_middle_right",
+    "drawer_bottom_left",
+    "drawer_bottom_right"
+   ],
+   "joints": [
+    {
+     "name": "drawer_top_left_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.151612
+     ]
+    },
+    {
+     "name": "drawer_top_right_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.151445
+     ]
+    },
+    {
+     "name": "drawer_middle_left_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.150212
+     ]
+    },
+    {
+     "name": "drawer_middle_right_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.150651
+     ]
+    },
+    {
+     "name": "drawer_bottom_left_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.151393
+     ]
+    },
+    {
+     "name": "drawer_bottom_right_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.152261
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 99,
+     "task": "8304201"
+    },
+    "articulate": {
+     "seconds": 323,
+     "task": "8306146"
+    }
+   }
+  },
+  {
    "slug": "k-stove",
    "prompt": "cartoon cast iron kitchen stove with an oven door at the front that opens downward and a drawer below, purple paint with brass knobs, chunky simple shapes, single isolated object",
    "motion": "The oven door rotates open downward about a hinge along its bottom edge, about 80 degrees, and the bottom drawer slides straight out forward about 60 percent of its depth.",
@@ -321,6 +396,45 @@
     "articulate": {
      "seconds": 99,
      "task": "8296272"
+    }
+   }
+  },
+  {
+   "slug": "k-wallcupboard",
+   "prompt": "cartoon small kitchen wall cupboard with two doors, purple paint with brass knobs, chunky simple shapes, single isolated object, doors closed",
+   "motion": "The two doors swing open outward on vertical hinges at their outer edges, about 110 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "door_left",
+    "door_right"
+   ],
+   "joints": [
+    {
+     "name": "door_left_joint",
+     "type": "revolute",
+     "range": [
+      -1.570796,
+      0.0
+     ]
+    },
+    {
+     "name": "door_right_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.570796
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 90,
+     "task": "8304946"
+    },
+    "articulate": {
+     "seconds": 136,
+     "task": "8306647"
     }
    }
   },
@@ -1130,6 +1244,75 @@
    }
   },
   {
+   "slug": "p-sidecabinet",
+   "prompt": "cartoon short pirate side cabinet with two small doors and a ship's wheel carving, dark red wood, chunky simple shapes, single isolated object, doors closed",
+   "motion": "The two small doors swing open outward on vertical hinges at their outer edges, about 110 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "door_left",
+    "door_right"
+   ],
+   "joints": [
+    {
+     "name": "door_left_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.570796
+     ]
+    },
+    {
+     "name": "door_right_joint",
+     "type": "revolute",
+     "range": [
+      -1.570796,
+      0.0
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 135,
+     "task": "8305993"
+    },
+    "articulate": {
+     "seconds": 135,
+     "task": "8306267"
+    }
+   }
+  },
+  {
+   "slug": "p-strongbox",
+   "prompt": "cartoon small iron strongbox with a hinged lid and rivets, dark teal with gold lock plate, chunky simple shapes, single isolated object, closed",
+   "motion": "The lid rotates open upward about the hinge along the back top edge, about 100 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "chest_body",
+    "chest_lid"
+   ],
+   "joints": [
+    {
+     "name": "chest_lid_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.57
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 108,
+     "task": "8305664"
+    },
+    "articulate": {
+     "seconds": 135,
+     "task": "8305989"
+    }
+   }
+  },
+  {
    "slug": "p-wardrobe",
    "prompt": "cartoon pirate captain's tall wardrobe with two front doors and an anchor emblem, teal paint with yellow trim, chunky simple shapes, single isolated object, doors closed",
    "motion": "The two front doors swing open outward on vertical hinges at the left and right outer edges, about 110 degrees.",
@@ -1292,6 +1475,80 @@
     "articulate": {
      "seconds": 145,
      "task": "8296901"
+    }
+   }
+  },
+  {
+   "slug": "t-lockers",
+   "prompt": "cartoon row of three tall narrow toy lockers with doors, blue yellow and green, chunky simple shapes, single isolated object, doors closed",
+   "motion": "Each of the three locker doors swings open outward on a vertical hinge at its left edge, about 110 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "door_left",
+    "door_middle",
+    "door_right"
+   ],
+   "joints": [
+    {
+     "name": "door_left_joint",
+     "type": "revolute",
+     "range": [
+      -1.570796,
+      0.0
+     ]
+    },
+    {
+     "name": "door_middle_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.570796
+     ]
+    },
+    {
+     "name": "door_right_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.570796
+     ]
+    }
+   ],
+   "timings": {
+    "articulate": {
+     "seconds": 144,
+     "task": "8305749"
+    }
+   }
+  },
+  {
+   "slug": "t-musicbox",
+   "prompt": "cartoon wooden music box with a hinged lid and a tiny ballerina inside, pink and gold, chunky simple shapes, single isolated object, closed",
+   "motion": "The lid rotates open upward about the hinge along the back top edge, about 100 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "base",
+    "lid"
+   ],
+   "joints": [
+    {
+     "name": "lid_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.57
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 135,
+     "task": "8305661"
+    },
+    "articulate": {
+     "seconds": 180,
+     "task": "8305803"
     }
    }
   },
@@ -1721,6 +1978,75 @@
     "articulate": {
      "seconds": 145,
      "task": "8290660"
+    }
+   }
+  },
+  {
+   "slug": "w-hatbox",
+   "prompt": "cartoon round hat box with a lid, striped purple and yellow, chunky simple shapes, single isolated object, closed",
+   "motion": "The round lid rotates open upward about a hinge on the back of its rim, about 100 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "lid"
+   ],
+   "joints": [
+    {
+     "name": "lid_joint",
+     "type": "revolute",
+     "range": [
+      -1.570796,
+      0.0
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 99,
+     "task": "8305760"
+    },
+    "articulate": {
+     "seconds": 180,
+     "task": "8305949"
+    }
+   }
+  },
+  {
+   "slug": "w-nightstand",
+   "prompt": "cartoon small round wizard nightstand with one drawer and a little door below, teal paint with orange knobs, chunky simple shapes, single isolated object",
+   "motion": "The top drawer slides straight out forward about 60 percent of its depth, and the small door below swings open outward on a vertical hinge at its left edge, about 110 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "top_drawer",
+    "bottom_door"
+   ],
+   "joints": [
+    {
+     "name": "top_drawer_joint",
+     "type": "prismatic",
+     "range": [
+      -0.046424,
+      0.03981
+     ]
+    },
+    {
+     "name": "bottom_door_joint",
+     "type": "revolute",
+     "range": [
+      -1.570796,
+      0.0
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 99,
+     "task": "8305659"
+    },
+    "articulate": {
+     "seconds": 162,
+     "task": "8305758"
     }
    }
   },
