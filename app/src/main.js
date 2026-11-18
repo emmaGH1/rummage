@@ -537,6 +537,10 @@ function frame() {
       }
     }
     for (const pc of world.pieces) {
+      for (const p of pc.parts) {
+        const cav = p.joint.parent.userData.cavity;
+        if (cav) cav.visible = pc.parts.some((q) => q.joint.parent === p.joint.parent && Math.abs(q.value) > 1e-3);
+      }
       let wob = 0, sc = 1;
       if (pc.shake && now - pc.shake < 400) wob = Math.sin((now - pc.shake) / 25) * 0.04;
       if (pc.sniff && now - pc.sniff < 1500) sc = 1 + Math.abs(Math.sin((now - pc.sniff) / 120)) * 0.05;

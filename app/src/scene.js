@@ -176,10 +176,12 @@ export function addCavities(robot) {
       box.union(b);
     });
     if (box.isEmpty()) continue;
-    const size = box.getSize(new THREE.Vector3()).multiplyScalar(0.94);
+    const size = box.getSize(new THREE.Vector3()).multiply(new THREE.Vector3(0.86, 0.9, 0.86));
     const cav = new THREE.Mesh(new THREE.BoxGeometry(size.x, size.y, size.z), cavityMat);
     box.getCenter(cav.position);
     cav.raycast = () => {};
+    cav.visible = false; // shown only while one of this link's parts is open (see main loop)
+    link.userData.cavity = cav;
     link.add(cav);
   }
 }
