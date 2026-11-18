@@ -43,6 +43,22 @@ export const ROOMS = {
     ],
     props: [],
   },
+  kitchen: {
+    name: 'Haunted kitchen',
+    size: [6, 5.5],
+    theme: 'kitchen',
+    items: [
+      { slug: 'k-fridge', x: -2.0, z: -2.35, rot: 0, h: 1.9 },
+      { slug: 'k-dresser', x: -0.25, z: -2.4, rot: 0, h: 2.0 },
+      { slug: 'k-sink', x: 1.55, z: -2.35, rot: 0, h: 1.0 },
+      { slug: 'k-pantry', x: -2.6, z: -0.45, rot: 90, h: 2.1 },
+      { slug: 'k-stove', x: -2.5, z: 1.35, rot: 90, h: 1.1 },
+      { slug: 'k-table', x: 0.45, z: 0.55, rot: 0, h: 0.8 },
+      { slug: 'k-breadbin', x: 0.75, z: 0.45, y: 0.8, rot: -20, h: 0.32 },
+      { slug: 'k-icebox', x: 2.25, z: 0.7, rot: -30, h: 0.75 },
+    ],
+    props: [],
+  },
 };
 
 // Comic Ink palettes per theme.

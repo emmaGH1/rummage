@@ -30,7 +30,7 @@ function place(holder, obj, it) {
   obj.position.set(-c.x, -box.min.y, -c.z);
   holder.add(obj);
   if (it.h) holder.scale.setScalar(it.h / (box.max.y - box.min.y));
-  holder.position.set(it.x, 0, it.z);
+  holder.position.set(it.x, it.y || 0, it.z); // y lets small pieces sit on tables/counters
   holder.rotation.y = THREE.MathUtils.degToRad(it.rot || 0);
 }
 
