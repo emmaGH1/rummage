@@ -143,7 +143,7 @@ export const ROOMS = {
       { slug: 'x-armchair', x: 2.3, z: 2.25, rot: -60, h: 0.95 },
       { slug: 'x-bookstack', x: -1.7, z: 1.9, rot: 0, h: 0.7 },
       { slug: 'x-lamp', x: 3.05, z: 0.5, rot: 0, h: 1.8 },
-      { slug: 'x-ladder', x: 3.15, z: -1.35, rot: -90, h: 2.3 },
+      { slug: 'x-ladder', x: 3.2, z: 1.0, rot: -90, h: 1.9 },
       { slug: 'x-owl', x: 2.35, z: -2.55, y: 1.3, rot: -10, h: 0.45 },
       { slug: 'x-telescope', x: -2.4, z: 2.2, rot: 45, h: 1.5 },
       { slug: 'x-plant2', x: 3.1, z: -2.6, rot: 0, h: 1.2 },
