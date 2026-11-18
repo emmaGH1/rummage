@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Rummage</title>
     <meta name="description" content="Hide-and-seek in a manor where everything opens. Furniture generated and articulated with Aholo Lux3D." />
-    <link rel="icon" href="favicon.svg" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="apple-touch-icon" href="icon-192.png" />
+    <meta property="og:image" content="logo.png" />
+    <meta name="theme-color" content="#1d2a9e" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@700;900&display=swap" />
   </head>
@@ -19,13 +22,13 @@
     </div>
 
     <div id="loading" class="center dim">
-      <div class="badge big">Rummage</div>
+      <img class="logo-big" src="logo.png" alt="Rummage" />
       <p id="loadmsg">Unpacking the furniture…</p>
       <div class="bar"><div id="loadbar"></div></div>
     </div>
 
     <div id="title" class="center hidden">
-      <div class="badge big">Rummage</div>
+      <img class="logo-big" src="logo.png" alt="Rummage" />
       <p class="tag">The wizard lost his manor keys. <b>Everything opens.</b> Start rummaging.</p>
       <div class="btns">
         <button id="playBtn" class="btn primary">Play</button>
@@ -70,7 +73,7 @@
     <div id="hud" class="hidden">
       <div class="top">
         <div class="hud-left">
-          <div class="hud-logo"><img src="logo-mark.svg" alt="Rummage" /></div>
+          <div class="hud-logo"><img src="logo-hud.png" alt="Rummage" /></div>
           <div id="hudLevel" class="levelname"></div>
         </div>
         <div id="timer" class="pill timer">0:00</div>

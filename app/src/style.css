@@ -267,3 +267,11 @@ body.embedded .center { padding-top: 64px; }
   .mapgrid { grid-template-columns: repeat(5, minmax(100px, 1fr)); }
   .panel { min-height: 0; }
 }
+
+/* ---- logo ---- */
+.logo-big { width: min(560px, 82vw); height: auto; filter: drop-shadow(0 8px 0 rgba(20, 18, 31, 0.35)); animation: logoIn 0.6s cubic-bezier(.2,1.6,.4,1) both; }
+@keyframes logoIn { from { transform: scale(0.6) rotate(-6deg); opacity: 0; } to { transform: none; opacity: 1; } }
+.hud-logo img { height: 52px; filter: none; }
+@media (max-height: 520px) { .logo-big { width: min(340px, 50vw); } }
+@media (pointer: coarse), (max-width: 760px) { .hud-logo img { height: 40px; } }
+#title { background: radial-gradient(ellipse at 50% 48%, rgba(14, 12, 40, 0.62) 0%, rgba(14, 12, 40, 0.35) 45%, transparent 75%); }
