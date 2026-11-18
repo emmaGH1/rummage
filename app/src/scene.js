@@ -94,32 +94,62 @@ export function movableParts(slug, robot) {
 }
 
 // --- the room ---------------------------------------------------------------
-export function buildRoom(scene, [w, d]) {
+export function buildRoom(scene, [w, d], t) {
   const g = new THREE.Group();
-  const floor = new THREE.Mesh(new THREE.BoxGeometry(w, 0.12, d), toon('#2a3ab8'));
-  floor.position.y = -0.06;
-  floor.receiveShadow = true;
-  const wallMat = toon('#2f45d6');
-  const wallL = new THREE.Mesh(new THREE.BoxGeometry(0.14, 3.2, d), wallMat);
-  wallL.position.set(-w / 2 - 0.07, 1.6, 0);
-  const wallB = new THREE.Mesh(new THREE.BoxGeometry(w + 0.14, 3.2, 0.14), wallMat);
-  wallB.position.set(-0.07, 1.6, -d / 2 - 0.07);
-  wallL.receiveShadow = wallB.receiveShadow = true;
-  // rug: orange slab with a white inset border
-  const rug = new THREE.Mesh(new THREE.BoxGeometry(w * 0.55, 0.02, d * 0.45), toon('#f0542a'));
-  rug.position.set(0.3, 0.01, 0.6);
-  const border = new THREE.Mesh(new THREE.BoxGeometry(w * 0.47, 0.022, d * 0.37), toon('#fff6e6'));
-  border.position.copy(rug.position);
-  const rugIn = new THREE.Mesh(new THREE.BoxGeometry(w * 0.45, 0.024, d * 0.35), toon('#f0542a'));
-  rugIn.position.copy(rug.position);
-  // skirting lines
-  const skirtMat = toon('#1b2580');
-  const skL = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.18, d), skirtMat);
-  skL.position.set(-w / 2 + 0.01, 0.09, 0);
-  const skB = new THREE.Mesh(new THREE.BoxGeometry(w, 0.18, 0.02), skirtMat);
-  skB.position.set(0, 0.09, -d / 2 + 0.01);
-  g.add(floor, wallL, wallB, rug, border, rugIn, skL, skB);
-  inkify(g, { thickness: 0.02 });
+  const box = (sx, sy, sz, color, x, y, z) => {
+    const m = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz), toon(color));
+    m.position.set(x, y, z);
+    m.receiveShadow = true;
+    g.add(m);
+    return m;
+  };
+  const H = 3.2;
+  box(w, 0.12, d, t.floor, 0, -0.06, 0);
+  box(0.14, H, d, t.wall, -w / 2 - 0.07, H / 2, 0);
+  box(w + 0.14, H, 0.14, t.wall, -0.07, H / 2, -d / 2 - 0.07);
+  // floorboards: thin ink lines across the floor
+  for (let i = 1; i < Math.floor(d / 0.5); i++) box(w, 0.005, 0.015, t.skirt, 0, 0.002, -d / 2 + i * 0.5);
+  // rug with an inset border
+  const rx = 0.3, rz = 0.6;
+  box(w * 0.5, 0.02, d * 0.42, t.rug, rx, 0.01, rz);
+  box(w * 0.43, 0.022, d * 0.35, t.rugBorder, rx, 0.011, rz);
+  box(w * 0.41, 0.024, d * 0.33, t.rug, rx, 0.012, rz);
+  // skirting
+  box(0.03, 0.2, d, t.skirt, -w / 2 + 0.015, 0.1, 0);
+  box(w, 0.2, 0.03, t.skirt, 0, 0.1, -d / 2 + 0.015);
+  // wall decor on the back wall, right of centre
+  const dz = -d / 2 + 0.02;
+  if (t.decor === 'window') {
+    box(1.3, 1.1, 0.04, '#14121f', 1.4, 2.1, dz);
+    box(1.2, 1.0, 0.05, '#8fd3ff', 1.4, 2.1, dz + 0.005);
+    box(0.06, 1.0, 0.07, '#fff6e6', 1.4, 2.1, dz + 0.01);
+    box(1.2, 0.06, 0.07, '#fff6e6', 1.4, 2.1, dz + 0.01);
+    box(1.4, 0.08, 0.16, '#fff6e6', 1.4, 1.56, dz + 0.06);
+  } else if (t.decor === 'porthole') {
+    for (const px of [0.9, 2.0]) {
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.36, 0.08, 12, 32), toon('#ffd23f'));
+      ring.position.set(px, 2.0, dz + 0.04);
+      const glass = new THREE.Mesh(new THREE.CircleGeometry(0.36, 32), toon('#7fe3ff'));
+      glass.position.set(px, 2.0, dz + 0.03);
+      g.add(ring, glass);
+    }
+  } else if (t.decor === 'pegboard') {
+    box(1.8, 1.0, 0.04, '#f2c14e', 1.2, 2.0, dz);
+    for (let i = 0; i < 9; i++)
+      for (let j = 0; j < 5; j++) box(0.04, 0.04, 0.05, '#7a2414', 0.45 + i * 0.19, 1.62 + j * 0.19, dz + 0.01);
+  }
+  // left-wall picture frame with a bold zigzag (Comic Ink flourish)
+  box(0.04, 0.9, 1.1, '#14121f', -w / 2 + 0.02, 2.0, -0.6);
+  box(0.05, 0.8, 1.0, t.rugBorder, -w / 2 + 0.03, 2.0, -0.6);
+  const zig = new THREE.Shape();
+  zig.moveTo(-0.12, 0.3); zig.lineTo(0.1, 0.3); zig.lineTo(0, 0.05); zig.lineTo(0.14, 0.05);
+  zig.lineTo(-0.1, -0.32); zig.lineTo(0, -0.05); zig.lineTo(-0.14, -0.05); zig.closePath();
+  const bolt = new THREE.Mesh(new THREE.ExtrudeGeometry(zig, { depth: 0.02, bevelEnabled: false }), toon(t.rug));
+  bolt.rotation.y = Math.PI / 2;
+  bolt.position.set(-w / 2 + 0.06, 2.0, -0.6);
+  bolt.scale.setScalar(1.4);
+  g.add(bolt);
+  inkify(g, { thickness: 0.015 });
   scene.add(g);
   return g;
 }
