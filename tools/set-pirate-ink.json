@@ -1,0 +1,38 @@
+{
+  "gen": {"style": "cartoon", "faceCount": 40000},
+  "skipSplit": true,
+  "objects": {
+    "p-seachest": {
+      "prompt": "cartoon pirate sea chest with a flat hinged lid, teal paint with rope handles and brass corners, chunky simple shapes, single isolated object, closed",
+      "motion": "The lid rotates open upward about the hinge along the back top edge, up to about 100 degrees."
+    },
+    "p-desk": {
+      "prompt": "cartoon pirate captain's writing desk with three drawers in a row under the top, dark red paint with yellow trim and round brass knobs, chunky simple shapes, single isolated object",
+      "motion": "Each of the three drawers slides straight out forward along the depth axis, about 60 percent of its depth."
+    },
+    "p-mapcabinet": {
+      "prompt": "cartoon pirate map cabinet with four wide flat drawers stacked vertically, mustard yellow paint with red handles, chunky simple shapes, single isolated object",
+      "motion": "Each of the four flat drawers slides straight out forward along the depth axis, about 60 percent of its depth."
+    },
+    "p-barrel": {
+      "prompt": "cartoon wooden barrel with iron bands and a round hinged lid on top, orange wood with dark bands, chunky simple shapes, single isolated object, lid closed",
+      "motion": "The round top lid rotates open upward about a hinge on one side of its rim, up to about 110 degrees."
+    },
+    "p-wardrobe": {
+      "prompt": "cartoon pirate captain's tall wardrobe with two front doors and an anchor emblem, teal paint with yellow trim, chunky simple shapes, single isolated object, doors closed",
+      "motion": "The two front doors swing open outward on vertical hinges at the left and right outer edges, about 110 degrees."
+    },
+    "p-crate": {
+      "prompt": "cartoon wooden cargo crate with a hinged lid and rope handles, light orange wood planks, chunky simple shapes, single isolated object, closed",
+      "motion": "The lid rotates open upward about the hinge along the back top edge, up to about 100 degrees."
+    },
+    "p-bunk": {
+      "prompt": "cartoon pirate ship bunk bed with two storage drawers underneath the mattress, dark red wood with yellow blanket, chunky simple shapes, single isolated object",
+      "motion": "The two storage drawers under the bed each slide straight out forward along the depth axis, about 60 percent of their depth."
+    },
+    "p-cupboard": {
+      "prompt": "cartoon small wall cupboard on legs with one round porthole-style door and a drawer below, teal paint with brass rim, chunky simple shapes, single isolated object",
+      "motion": "The round door swings open outward on a vertical hinge at its left edge, about 110 degrees, and the drawer below slides straight out forward about 60 percent of its depth."
+    }
+  }
+}
