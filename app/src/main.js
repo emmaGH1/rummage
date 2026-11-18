@@ -5,7 +5,7 @@ import { LEVELS, loadProgress, saveProgress, starsFor, rng, shuffle } from './le
 import { loadRoom, unloadRoom } from './world.js';
 import { makeKey, makeLockKey, makePadlock, makeDecoy, DECOY_TYPES, DECOY_LINES } from './items.js';
 import { sfx, toggleSfx, isSfxMuted } from './sfx.js';
-import { startMusic, toggleMute, isMuted } from './music.js';
+import { startMusic, toggleMute, isMuted, setSong, setHurry, duck } from './music.js';
 import './style.css';
 
 // ---------- renderer / camera ----------
@@ -236,6 +236,8 @@ function startChallengeSeek() {
 }
 function beginPlay() {
   world.parts.forEach((p) => { p.target = 0; });
+  setSong(world.room.theme);
+  S.lastSec = null;
   frameCamera();
   S.mode = 'play';
   S.run.t0 = performance.now();
@@ -375,6 +377,7 @@ $('hintBtn').onclick = () => {
 function win() {
   if (S.mode !== 'play') return;
   S.mode = 'result';
+  calmDown();
   sfx('win');
   const run = S.run;
   $('resultTitle').textContent = 'Found it!';
@@ -391,6 +394,7 @@ function win() {
 }
 function lose() {
   S.mode = 'result';
+  calmDown();
   sfx('lose');
   const run = S.run;
   items.filter((it) => it.kind === 'key' && !it.found).forEach((it) => {
@@ -436,10 +440,41 @@ function hud() {
 }
 const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
+// ---------- deadline pressure ----------
+// ≤30s: HURRY! + faster music. ≤10s: tick every second, red pulse, shaking timer. ≤5s: louder ticks, camera shake.
+const vignette = $('vignette');
+function deadline(left, now) {
+  const sec = Math.ceil(left);
+  if (sec !== S.lastSec) {
+    if (S.lastSec != null) {
+      if (sec === 30 && S.run.time > 30) { sfx('hurry'); toast('HURRY!', null, 'bad'); }
+      if (sec === 10) { sfx('hurry'); toast('10 SECONDS!', null, 'bad'); }
+      if (sec <= 10 && sec > 0) sfx(sec <= 5 ? 'clockHi' : 'clock');
+    }
+    S.lastSec = sec;
+  }
+  setHurry(left <= 10 ? 2 : left <= 30 ? 1 : 0);
+  const u = left <= 10 ? 1 - Math.max(0, left) / 10 : 0;
+  vignette.style.opacity = u ? (0.35 + 0.45 * u) * (0.6 + 0.4 * Math.abs(Math.sin(now / (left <= 5 ? 120 : 220)))) : 0;
+  $('timer').classList.toggle('shake', left <= 10);
+  if (left <= 5) {
+    const a = 0.012 * (1 - left / 5);
+    camera.position.x += (Math.random() - 0.5) * a;
+    camera.position.y += (Math.random() - 0.5) * a;
+  }
+}
+function calmDown() {
+  setHurry(0);
+  vignette.style.opacity = 0;
+  $('timer').classList.remove('shake');
+}
+
 // ---------- screens ----------
-function showTitle() { S.mode = 'title'; screen('title'); }
+function showTitle() { S.mode = 'title'; setSong('title'); calmDown(); screen('title'); }
 function showMap() {
   S.mode = 'map';
+  setSong('title');
+  calmDown();
   history.replaceState(null, '', location.pathname);
   const grid = $('mapGrid');
   grid.innerHTML = '';
@@ -481,14 +516,16 @@ $('pauseBtn').onclick = () => {
   if (S.mode !== 'play') return;
   S.mode = 'pause';
   S.pausedAt = performance.now();
+  duck(true);
   screen('hud', 'pause');
 };
 $('resumeBtn').onclick = () => {
   S.run.t0 += performance.now() - S.pausedAt;
+  duck(false);
   S.mode = 'play';
   screen('hud');
 };
-$('quitBtn').onclick = () => showMap();
+$('quitBtn').onclick = () => { duck(false); showMap(); };
 
 // ---------- challenge (2 players) ----------
 async function startHide() {
@@ -672,6 +709,7 @@ function frame() {
   if (S.mode === 'play') {
     S.run.elapsed = (now - S.run.t0) / 1000 + S.run.penalty;
     hud();
+    if (S.run.time) deadline(S.run.time - S.run.elapsed, now);
     if (S.run.time && S.run.elapsed >= S.run.time) lose();
   }
   if (S.mode === 'title' && world) {
