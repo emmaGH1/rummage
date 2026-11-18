@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Rummage — Project report</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@600;800&display=swap">
+<style>
+  @page { size: A4; margin: 14mm 14mm 16mm; }
+  :root { --ink: #14121f; --orange: #f0542a; --yellow: #ffc82e; --blue: #2f45d6; --cream: #fff6e6; }
+  * { box-sizing: border-box; }
+  body { font-family: 'Nunito', sans-serif; font-weight: 600; color: var(--ink); font-size: 10.5pt; line-height: 1.45; margin: 0; }
+  h1, h2, h3 { font-family: 'Lilita One', sans-serif; font-weight: 400; margin: 0; }
+  h1 { font-size: 46pt; color: #fff; background: var(--orange); display: inline-block; padding: 2mm 7mm 3mm; border: 1.2mm solid var(--ink);
+    border-radius: 4mm; box-shadow: 1.6mm 1.6mm 0 var(--ink); transform: rotate(-2deg); -webkit-text-stroke: 0.5mm var(--ink); paint-order: stroke fill; }
+  h2 { font-size: 20pt; margin: 7mm 0 3mm; display: inline-block; border-bottom: 1.2mm solid var(--yellow); }
+  h3 { font-size: 13pt; margin: 4mm 0 1.5mm; }
+  p { margin: 0 0 2.5mm; }
+  .cover { page-break-after: always; min-height: 255mm; display: flex; flex-direction: column; gap: 6mm; }
+  .tagline { font-size: 17pt; font-weight: 800; margin-top: 4mm; }
+  .hero { width: 100%; border: 1.2mm solid var(--ink); border-radius: 4mm; box-shadow: 1.6mm 1.6mm 0 var(--ink); }
+  .meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; }
+  .stat { background: var(--cream); border: 0.8mm solid var(--ink); border-radius: 3mm; padding: 2.5mm 3mm; }
+  .stat b { display: block; font-family: 'Lilita One'; font-weight: 400; font-size: 22pt; line-height: 1.1; }
+  .stat span { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.3mm; }
+  .links { font-size: 10pt; }
+  .links a { color: var(--blue); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
+  figure { margin: 0; break-inside: avoid; }
+  figure img { width: 100%; border: 0.7mm solid var(--ink); border-radius: 2mm; display: block; }
+  figcaption { font-size: 8.5pt; margin-top: 1mm; }
+  .pipeline { display: flex; align-items: stretch; gap: 2mm; margin: 3mm 0; }
+  .step { flex: 1; background: var(--cream); border: 0.8mm solid var(--ink); border-radius: 3mm; padding: 2.5mm; font-size: 9pt; }
+  .step b { display: block; font-family: 'Lilita One'; font-weight: 400; font-size: 12pt; }
+  .arrow { align-self: center; font-family: 'Lilita One'; font-size: 16pt; }
+  table { width: 100%; border-collapse: collapse; font-size: 8.5pt; margin: 2mm 0; break-inside: auto; }
+  th, td { border: 0.3mm solid #c9c3b4; padding: 1.2mm 1.6mm; text-align: left; vertical-align: top; }
+  th { background: var(--ink); color: #fff; }
+  tr { break-inside: avoid; }
+  code { background: #f1ede2; padding: 0 1mm; border-radius: 1mm; font-size: 9pt; }
+  .note { background: #fff3c4; border-left: 1.4mm solid var(--yellow); padding: 2.5mm 3.5mm; margin: 3mm 0; }
+  ul { margin: 0 0 2.5mm; padding-left: 5mm; }
+  .page { page-break-before: always; }
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <h1>Rummage</h1>
+  <div class="tagline">Hide-and-seek in a manor where every drawer, door and lid opens.</div>
+  <img class="hero" src="img/room-library.png" alt="The Grand Library room">
+  <div class="meta">
+    <div class="stat"><b>5</b><span>rooms</span></div>
+    <div class="stat"><b>47</b><span>Lux3D articulated pieces</span></div>
+    <div class="stat"><b>89</b><span>moving parts / hiding spots</span></div>
+    <div class="stat"><b>37</b><span>Lux3D props &amp; items</span></div>
+  </div>
+  <p class="links"><b>Play:</b> <a href="https://www.modelscope.ai/studios/heisemma/rummage">modelscope.ai/studios/heisemma/rummage</a> &nbsp;·&nbsp;
+    <b>Source:</b> <a href="https://github.com/emmaGH1/rummage">github.com/emmaGH1/rummage</a></p>
+  <p>Manycore Aholo Global 3D AI Hackathon · November 2026 · built with <b>Aholo Lux3D</b> (text-to-3D + articulation)</p>
+</section>
+
+<h2>1. Concept</h2>
+<p>Most AI 3D generators give you a statue: a nice shell you can look at but not use. Lux3D can also <b>split a model into parts and give it working joints</b>. Rummage is built on that one capability: if every generated drawer really slides and every door really swings, then a room full of generated furniture becomes a hide-and-seek board.</p>
+<p>The wizard has lost the manor keys. Players rummage through five themed rooms: the Wizard's Study, the Captain's Cabin, the Haunted Kitchen, the Toy Workshop and the Grand Library. They open furniture to find keys before the clock runs out. Each room adds a mechanic: <b>decoys</b> (junk in some compartments), <b>padlocks</b> (find the little brass key first), <b>mimics</b> (lids that snap shut, +5 seconds) and <b>riddles</b>. A two-player <b>Challenge</b> mode lets one person hide a key anywhere, pick a time limit (30 s to unlimited) and send the link to a friend.</p>
+<div class="note"><b>Why it needs Lux3D:</b> the game rules are read straight from Lux3D's articulation output. Each moving part comes back as its own GLB with a URDF joint (type, axis, limits). There is no hand-rigging; the hiding spots are exactly the joints Lux3D produced.</div>
+
+<h2>2. How Lux3D builds a room</h2>
+<div class="pipeline">
+  <div class="step"><b>1 · Prompt</b>“cartoon chest of drawers for a wizard's study, three stacked drawers…”, style <code>cartoon</code></div>
+  <div class="arrow">→</div>
+  <div class="step"><b>2 · Text-to-3D</b><code>G1-Turbo</code> PBR mesh with real-world size prediction, ~2 min</div>
+  <div class="arrow">→</div>
+  <div class="step"><b>3 · Articulation</b>motion prompt: “each drawer slides out about 60 percent”. Returns URDF + one GLB per part, ~2.5 min</div>
+  <div class="arrow">→</div>
+  <div class="step"><b>4 · Game</b>three.js + urdf-loader: joints become clickable, springy hiding spots</div>
+</div>
+<p>Every piece in the game went through this pipeline (script: <code>tools/lux3d_probe.py</code>). We logged each call with its prompt, task id and duration (<code>docs/generation-log.md</code>), and the in-game <b>“Made with Lux3D”</b> panel shows every piece's prompt, motion prompt, joints and timings. Tapping a card flies the camera to the piece and plays its joints.</p>
+<div class="grid2">
+  <figure><img src="img/lux-panel.png"><figcaption>In-game “Made with Lux3D” panel: prompt, motion prompt, joint types, generation and articulation time.</figcaption></figure>
+  <figure><img src="img/open-all.png"><figcaption>Every joint in a room opened at once: drawers (prismatic) and doors and lids (revolute), all from Lux3D.</figcaption></figure>
+</div>
+
+<h2 class="page">3. Development process</h2>
+<h3>Sprint timeline (≈ 28 hours)</h3>
+<table>
+  <tr><th>When (UTC)</th><th>What</th></tr>
+  <tr><td>Nov 17</td><td>Brief, rules and competitor scan. Ideas: shade canopy vs articulated hide-and-seek. Chose <b>articulation</b> as Lux3D's distinctive feature.</td></tr>
+<tr><td>Nov 18 07:20</td><td>Registered; capability probe: 3 objects → text-to-3D → articulation → part split. Articulation returned URDF + per-part GLBs on the first try.</td></tr>
+<tr><td>07:45</td><td>Concept mockups (2 rounds, 9 styles). Picked Comic Ink. Six cartoon furniture pieces generated and articulated.</td></tr>
+<tr><td>08:15</td><td>First playable: hide → time limit → seek → found, in the wizard's study.</td></tr>
+<tr><td>08:20–09:30</td><td>Scope grew to the five-room manor: levels, keys, decoys, locks, mimics, riddles, stars. Pirate cabin, kitchen and workshop generated.</td></tr>
+<tr><td>09:30–10:15</td><td>Grand library + 25 props; Made-with-Lux3D panel; automated playtest; first ModelScope deploy.</td></tr>
+<tr><td>10:15–</td><td>Phone layouts, sound toggles, strategic key hiding, deadline effects, six songs, Lux3D keys and decoys, 15 extra small pieces.</td></tr>
+</table>
+<h3>Problems we hit, and what we did</h3>
+<table>
+  <tr><th>Problem</th><th>Fix (our code, disclosed)</th></tr>
+  <tr><td>Generated furniture bodies are hollow shells: open a door and you see through to the wall.</td><td>A slightly shrunken, back-face-only dark copy of each body becomes its interior, so it always matches the body's shape.</td></tr>
+  <tr><td>Generated models come back at inconsistent scales (a 15 cm wardrobe next to a 2 m one).</td><td>Each piece gets a target height in the room layout and is scaled to it.</td></tr>
+  <tr><td>For some double-door pieces both doors got the same swing sign, so one opened inward.</td><td>At load time we test-open each vertical-hinge door; if it moves backwards we flip its direction.</td></tr>
+  <tr><td>Download URLs expire after about 2 hours, and large downloads were sometimes cut off.</td><td>Downloads use resumable retries; failed articulation calls can be re-run from the saved task record (<code>tools/retry_articulation.py</code>).</td></tr>
+  <tr><td>Race: a piece was sometimes measured before its body mesh loaded and appeared 2–3× too big.</td><td>Wait until every link's own visual has loaded before measuring.</td></tr>
+  <tr><td>Raw articulation output is about 30 MB per piece.</td><td>Compressed to about 1.5 MB with gltf-transform (WebP textures + meshopt), so a full room loads in seconds.</td></tr>
+</table>
+
+<h2>4. Iterations of key assets</h2>
+<h3>Art direction</h3>
+<div class="grid3">
+  <figure><img src="img/concept-r1.png"><figcaption>Round 1 mockups (painterly). Rejected: they read as generic AI art.</figcaption></figure>
+  <figure><img src="img/concept-r2.png"><figcaption>Round 2: six deliberate styles. The team picked <b>Comic Ink</b>.</figcaption></figure>
+  <figure><img src="img/room-wizard.png"><figcaption>Final: Comic Ink built from real Lux3D models, toon shading and ink outlines.</figcaption></figure>
+</div>
+<h3>Furniture: photoreal test → cartoon set</h3>
+<div class="grid2">
+  <figure><img src="img/iter-photoreal.png"><figcaption>Capability test: Lux3D <code>photorealistic</code> style. The articulation worked first time (3/3 pieces), but the look clashed with the art direction.</figcaption></figure>
+  <figure><img src="img/iter-cartoon.png"><figcaption>Same pipeline with Lux3D <code>cartoon</code> style and a palette in the prompt. Materials and shapes now match the comic look.</figcaption></figure>
+</div>
+<h3>Items</h3>
+<p>Keys and decoys started as primitive shapes; the final game uses Lux3D-generated items (a golden skeleton key, a brass key, coins, a sock, a rubber duck…), with the primitives kept as a fallback.</p>
+
+<h2 class="page">5. Final result</h2>
+<div class="grid2">
+  <figure><img src="img/room-pirate.png"><figcaption>Room 2: Captain's Cabin (decoys).</figcaption></figure>
+  <figure><img src="img/room-kitchen.png"><figcaption>Room 3: Haunted Kitchen (a padlocked piece needs the brass key).</figcaption></figure>
+  <figure><img src="img/room-workshop.png"><figcaption>Room 4: Toy Workshop (mimics snap shut, +5 s).</figcaption></figure>
+  <figure><img src="img/hurry.png"><figcaption>Deadline pressure: HURRY at 30 s, ticking clock, red pulse and faster music in the last 10 s.</figcaption></figure>
+  <figure><img src="img/map.png"><figcaption>Manor map with stars per room.</figcaption></figure>
+  <figure><img src="img/result.png"><figcaption>Result: time, things opened, 1–3 stars against par.</figcaption></figure>
+</div>
+<h3>Game design details</h3>
+<ul>
+  <li><b>Strategic hiding:</b> each spot is scored by size. Harder rooms favour small, sneaky spots for keys; decoys and mimics take the obvious big doors; keys never share a piece and vary across drawers, doors and lids.</li>
+  <li><b>Replayable:</b> keys are re-hidden from a seeded random generator every run; stars reward speed and few opens.</li>
+  <li><b>Feel:</b> springy joints with overshoot, squash on click, comic speech-bubble pop-ups, synthesized sound effects, and six synthesized songs (one per room) that speed up as the clock runs out. Music and sound effects have separate toggles.</li>
+  <li><b>Phones:</b> touch-friendly (tapping a piece's body opens its nearest part) and compact layouts for portrait and landscape.</li>
+  <li><b>Quality:</b> an automated playtest (<code>tools/playtest.mjs</code>) plays every room to a win in a headless browser and checks for errors.</li>
+</ul>
+<h3>The Lux3D content in numbers</h3>
+<table>
+  <tr><th>Room</th><th>Articulated pieces</th><th>Hiding spots (joints)</th><th>Props</th></tr>
+  <tr><td>Wizard&#x27;s Study</td><td>7</td><td>13</td><td>6</td></tr>
+<tr><td>Captain&#x27;s Cabin</td><td>9</td><td>17</td><td>6</td></tr>
+<tr><td>Haunted Kitchen</td><td>9</td><td>15</td><td>7</td></tr>
+<tr><td>Toy Workshop</td><td>9</td><td>19</td><td>5</td></tr>
+<tr><td>Grand Library</td><td>13</td><td>25</td><td>6</td></tr>
+<tr><td><b>Total</b></td><td><b>47</b></td><td><b>89</b></td><td><b>37</b> (incl. items)</td></tr>
+</table>
+
+<h2 class="page">6. Every Lux3D piece</h2>
+<table>
+  <tr><th>Piece</th><th>Prompt (abridged)</th><th>Joints</th><th>Gen / Artic. (s)</th></tr>
+  <tr><td>w-bookcase</td><td>bookcase for a wizard&#x27;s study, open shelves with a few colourful spell books on top and a clos…</td><td>2 (revolute)</td><td>117 / 135</td></tr>
+<tr><td>w-cabinet</td><td>tall cupboard for a wizard&#x27;s study with two front doors and round orange knobs, flat mustard y…</td><td>2 (revolute)</td><td>90 / 136</td></tr>
+<tr><td>w-drawers</td><td>chest of drawers for a wizard&#x27;s study, three stacked drawers with round orange knobs, chunky s…</td><td>3 (prismatic)</td><td>118 / 145</td></tr>
+<tr><td>w-potion</td><td>small potion cabinet for a wizard&#x27;s study with one front door that has a star window and a dra…</td><td>2 (prismatic, revolute)</td><td>108 / 198</td></tr>
+<tr><td>w-desk</td><td>wooden writing desk for a wizard&#x27;s study with two drawers stacked on the right side, flat must…</td><td>2 (prismatic)</td><td>153 / 145</td></tr>
+<tr><td>w-chest</td><td>treasure chest for a wizard&#x27;s study, rounded lid, flat red-orange paint with yellow trim and a…</td><td>1 (revolute)</td><td>153 / 154</td></tr>
+<tr><td>w-spellbox</td><td>box shaped like a thick purple spell book with a hinged front cover lid and gold star clasp, c…</td><td>1 (revolute)</td><td>126 / 189</td></tr>
+<tr><td>p-wardrobe</td><td>pirate captain&#x27;s tall wardrobe with two front doors and an anchor emblem, teal paint with yell…</td><td>2 (revolute)</td><td>108 / 144</td></tr>
+<tr><td>p-mapcabinet</td><td>pirate map cabinet with four wide flat drawers stacked vertically, mustard yellow paint with r…</td><td>4 (prismatic)</td><td>144 / 172</td></tr>
+<tr><td>p-bunk</td><td>pirate ship bunk bed with two storage drawers underneath the mattress, dark red wood with yell…</td><td>2 (prismatic)</td><td>135 / 162</td></tr>
+<tr><td>p-cupboard</td><td>small wall cupboard on legs with one round porthole-style door and a drawer below, teal paint …</td><td>2 (prismatic, revolute)</td><td>108 / 154</td></tr>
+<tr><td>p-desk</td><td>pirate captain&#x27;s writing desk with three drawers in a row under the top, dark red paint with y…</td><td>3 (prismatic)</td><td>117 / 145</td></tr>
+<tr><td>p-seachest</td><td>pirate sea chest with a flat hinged lid, teal paint with rope handles and brass corners, closed</td><td>1 (revolute)</td><td>135 / 162</td></tr>
+<tr><td>p-barrel</td><td>wooden barrel with iron bands and a round hinged lid on top, orange wood with dark bands, lid …</td><td>1 (revolute)</td><td>108 / 171</td></tr>
+<tr><td>p-crate</td><td>wooden cargo crate with a hinged lid and rope handles, light orange wood planks, closed</td><td>1 (revolute)</td><td>144 / 153</td></tr>
+<tr><td>p-jewelbox</td><td>small treasure jewellery casket with a domed lid, gold with red gems, closed</td><td>1 (revolute)</td><td>99 / 188</td></tr>
+<tr><td>k-fridge</td><td>old-fashioned rounded refrigerator with one big front door and a small freezer door on top, pa…</td><td>2 (revolute)</td><td>117 / 181</td></tr>
+<tr><td>k-dresser</td><td>kitchen dresser cupboard with plates on open shelves on top, two doors below and two small dra…</td><td>4 (prismatic, revolute)</td><td>126 / 207</td></tr>
+<tr><td>k-sink</td><td>kitchen sink cabinet with a basin on top and two small doors underneath, mint green paint with…</td><td>2 (revolute)</td><td>90 / 171</td></tr>
+<tr><td>k-pantry</td><td>tall narrow pantry cupboard with one tall front door, purple paint with a crooked brass handle…</td><td>1 (revolute)</td><td>100 / 109</td></tr>
+<tr><td>k-stove</td><td>cast iron kitchen stove with an oven door at the front that opens downward and a drawer below,…</td><td>2 (prismatic, revolute)</td><td>144 / 198</td></tr>
+<tr><td>k-table</td><td>farmhouse kitchen table with one wide drawer under the tabletop, honey yellow wood</td><td>1 (prismatic)</td><td>108 / 99</td></tr>
+<tr><td>k-breadbin</td><td>bread bin with a hinged front flap lid, red enamel with a cream BREAD label, closed</td><td>1 (revolute)</td><td>108 / 153</td></tr>
+<tr><td>k-icebox</td><td>wooden icebox chest with a top lid that lifts up, teal paint with brass latch, closed</td><td>1 (revolute)</td><td>126 / 171</td></tr>
+<tr><td>k-cookiejar</td><td>ceramic cookie jar shaped like a fat cat with a hinged lid head, cream with orange spots, clos…</td><td>1 (revolute)</td><td>125 / 153</td></tr>
+<tr><td>t-toolcabinet</td><td>tall red metal tool cabinet with two doors on top and three drawers below, closed</td><td>5 (prismatic, revolute)</td><td>126 / 208</td></tr>
+<tr><td>t-dollhouse</td><td>dollhouse cabinet shaped like a little house with a pointed roof and two front doors that open…</td><td>2 (revolute)</td><td>117 / 145</td></tr>
+<tr><td>t-workbench</td><td>carpenter workbench with three drawers under the top, warm wood with blue drawers</td><td>3 (prismatic)</td><td>162 / 171</td></tr>
+<tr><td>t-cubbies</td><td>low shelf unit with four square cubby doors in a two by two grid, each door a different bright…</td><td>4 (revolute)</td><td>108 / 207</td></tr>
+<tr><td>t-toychest</td><td>toy chest painted with stars, bright blue with yellow lid and red handles, closed</td><td>1 (revolute)</td><td>108 / 145</td></tr>
+<tr><td>t-jackbox</td><td>jack-in-the-box toy, a cube box with red and yellow checker sides and a hinged top lid with a …</td><td>1 (revolute)</td><td>126 / 145</td></tr>
+<tr><td>t-trunk</td><td>circus steamer trunk with stripes and stars, red and white, rounded lid, closed</td><td>1 (revolute)</td><td>109 / 154</td></tr>
+<tr><td>t-paintbox</td><td>wooden paint supply box with a lid, colourful paint splashes, closed</td><td>1 (revolute)</td><td>144 / 136</td></tr>
+<tr><td>t-toolbox</td><td>red metal toolbox with a hinged lid and a carry handle, closed</td><td>1 (revolute)</td><td>126 / 144</td></tr>
+<tr><td>l-bookcase</td><td>tall library bookcase full of colourful books with two glass-panel doors on the lower half, de…</td><td>2 (revolute)</td><td>108 / 117</td></tr>
+<tr><td>l-clock</td><td>tall grandfather clock with a glass front door on the lower case showing the pendulum, dark wo…</td><td>1 (revolute)</td><td>126 / 108</td></tr>
+<tr><td>l-cabinet</td><td>curiosity cabinet with two tall glass doors and a drawer at the bottom, teal paint with gold t…</td><td>3 (prismatic, revolute)</td><td>126 / 180</td></tr>
+<tr><td>l-catalog</td><td>library card catalogue cabinet with six small drawers in a three by two grid with brass label …</td><td>6 (prismatic)</td><td>126 / 224</td></tr>
+<tr><td>l-safe</td><td>little iron safe with a round dial and a front door, dark green with gold dial, closed</td><td>1 (revolute)</td><td>108 / 171</td></tr>
+<tr><td>l-lectern</td><td>wooden lectern book stand with a slanted top and a small cupboard door in its base, red wood</td><td>1 (revolute)</td><td>161 / 117</td></tr>
+<tr><td>l-desk</td><td>librarian&#x27;s writing desk with a roll top cover and two side drawers, dark green with gold hand…</td><td>2 (prismatic)</td><td>108 / 152</td></tr>
+<tr><td>l-globe</td><td>globe drinks cabinet, a large globe on a stand whose top half lifts open on a hinge, blue and …</td><td>1 (revolute)</td><td>108 / 189</td></tr>
+<tr><td>l-chest</td><td>ancient scroll chest with a domed lid and brass straps, purple wood, closed</td><td>1 (revolute)</td><td>161 / 152</td></tr>
+<tr><td>l-sidetable</td><td>round side table with one small drawer, mustard yellow with red knob</td><td>1 (prismatic)</td><td>135 / 117</td></tr>
+<tr><td>l-pianobench</td><td>piano bench with a hinged seat lid for sheet music storage, glossy black with gold legs, closed</td><td>1 (revolute)</td><td>125 / 197</td></tr>
+<tr><td>l-mapchest</td><td>low map chest with three very wide flat drawers, honey wood with brass pulls</td><td>3 (prismatic)</td><td>90 / 161</td></tr>
+<tr><td>l-writingbox</td><td>antique writing slope box with a slanted hinged lid and a small drawer at the front, mahogany …</td><td>2 (prismatic, revolute)</td><td>99 / 207</td></tr>
+</table>
+
+<h2>7. Tools used (disclosure)</h2>
+<table>
+  <tr><th>Tool</th><th>Used for</th></tr>
+  <tr><td><b>Aholo Lux3D</b> (API, G1-Turbo)</td><td>All furniture, props and items: text-to-3D generation, plus <b>articulation</b> (part split + joints) for every interactive piece. Core of the game.</td></tr>
+  <tr><td>three.js, urdf-loader</td><td>Real-time rendering; loading Lux3D's URDF joints and per-part GLBs.</td></tr>
+  <tr><td>gltf-transform</td><td>Compressing Lux3D models for the web (WebP textures, meshopt geometry).</td></tr>
+  <tr><td>Vite</td><td>Build tooling. Hosted as a static Studio on ModelScope.</td></tr>
+  <tr><td>OpenAI image generation (via Codex)</td><td>2D concept mockups for choosing the art direction only. No mockup images appear in the game.</td></tr>
+  <tr><td>Claude (Anthropic) and Codex (OpenAI)</td><td>AI coding assistants used to write and debug the game code and asset scripts.</td></tr>
+  <tr><td>Web Audio API</td><td>All music and sound effects are synthesized in code (no audio files).</td></tr>
+</table>
+<p>All code is original and lives in the repository above. Lux3D outputs are used under the Aholo product terms.</p>
+</body>
+</html>
