@@ -1,3 +1,5 @@
+# node tools/key_stats.mjs http://localhost:4173/ 1000   (2026-11-18 23:35 UTC)
+# runs per level: 1000 (seeds 1000..1999); % = share of runs in which that spot held a key
 L1 keys=1 spots=18 spotsEverUsed=16 | w-desk:drawer_top_joint 8% | w-bookcase:door_right_joint 8% | w-chest:chest_lid_joint 7% | w-cabinet:door_right_joint 7% | w-nightstand:top_drawer_joint 7%
 L2 keys=2 spots=22 spotsEverUsed=20 | p-strongbox:chest_lid_joint 12% | p-sidecabinet:door_left_joint 12% | p-cupboard:drawer_joint 11% | p-bunk:drawer_left_joint 11% | p-seachest:lid_joint 11%
 L3 keys=2 spots=25 spotsEverUsed=25 | k-cookiejar:lid_joint 15% | k-breadbin:lid_front_joint 14% | k-pantry:door_joint 14% | k-table:drawer_joint 13% | k-icebox:lid_joint 12%

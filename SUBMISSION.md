@@ -20,9 +20,9 @@ https://www.modelscope.ai/studios/heisemma/rummage
 **Description:**
 Most AI 3D generators give you a statue. Lux3D can also split a model into parts and give each part a real joint, and Rummage is built on that one capability: if every generated drawer really slides and every door really swings, a room full of generated furniture becomes a hide-and-seek board.
 
-The wizard has lost his manor keys. Players rummage through five themed rooms by day and by night (10 levels) with decoys, padlocks, lids that bite, riddles, clue hints and risky bets, or hide a key themselves and send the challenge to a friend. It runs in any browser, desktop or phone, in English and Simplified Chinese.
+The wizard has lost his manor keys. Players rummage through five themed rooms by day and by night (10 levels) with decoys, padlocks, lids that bite, riddles, clue hints and risky bets, or hide a key themselves and send the challenge to a friend. It runs in any WebGL browser, desktop or phone, in English and Simplified Chinese.
 
-How Lux3D builds it: one sentence per piece → Lux3D text-to-3D (median 117 s) → Lux3D articulation from a one-line motion prompt, which returns a URDF plus one GLB per moving part (median 154 s) → the game loads the URDF and every joint becomes a hiding spot. 55 pieces, 107 working joints, none rigged by hand. Every call is logged with its prompt and task id.
+How Lux3D builds it: one sentence per piece → Lux3D text-to-3D (median 117 s) → Lux3D articulation from a one-line motion prompt, which returns a URDF plus one GLB per moving part (median 154 s) → the game loads the URDF and every joint becomes a hiding spot. 55 pieces, 107 working joints, none rigged by hand (each room also has two hand-built secret spots). Every call is logged with its prompt and task id.
 
 **Links:**
 - Play: https://rummage-game.vercel.app
@@ -37,7 +37,7 @@ How Lux3D builds it: one sentence per piece → Lux3D text-to-3D (median 117 s) 
 
 **Other tools (disclosure):** three.js, urdf-loader, gltf-transform, Vite; OpenAI image generation (concept mockups and the logo only); Claude and Codex (coding assistants); for the demo video only: ElevenLabs (narration), HyperFrames/HeyGen (composition, music track, some sound effects), Freesound CC0 sound effects. In the game, all music and sound effects are synthesized in code.
 
-**Known limits:** interior shading, per-piece height and an automatic flip for inward-swinging doors are our additions on top of Lux3D output; the two "secret" spots per room are part of our room shell; generation is pre-computed (not live in the browser) by design; not yet tested on a low-end phone or from inside mainland China.
+**Known limits:** interior shading, per-piece height and an automatic flip for inward-swinging doors are our additions on top of Lux3D output; the two "secret" spots per room are part of our room shell; generation is pre-computed (not live in the browser) by design; not yet tested on a low-end phone or from inside mainland China; the demo video is real footage but three moments were set up to keep it short (the coin flip is set to land heads, the "last key" shot starts with the first keys already found and the clock advanced, and the exploded view pulls the drawers out further than they open in the game).
 
 ## After submitting (needs the owner's yes)
 

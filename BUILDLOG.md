@@ -9,9 +9,9 @@ Plain record of how Rummage was built, November 17–19 2026 (UTC). Times are ap
 
 ## The hard part first (Nov 18, 07:20–07:45)
 
-- Before any game code: three objects through text-to-3D → articulation → part split, on the real API.
+- Before any game code: three objects through text-to-3D and articulation, two of them also through part split, on the real API.
 - Articulation returned a ZIP with `urdf/robot.urdf` and one GLB per moving part, with correct joint types (drawers prismatic, lids and doors revolute). That settled the design: load the URDF directly, no hand rigging.
-- Three downloads failed: the CDN truncated large result files (for example 2.5 MB of 31.6 MB). Fix: re-download with curl and retries from the saved task id (`tools/retry_articulation.py`). Logged in `docs/generation-log.md`.
+- Three downloads failed: the CDN truncated large result files (for example 2.5 MB of 31.6 MB). Fix: resumable downloads with retries, keyed by the saved task id (`tools/lux3d_probe.py`); articulations that failed outright are re-run as new tasks with `tools/retry_articulation.py`. Logged in `docs/generation-log.md`.
 
 ## Building (07:45–14:30)
 
@@ -31,11 +31,12 @@ Plain record of how Rummage was built, November 17–19 2026 (UTC). Times are ap
 
 - The owner finished all 10 levels in under 20 minutes and reported that the key was "in the carpet 8 of 10 times".
 - Measured it: the placement weighted keys toward the smallest parts so strongly that one writing box held a key in **99%** of library runs, and the floorboard in up to 87% of night runs. Also every hint just said "look around here".
-- Fixed: equal odds per openable part, keys at varied positions inside a drawer, secret spots as an occasional surprise. Re-measured over 2,000 runs per level: worst spot 23% (`tools/key_stats.mjs`). Hints became clues in words; added bets on levels 5–10 and a reveal of missed keys on a loss. A second model (GPT-6.2 Astra via Codex) reviewed the plan and changed two decisions (no anti-repeat memory, portrait-first on phones).
+- Fixed: equal odds per openable part, keys at varied positions inside a drawer, secret spots as an occasional surprise. Re-measured over 2,000 runs per level: worst spot 23% (`tools/key_stats.mjs`); a later 1,000-run sample peaked at 24%. Hints became clues in words; added bets on levels 5–10 and a reveal of missed keys on a loss. A second model (GPT-6.2 Astra via Codex) reviewed the plan and changed two decisions (no anti-repeat memory, portrait-first on phones).
 
 ## Demo video (15:10–22:20)
 
 - The build machine has no GPU and its CPU was throttled by the host, so a screen recording stuttered. Built a frame-by-frame recorder: the game's clock is frozen and stepped 1/30 s per frame (`tools/video/capture.mjs`), and the game logs each sound it plays so the video's sound effects land on the right frames.
+- Honesty note: three moments in the video were set up to keep it short: the coin flip is set to land heads, the "last key" shot starts with the first keys already found and the clock advanced, and the exploded view pulls the drawers out further than they open in the game. Everything else is unscripted play recorded from the live build.
 - Three rounds of feedback: v1 rated 4/10 (weak music and sound, the game looked unfinished). v2 added real sound effects, one music track, a bigger UI with camera push-ins, and the title, map, challenge and phone screens. v3 added a builder-narrated script and an animated logo intro.
 
 ## Language (Nov 18, 22:40–23:30)

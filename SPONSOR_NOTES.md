@@ -12,7 +12,7 @@ What the Aholo Lux3D API really did while we built Rummage, with measured number
 
 | Call | n | Median | p95 |
 |---|---|---|---|
-| Text-to-3D (G1-Turbo) | 54 | 117 s | 153 s |
+| Text-to-3D (G1-Turbo) | 55 | 117 s | 153 s |
 | Articulation | 55 | 154 s | 207 s |
 | Part split | 2 | 108 s | n/a |
 
@@ -20,7 +20,7 @@ Credits per call, as charged to us: text-to-3D G1-Turbo 13, articulation 28, par
 
 ## Friction
 
-1. **live · Large result downloads were truncated.** 3 of our first downloads ended early ("got only 2,548,892 of 31,598,422 bytes"). The task had succeeded; only the file transfer failed. **Workaround:** resumable downloads with retries, keyed by task id (`tools/retry_articulation.py`). *Suggestion:* serve results with `Content-Length` and range support, or offer a smaller output option.
+1. **live · Large result downloads were truncated.** 3 of our first downloads ended early ("got only 2,548,892 of 31,598,422 bytes"). The task had succeeded; only the file transfer failed. **Workaround:** resumable downloads with retries, keyed by task id (`tools/lux3d_probe.py`). *Suggestion:* serve results with `Content-Length` and range support, or offer a smaller output option.
 2. **live · Result URLs expire after about 2 hours.** If a download fails late, the result is gone unless you re-fetch the task. *Suggestion:* document the expiry next to the URL, and let the task endpoint re-issue a fresh URL.
 3. **live · Articulation output is large:** about 30 MB per piece (uncompressed textures, full-detail meshes). **Workaround:** gltf-transform (WebP textures, meshopt) brings it to about 1.5 MB. *Suggestion:* an optional web-ready output.
 4. **live · Generated bodies are hollow shells.** Opening a door shows the wall behind the furniture. **Workaround:** a dark back-face copy of each body as its interior. *Suggestion:* an option to close or shade the interior cavity behind a moving part.

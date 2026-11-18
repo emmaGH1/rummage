@@ -1,4 +1,4 @@
-// Count where keys land over many seeds, per level (placement fairness check).
+// Count where keys land over many seeds, per level (placement fairness check). Prints the sample size first.
 // Usage: node tools/key_stats.mjs [baseUrl] [runs=200]
 import puppeteer from '../app/node_modules/puppeteer-core/lib/esm/puppeteer/puppeteer-core.js';
 const base = process.argv[2] || 'http://localhost:4173/';
@@ -23,5 +23,6 @@ const out = await page.evaluate(async (N) => {
   }
   return res;
 }, N);
+console.log(`runs per level: ${N} (seeds 1000..${1000 + N - 1}); % = share of runs in which that spot held a key`);
 for (const r of out) console.log(`L${r.level} keys=${r.keys} spots=${r.spots} spotsEverUsed=${r.used} | ${r.top.join(' | ')}`);
 await browser.close();
