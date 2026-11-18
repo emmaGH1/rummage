@@ -11,3 +11,7 @@ assets/raw/**/*.glb
 assets/raw/**/*.zip
 assets/raw/**/*.ply
 __pycache__/
+video/assets/footage/
+video/renders/
+video/assets/audio/*.wav
+video/.hyperframes/

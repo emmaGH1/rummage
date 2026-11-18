@@ -1,0 +1,39 @@
+<template>
+  <style>
+  @font-face { font-family: 'Lilita One'; src: url('assets/fonts/LilitaOne.woff2') format('woff2'); }
+  #root { position: absolute; inset: 0; font-family: 'Nunito', sans-serif; font-weight: 800; color: #14121f; }
+  .badge { position: absolute; font-family: 'Lilita One', sans-serif; font-weight: 400; color: #fff; background: #f0542a;
+    border: 5px solid #14121f; border-radius: 16px; padding: 4px 24px 10px; box-shadow: 6px 6px 0 #14121f;
+    -webkit-text-stroke: 2px #14121f; paint-order: stroke fill; font-size: 56px; white-space: nowrap; }
+  .card { position: absolute; background: #fff6e6; border: 6px solid #14121f; border-radius: 22px; box-shadow: 8px 8px 0 #14121f; }
+  .ink { -webkit-text-stroke: 3px #14121f; paint-order: stroke fill; }
+
+  .step-card { left: 150px; top: 250px; width: 700px; padding: 74px 40px 36px; }
+  .step-card .badge { left: -18px; top: -44px; font-size: 52px; }
+  .label { font-size: 30px; letter-spacing: 0.04em; text-transform: uppercase; color: #6b5f86; margin-bottom: 10px; }
+  .typed { font-size: 38px; line-height: 1.32; min-height: 250px; }
+  .chip { position: absolute; font-size: 30px; background: #14121f; color: #fff6e6; border-radius: 12px; padding: 8px 18px; }
+
+  #p-chip { left: 190px; top: 760px; }
+
+  </style>
+  <div id="root" data-composition-id="prompt" data-width="1920" data-height="1080">
+    <div id="p-card" class="card step-card clip" data-start="0.2" data-duration="7.7">
+      <div class="badge" id="p-badge">1 · Text to 3D</div>
+      <div class="label">Prompt</div>
+      <div id="p-text" class="typed" data-text="cartoon chest of drawers for a wizard&#x27;s study, three stacked drawers with round orange knobs, chunky simple shapes, flat mustard yellow paint, bold clean silhouette, single isolated object">cartoon chest of drawers for a wizard&#x27;s study, three stacked drawers with round orange knobs, chunky simple shapes, flat mustard yellow paint, bold clean silhouette, single isolated object</div>
+    </div>
+    <div id="p-chip" class="chip clip" data-start="5.6" data-duration="2.3">Lux3D G1-Turbo · generated in 118 s</div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo('#p-card', { opacity: 0, y: 40, rotation: -7 }, { opacity: 1, y: 0, rotation: -1.5, duration: 0.45, ease: 'back.out(1.6)' }, 0.2);
+    (() => { const el = document.querySelector('#p-text'); const txt = el.dataset.text; const o = { n: 0 };
+      tl.set(el, { textContent: '' }, 0);
+      tl.to(o, { n: txt.length, duration: txt.length / 38, ease: 'none', onUpdate: () => { el.textContent = txt.slice(0, Math.round(o.n)); } }, 0.7); })();
+    tl.fromTo('#p-chip', { opacity: 0, y: 40, rotation: -7 }, { opacity: 1, y: 0, rotation: -1, duration: 0.45, ease: 'back.out(1.6)' }, 5.6);
+    tl.to('#p-card', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 7.6);
+    tl.to('#p-chip', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 7.6);
+    window.__timelines["prompt"] = tl;
+  </script>
+</template>

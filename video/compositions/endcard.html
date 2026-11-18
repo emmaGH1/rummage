@@ -1,0 +1,40 @@
+<template>
+  <style>
+  @font-face { font-family: 'Lilita One'; src: url('assets/fonts/LilitaOne.woff2') format('woff2'); }
+  #root { position: absolute; inset: 0; font-family: 'Nunito', sans-serif; font-weight: 800; color: #14121f; }
+  .badge { position: absolute; font-family: 'Lilita One', sans-serif; font-weight: 400; color: #fff; background: #f0542a;
+    border: 5px solid #14121f; border-radius: 16px; padding: 4px 24px 10px; box-shadow: 6px 6px 0 #14121f;
+    -webkit-text-stroke: 2px #14121f; paint-order: stroke fill; font-size: 56px; white-space: nowrap; }
+  .card { position: absolute; background: #fff6e6; border: 6px solid #14121f; border-radius: 22px; box-shadow: 8px 8px 0 #14121f; }
+  .ink { -webkit-text-stroke: 3px #14121f; paint-order: stroke fill; }
+
+  #e-ground { position: absolute; inset: 0; background: #1d2a9e; }
+  #e-logo { position: absolute; left: 150px; top: 330px; width: 760px; }
+  #e-text { position: absolute; left: 1000px; top: 330px; width: 780px; }
+  #e-play { font-family: 'Lilita One', sans-serif; font-weight: 400; color: #fff; font-size: 64px; }
+  #e-url { margin-top: 8px; display: inline-block; font-family: 'Lilita One', sans-serif; font-weight: 400; font-size: 60px; white-space: nowrap; background: #ffc82e; border: 6px solid #14121f; border-radius: 18px; padding: 4px 26px 10px; box-shadow: 8px 8px 0 #14121f; }
+  #e-built { margin-top: 56px; color: #fff6e6; font-size: 44px; }
+  #e-built b { color: #ffc82e; }
+  #e-repo { margin-top: 14px; color: #fff6e6; font-size: 34px; opacity: 0.9; }
+
+  </style>
+  <div id="root" data-composition-id="endcard" data-width="1920" data-height="1080">
+    <div id="e-ground"></div>
+    <img id="e-logo" class="clip" src="assets/logo.png" data-start="0.1" data-duration="6.9" alt="Rummage">
+    <div id="e-text">
+      <div id="e-play" class="ink">Play free in your browser</div>
+      <div id="e-url" data-var-text="playUrl">rummage-game.vercel.app</div>
+      <div id="e-built">Built with <b>Aholo Lux3D</b></div>
+      <div id="e-repo" data-var-text="repoUrl">github.com/emmaGH1/rummage</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo('#e-logo', { opacity: 0, scale: 1.5, rotation: 5 }, { opacity: 1, scale: 1, rotation: -2, duration: 0.5, ease: 'back.out(1.8)' }, 0.1);
+    tl.fromTo('#e-play', { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.2 }, 0.6);
+    tl.fromTo('#e-url', { opacity: 0, y: 40, rotation: -6 }, { opacity: 1, y: 0, rotation: -2, duration: 0.45, ease: 'back.out(1.6)' }, 0.85);
+    tl.fromTo('#e-built', { opacity: 0 }, { opacity: 1, duration: 0.25 }, 1.4);
+    tl.fromTo('#e-repo', { opacity: 0 }, { opacity: 0.9, duration: 0.25 }, 1.7);
+    window.__timelines["endcard"] = tl;
+  </script>
+</template>

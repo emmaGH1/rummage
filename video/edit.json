@@ -1,0 +1,26 @@
+{
+  "duration": 90,
+  "clips": [
+    { "clip": "hook", "at": 0, "from": 0, "dur": 7 },
+    { "clip": "studio_turn", "at": 10.5, "from": 0, "dur": 8 },
+    { "clip": "studio_explode", "at": 18.5, "from": 0, "dur": 9 },
+    { "clip": "in_room", "at": 27.5, "from": 0, "dur": 6 },
+    { "clip": "room_pirate", "at": 33.5, "from": 0.1, "dur": 2.5 },
+    { "clip": "room_kitchen", "at": 36, "from": 0.1, "dur": 2.5 },
+    { "clip": "room_workshop", "at": 38.5, "from": 0.1, "dur": 2.5 },
+    { "clip": "room_wizard", "at": 41, "from": 0.1, "dur": 2.5 },
+    { "clip": "decoy", "at": 43.5, "from": 0.2, "dur": 4.3 },
+    { "clip": "padlock", "at": 47.8, "from": 0.2, "dur": 6.4 },
+    { "clip": "mimic", "at": 54.2, "from": 0.2, "dur": 3.4 },
+    { "clip": "night", "at": 57.6, "from": 0.5, "dur": 7.5 },
+    { "clip": "hint_bet", "at": 65.1, "from": 0.3, "dur": 8.7 },
+    { "clip": "hurry", "at": 73.8, "from": 0.2, "dur": 3.8 },
+    { "clip": "win", "at": 77.6, "from": 0.6, "dur": 5.4 }
+  ],
+  "music": [
+    { "song": "title", "from": 0, "to": 33.5 },
+    { "song": "workshop", "from": 33.5, "to": 83, "hurry": [[73.8, 77.6, 2]] },
+    { "song": "title", "from": 83, "to": 90 }
+  ],
+  "extraSounds": [[2.4, "drop"], [33.9, "tick"], [36.4, "tick"], [38.9, "tick"], [41.4, "tick"], [83.3, "key"]]
+}

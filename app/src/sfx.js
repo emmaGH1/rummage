@@ -44,6 +44,7 @@ export function toggleSfx() {
   return sfxMuted;
 }
 export function sfx(name) {
+  window.__sfxLog?.(name); // video capture hook (tools/video): records which sound played when
   if (sfxMuted) return;
   try { SOUNDS[name]?.(); } catch { /* audio unavailable */ }
 }
