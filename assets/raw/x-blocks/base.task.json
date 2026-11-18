@@ -1,0 +1,10 @@
+{
+ "bizId": "LUX_3D",
+ "status": 3,
+ "outputs": [
+  {
+   "content": "https://qhsmodel.kujiale.com/genesis3d/inference/20261118/053d49d58d6f47c3bf0af03961e82fba/results/tex_mesh/attempt-1/tex_mesh.glb"
+  }
+ ],
+ "taskId": 8301315
+}

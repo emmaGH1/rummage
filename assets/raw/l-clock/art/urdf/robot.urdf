@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot name="robot">
+  <link name="body">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/body.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="door_1">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/door_1.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <joint name="door_1_joint" type="revolute">
+    <parent link="body" />
+    <child link="door_1" />
+    <origin rpy="0 0 0" xyz="0.10869900 0.45258099 0.07171300" />
+    <axis xyz="-0.00090100 -1.00000000 0.00030200" />
+    <limit lower="-1.570000" upper="0.000000" effort="10" velocity="1" />
+  </joint>
+</robot>
