@@ -1,0 +1,550 @@
+{
+ "pieces": [
+  {
+   "slug": "p-barrel",
+   "prompt": "cartoon wooden barrel with iron bands and a round hinged lid on top, orange wood with dark bands, chunky simple shapes, single isolated object, lid closed",
+   "motion": "The round top lid rotates open upward about a hinge on one side of its rim, up to about 110 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "lid_top"
+   ],
+   "joints": [
+    {
+     "name": "lid_top_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      2.094395
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 108,
+     "task": "8292711"
+    },
+    "articulate": {
+     "seconds": 171,
+     "task": "8293005"
+    }
+   }
+  },
+  {
+   "slug": "p-bunk",
+   "prompt": "cartoon pirate ship bunk bed with two storage drawers underneath the mattress, dark red wood with yellow blanket, chunky simple shapes, single isolated object",
+   "motion": "The two storage drawers under the bed each slide straight out forward along the depth axis, about 60 percent of their depth.",
+   "style": "cartoon",
+   "parts": [
+    "base",
+    "drawer_left",
+    "drawer_right"
+   ],
+   "joints": [
+    {
+     "name": "drawer_left_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.002211
+     ]
+    },
+    {
+     "name": "drawer_right_joint",
+     "type": "prismatic",
+     "range": [
+      -0.330176,
+      0.005009
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 135,
+     "task": "8292947"
+    },
+    "articulate": {
+     "seconds": 162,
+     "task": "8293167"
+    }
+   }
+  },
+  {
+   "slug": "p-crate",
+   "prompt": "cartoon wooden cargo crate with a hinged lid and rope handles, light orange wood planks, chunky simple shapes, single isolated object, closed",
+   "motion": "The lid rotates open upward about the hinge along the back top edge, up to about 100 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "lid"
+   ],
+   "joints": [
+    {
+     "name": "lid_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.570796
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 144,
+     "task": "8292712"
+    },
+    "articulate": {
+     "seconds": 153,
+     "task": "8293136"
+    }
+   }
+  },
+  {
+   "slug": "p-cupboard",
+   "prompt": "cartoon small wall cupboard on legs with one round porthole-style door and a drawer below, teal paint with brass rim, chunky simple shapes, single isolated object",
+   "motion": "The round door swings open outward on a vertical hinge at its left edge, about 110 degrees, and the drawer below slides straight out forward about 60 percent of its depth.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "door",
+    "drawer"
+   ],
+   "joints": [
+    {
+     "name": "door_joint",
+     "type": "revolute",
+     "range": [
+      -1.57,
+      0.0
+     ]
+    },
+    {
+     "name": "drawer_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.119147
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 108,
+     "task": "8293001"
+    },
+    "articulate": {
+     "seconds": 154,
+     "task": "8293231"
+    }
+   }
+  },
+  {
+   "slug": "p-desk",
+   "prompt": "cartoon pirate captain's writing desk with three drawers in a row under the top, dark red paint with yellow trim and round brass knobs, chunky simple shapes, single isolated object",
+   "motion": "Each of the three drawers slides straight out forward along the depth axis, about 60 percent of its depth.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "drawer_left",
+    "drawer_middle",
+    "drawer_right"
+   ],
+   "joints": [
+    {
+     "name": "drawer_left_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.427006
+     ]
+    },
+    {
+     "name": "drawer_middle_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.426593
+     ]
+    },
+    {
+     "name": "drawer_right_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.426683
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 117,
+     "task": "8292946"
+    },
+    "articulate": {
+     "seconds": 145,
+     "task": "8294404"
+    }
+   }
+  },
+  {
+   "slug": "p-mapcabinet",
+   "prompt": "cartoon pirate map cabinet with four wide flat drawers stacked vertically, mustard yellow paint with red handles, chunky simple shapes, single isolated object",
+   "motion": "Each of the four flat drawers slides straight out forward along the depth axis, about 60 percent of its depth.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "drawer_1",
+    "drawer_2",
+    "drawer_3",
+    "drawer_4"
+   ],
+   "joints": [
+    {
+     "name": "drawer_1_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.187898433755
+     ]
+    },
+    {
+     "name": "drawer_2_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.179853
+     ]
+    },
+    {
+     "name": "drawer_3_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.179793
+     ]
+    },
+    {
+     "name": "drawer_4_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.180018
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 144,
+     "task": "8292710"
+    },
+    "articulate": {
+     "seconds": 172,
+     "task": "8294245"
+    }
+   }
+  },
+  {
+   "slug": "p-seachest",
+   "prompt": "cartoon pirate sea chest with a flat hinged lid, teal paint with rope handles and brass corners, chunky simple shapes, single isolated object, closed",
+   "motion": "The lid rotates open upward about the hinge along the back top edge, up to about 100 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "lid"
+   ],
+   "joints": [
+    {
+     "name": "lid_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.570796
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 135,
+     "task": "8292709"
+    },
+    "articulate": {
+     "seconds": 162,
+     "task": "8293154"
+    }
+   }
+  },
+  {
+   "slug": "p-wardrobe",
+   "prompt": "cartoon pirate captain's tall wardrobe with two front doors and an anchor emblem, teal paint with yellow trim, chunky simple shapes, single isolated object, doors closed",
+   "motion": "The two front doors swing open outward on vertical hinges at the left and right outer edges, about 110 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "door_left",
+    "door_right"
+   ],
+   "joints": [
+    {
+     "name": "door_left_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.570796
+     ]
+    },
+    {
+     "name": "door_right_joint",
+     "type": "revolute",
+     "range": [
+      -1.570796,
+      0.0
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 108,
+     "task": "8292708"
+    },
+    "articulate": {
+     "seconds": 144,
+     "task": "8293004"
+    }
+   }
+  },
+  {
+   "slug": "w-bookcase",
+   "prompt": "cartoon bookcase for a wizard's study, open shelves with a few colourful spell books on top and a closed two-door cupboard at the bottom, flat mustard yellow paint, chunky simple shapes, single isolated object",
+   "motion": "The two lower cupboard doors swing open outward on vertical hinges at their outer edges, about 110 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "door_left",
+    "door_right"
+   ],
+   "joints": [
+    {
+     "name": "door_left_joint",
+     "type": "revolute",
+     "range": [
+      -1.570796,
+      0.0
+     ]
+    },
+    {
+     "name": "door_right_joint",
+     "type": "revolute",
+     "range": [
+      -1.570796,
+      0.0
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 117,
+     "task": "8288961"
+    },
+    "articulate": {
+     "seconds": 135,
+     "task": "8289226"
+    }
+   }
+  },
+  {
+   "slug": "w-cabinet",
+   "prompt": "cartoon tall cupboard for a wizard's study with two front doors and round orange knobs, flat mustard yellow paint, chunky simple shapes, single isolated object, doors closed",
+   "motion": "The two front doors swing open outward on vertical hinges at the left and right outer edges, about 110 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "door_left",
+    "door_right"
+   ],
+   "joints": [
+    {
+     "name": "door_left_joint",
+     "type": "revolute",
+     "range": [
+      -1.570796,
+      0.0
+     ]
+    },
+    {
+     "name": "door_right_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.570796
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 90,
+     "task": "8288957"
+    },
+    "articulate": {
+     "seconds": 136,
+     "task": "8290501"
+    }
+   }
+  },
+  {
+   "slug": "w-chest",
+   "prompt": "cartoon treasure chest for a wizard's study, rounded lid, flat red-orange paint with yellow trim and a keyhole latch, chunky simple shapes, single isolated object, closed",
+   "motion": "The lid rotates open upward about the hinge along the back top edge, up to about 100 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "chest_body",
+    "chest_lid"
+   ],
+   "joints": [
+    {
+     "name": "chest_lid_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      2.094
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 153,
+     "task": "8289017"
+    },
+    "articulate": {
+     "seconds": 154,
+     "task": "8289376"
+    }
+   }
+  },
+  {
+   "slug": "w-desk",
+   "prompt": "cartoon wooden writing desk for a wizard's study with two drawers stacked on the right side, flat mustard yellow paint, round orange knobs, chunky simple shapes, single isolated object",
+   "motion": "The two drawers on the right side each slide straight out forward along the depth axis, about 60 percent of their depth.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "drawer_top",
+    "drawer_bottom"
+   ],
+   "joints": [
+    {
+     "name": "drawer_top_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.252477
+     ]
+    },
+    {
+     "name": "drawer_bottom_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.234324
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 153,
+     "task": "8288956"
+    },
+    "articulate": {
+     "seconds": 145,
+     "task": "8289322"
+    }
+   }
+  },
+  {
+   "slug": "w-drawers",
+   "prompt": "cartoon chest of drawers for a wizard's study, three stacked drawers with round orange knobs, chunky simple shapes, flat mustard yellow paint, bold clean silhouette, single isolated object",
+   "motion": "Each of the three drawers slides straight out forward along its depth axis, about 60 percent of its depth.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "drawer_top",
+    "drawer_middle",
+    "drawer_bottom"
+   ],
+   "joints": [
+    {
+     "name": "drawer_top_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.226368
+     ]
+    },
+    {
+     "name": "drawer_middle_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.226315
+     ]
+    },
+    {
+     "name": "drawer_bottom_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.225037
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 118,
+     "task": "8288959"
+    },
+    "articulate": {
+     "seconds": 145,
+     "task": "8290660"
+    }
+   }
+  },
+  {
+   "slug": "w-potion",
+   "prompt": "cartoon small potion cabinet for a wizard's study with one front door that has a star window and a drawer underneath, flat teal paint with orange knobs, chunky simple shapes, single isolated object",
+   "motion": "The front door swings open outward on a vertical hinge at its left edge, about 110 degrees, and the bottom drawer slides straight out forward about 60 percent of its depth.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "door_main",
+    "drawer_bottom"
+   ],
+   "joints": [
+    {
+     "name": "door_main_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.570796
+     ]
+    },
+    {
+     "name": "drawer_bottom_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.0832167330241
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 108,
+     "task": "8289189"
+    },
+    "articulate": {
+     "seconds": 198,
+     "task": "8289661"
+    }
+   }
+  }
+ ]
+}
