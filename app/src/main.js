@@ -819,7 +819,7 @@ function embedCheck() {
   const oversized = innerWidth > window.screen.width + 8 || innerHeight > window.screen.height + 8; // window.screen: `screen` is our own helper
   if (framed && (touch || oversized)) {
     const a = $('fullBtn');
-    a.href = location.origin + location.pathname;
+    a.href = 'https://rummage-game.vercel.app/';
     a.classList.remove('hidden');
     document.body.classList.add('embedded');
   }
