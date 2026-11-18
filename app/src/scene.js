@@ -53,14 +53,18 @@ export function inkify(root, { outline = true, thickness } = {}) {
 // --- loading Lux3D articulated models ---------------------------------------
 const gltf = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
 
-export function loadArticulated(slug) {
-  return new Promise((resolve, reject) => {
-    const loader = new URDFLoader();
-    loader.parseCollision = false;
-    loader.loadMeshCb = (path, _m, done) =>
-      gltf.load(path, (g) => done(g.scene), undefined, (e) => done(null, e));
-    loader.load(`${import.meta.env.BASE_URL}models/${slug}/robot.urdf`, resolve, undefined, reject);
-  });
+export async function loadArticulated(slug) {
+  // fetch first so a missing model fails fast (static hosts answer 404s with the HTML page)
+  const dir = `${import.meta.env.BASE_URL}models/${slug}/`;
+  const res = await fetch(`${dir}robot.urdf`);
+  const text = res.ok ? await res.text() : '';
+  if (!text.includes('<robot')) throw new Error(`no URDF for ${slug}`);
+  const loader = new URDFLoader();
+  loader.parseCollision = false;
+  loader.workingPath = dir;
+  loader.loadMeshCb = (path, _m, done) =>
+    gltf.load(path, (g) => done(g.scene), undefined, (e) => done(null, e));
+  return loader.parse(text);
 }
 
 // Wait until every mesh inside a URDF robot is attached (urdf-loader loads meshes async).
