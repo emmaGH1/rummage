@@ -256,6 +256,7 @@ function toggle(p, point) {
   }
   const opening = p.target === 0;
   p.target = opening ? p.open : 0;
+  p.piece.squash = performance.now();
   sfx(opening ? (p.joint.jointType === 'prismatic' ? 'slide' : 'creak') : 'shut');
   if (S.mode === 'hide') {
     S.lastOpened = opening ? p : world.parts.find((q) => q.target !== 0) || null;
@@ -575,12 +576,16 @@ function frame() {
   const dt = Math.min(clock.getDelta(), 0.05);
   const now = performance.now();
   if (world) {
+    // springy joints: a little overshoot on open, a firm snap on close
     for (const p of world.parts) {
-      if (p.value !== p.target) {
-        const step = (p.joint.jointType === 'prismatic' ? 1.6 : 4.2) * Math.abs(p.open) * dt;
-        p.value = Math.abs(p.target - p.value) <= step ? p.target : p.value + Math.sign(p.target - p.value) * step;
-        p.joint.setJointValue(p.value);
-      }
+      if (p.value === p.target && !p.vel) continue;
+      const k = p.target === 0 ? 260 : 140, damp = p.target === 0 ? 30 : 13;
+      p.vel = (p.vel || 0) + ((p.target - p.value) * k - p.vel * damp) * dt;
+      p.value += p.vel * dt;
+      if (Math.abs(p.target - p.value) < 1e-3 * Math.max(1, Math.abs(p.open)) && Math.abs(p.vel) < 1e-2) { p.value = p.target; p.vel = 0; }
+      // never swing past closed into the body
+      if (p.open > 0 ? p.value < 0 : p.value > 0) { p.value = 0; p.vel = 0; }
+      p.joint.setJointValue(p.value);
     }
     for (const it of items) {
       const f = it.part.open ? it.part.value / it.part.open : 0;
@@ -599,6 +604,7 @@ function frame() {
       let wob = 0, sc = 1;
       if (pc.shake && now - pc.shake < 400) wob = Math.sin((now - pc.shake) / 25) * 0.04;
       if (pc.sniff && now - pc.sniff < 1500) sc = 1 + Math.abs(Math.sin((now - pc.sniff) / 120)) * 0.05;
+      if (pc.squash && now - pc.squash < 260) sc *= 1 - Math.sin(((now - pc.squash) / 260) * Math.PI) * 0.025;
       pc.robot.rotation.y = wob;
       pc.robot.scale.setScalar(sc);
       if (pc.padlock && pc.unlockAnim) {
