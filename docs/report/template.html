@@ -130,7 +130,10 @@
 </div>
 <h3>Game design details</h3>
 <ul>
-  <li><b>Strategic hiding:</b> each spot is scored by size. Harder rooms favour small, sneaky spots for keys; decoys and mimics take the obvious big doors; keys never share a piece and vary across drawers, doors and lids.</li>
+  <li><b>Fair, unpredictable hiding:</b> every openable part is equally likely to hold a key, keys never share a piece and vary across drawers, doors and lids, and each key sits left, centre or right inside its compartment. Secret spots are a surprise (30% of night runs), not a habit. A placement test (<code>tools/key_stats.mjs</code>, 2,000 runs per level) checks no spot holds a key in more than 25% of runs. Playtesting caught the earlier version, which favoured the smallest parts so strongly that one writing box held a key in 99% of library runs.</li>
+  <li><b>Hints that help:</b> the first hint is a clue in words (“Something that slides out, near the bookcase, by the left wall.”); a second hint on the same key makes its piece glow. If the key is padlocked, the hint points to the brass key first.</li>
+  <li><b>Taking risks (levels 5–10):</b> a dice button offers bets while the clock runs: a safe trade (15 s for a glowing piece), a coin flip (a key jumps out, or half your remaining time is gone) and a long shot (1 in 4: every key; otherwise the clock drops to 15 s).</li>
+  <li><b>Learning from a loss:</b> when time runs out the lights come on, the missed keys rise out of their spots, and the camera visits each one before the result screen.</li>
   <li><b>Ten levels:</b> five Day levels introduce one mechanic each; five Night levels replay the rooms one notch harder, with more keys, more mimics, a flashlight and a guaranteed secret spot.</li>
   <li><b>Riddles:</b> in the library levels a clue names where the last key is hiding (“Where time swings back and forth.”), including the secret spots (“Underfoot, where one board creaks.”).</li>
   <li><b>Replayable:</b> keys are re-hidden from a seeded random generator every run; stars reward speed and few opens.</li>

@@ -275,3 +275,29 @@ body.embedded .center { padding-top: 64px; }
 @media (max-height: 520px) { .logo-big { width: min(340px, 50vw); } }
 @media (pointer: coarse), (max-width: 760px) { .hud-logo img { height: 40px; } }
 #title { background: radial-gradient(ellipse at 50% 48%, rgba(14, 12, 40, 0.62) 0%, rgba(14, 12, 40, 0.35) 45%, transparent 75%); }
+
+/* ---- hint clue, dice (risk) button, lose reveal ---- */
+.hud-actions { display: flex; gap: 10px; align-items: center; pointer-events: none; }
+.hud-actions .iconbtn { pointer-events: auto; }
+.iconbtn.bet { background: #fff; width: 58px; height: 58px; border-radius: 50%; font-size: 26px; }
+.iconbtn.bet:disabled { background: #bbb; cursor: not-allowed; }
+.clue { position: fixed; z-index: 3; left: 50%; bottom: 16px; transform: translateX(-50%) rotate(-1deg); max-width: min(520px, calc(100vw - 150px));
+  display: flex; gap: 8px; align-items: center; background: var(--yellow); border: 4px solid var(--ink); border-radius: 16px;
+  box-shadow: 4px 4px 0 var(--ink); padding: 8px 14px; font-weight: 800; font-size: 16px; line-height: 1.25; pointer-events: none; }
+.clue.pop { animation: cluePop 0.35s ease-out; }
+@keyframes cluePop { from { scale: 0.6; } to { scale: 1; } }
+.clue-icon { font-size: 20px; flex: none; }
+#hud.revealing .hud-row2, #hud.revealing #pauseBtn, #hud.revealing .clue, #hud.revealing .riddle { display: none; }
+#reveal { z-index: 4; pointer-events: none; }
+#reveal .card { pointer-events: auto; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; justify-content: center; }
+#reveal p { margin: 0; font-weight: 800; }
+#bet { z-index: 5; }
+.bet-sub { color: #fff; font-weight: 700; margin: 4px 0 10px; }
+.bet-list { display: flex; flex-direction: column; gap: 12px; width: min(440px, calc(100vw - 32px)); }
+.bet-opt { display: grid; grid-template-columns: 1fr auto; text-align: left; gap: 2px 10px; font-size: 20px; }
+.bet-opt .odds { font-size: 15px; align-self: center; background: var(--ink); color: #fff; border-radius: 10px; padding: 2px 8px; }
+.bet-opt .what { grid-column: 1 / -1; font-family: 'Nunito', system-ui, sans-serif; font-size: 14px; font-weight: 700; }
+@media (max-width: 600px), (max-height: 500px) {
+  .clue { font-size: 14px; bottom: 12px; left: 76px; right: 12px; transform: rotate(-1deg); max-width: none; }
+  .iconbtn.bet { width: 50px; height: 50px; font-size: 22px; }
+}

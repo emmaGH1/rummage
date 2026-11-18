@@ -84,9 +84,28 @@
           <div id="keys" class="keys"></div>
           <div id="opened" class="chip-stat">Opened 0</div>
         </div>
-        <button id="hintBtn" class="iconbtn hint" aria-label="Hint">?<span id="hintCount" class="count">3</span></button>
+        <div class="hud-actions">
+          <button id="betBtn" class="iconbtn bet hidden" aria-label="Take a risk">🎲<span id="betCount" class="count">1</span></button>
+          <button id="hintBtn" class="iconbtn hint" aria-label="Hint">?<span id="hintCount" class="count">3</span></button>
+        </div>
       </div>
+      <div id="clue" class="clue hidden"><span class="clue-icon">🔎</span><span id="clueText"></span></div>
       <button id="riddle" class="riddle hidden" aria-expanded="false"><span class="scroll">📜</span><span id="riddleText"></span></button>
+    </div>
+
+    <div id="reveal" class="bottom hidden">
+      <div class="card reveal-card">
+        <div class="badge small">Time's up!</div>
+        <p id="revealText">Here is the key you missed.</p>
+        <button id="revealBtn" class="btn primary">See results</button>
+      </div>
+    </div>
+
+    <div id="bet" class="center dim hidden">
+      <div class="badge">Feeling lucky?</div>
+      <p class="bet-sub">The clock keeps running while you choose.</p>
+      <div id="betList" class="bet-list"></div>
+      <button id="betClose" class="btn small">Not now</button>
     </div>
 
     <div id="pause" class="center dim hidden">

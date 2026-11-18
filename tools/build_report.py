@@ -56,7 +56,8 @@ timeline = [
     ("10:15–11:00", "Phone layouts, sound toggles, strategic key hiding, deadline effects, six songs, Lux3D keys and decoys, 30 extra small pieces (55 in all)."),
     ("11:45–12:45", "Full-screen play when embedded on a phone; performance pass (meshes simplified to ~25% triangles, shadows only while parts move); HUD v3 with riddle scroll."),
     ("12:50–13:20", "Secret spots in every room (swinging picture, loose floorboard); five Night levels with a flashlight; Day/Night manor map; new key logo; Vercel hosting."),
-    ("13:50–", "Fixed-seed test links for every level, riddle clues for secret spots, report refresh, demo video."),
+    ("13:50–14:30", "Fixed-seed test links for every level; riddle clues for secret spots; report refresh."),
+    ("14:30–", "Playtest feedback: keys clustered in a few tiny spots. Fair placement (max share 99% → 23%), clue hints, risk bets, a reveal of missed keys on a loss."),
 ]
 timeline_rows = "\n".join(f"<tr><td>{w}</td><td>{t}</td></tr>" for w, t in timeline)
 

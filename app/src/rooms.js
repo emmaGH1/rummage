@@ -166,3 +166,21 @@ export const TIME_OPTIONS = [
   { label: '5m', s: 300 },
   { label: '∞', s: 0 },
 ];
+
+// Display names for hint clues ("a drawer near the bookcase").
+export const NAMES = {
+  'w-bookcase': 'bookcase', 'w-cabinet': 'tall cabinet', 'w-drawers': 'chest of drawers', 'w-potion': 'potion cabinet',
+  'w-desk': 'desk', 'w-chest': 'treasure chest', 'w-spellbox': 'spell box', 'w-nightstand': 'nightstand', 'w-hatbox': 'hat box',
+  'p-wardrobe': 'wardrobe', 'p-mapcabinet': 'map cabinet', 'p-bunk': 'bunk bed', 'p-cupboard': 'cupboard', 'p-desk': 'captain\'s desk',
+  'p-seachest': 'sea chest', 'p-barrel': 'barrel', 'p-crate': 'crate', 'p-strongbox': 'strongbox', 'p-sidecabinet': 'side cabinet',
+  'p-jewelbox': 'jewel box',
+  'k-fridge': 'fridge', 'k-dresser': 'kitchen dresser', 'k-sink': 'sink', 'k-pantry': 'pantry', 'k-stove': 'stove', 'k-table': 'kitchen table',
+  'k-breadbin': 'bread bin', 'k-icebox': 'icebox', 'k-spicerack': 'spice rack', 'k-cookiejar': 'cookie jar', 'k-wallcupboard': 'wall cupboard',
+  't-toolcabinet': 'tool cabinet', 't-dollhouse': 'dollhouse', 't-workbench': 'workbench', 't-cubbies': 'cubbies', 't-toychest': 'toy chest',
+  't-jackbox': 'jack-in-the-box', 't-trunk': 'trunk', 't-paintbox': 'paint box', 't-musicbox': 'music box', 't-toolbox': 'toolbox',
+  't-lockers': 'lockers',
+  'l-bookcase': 'bookcase', 'l-clock': 'grandfather clock', 'l-cabinet': 'curio cabinet', 'l-catalog': 'card catalog', 'l-safe': 'safe',
+  'l-lectern': 'lectern', 'l-desk': 'librarian\'s desk', 'l-globe': 'globe', 'l-chest': 'scroll chest', 'l-sidetable': 'side table',
+  'l-pianobench': 'piano bench', 'l-mapchest': 'map chest', 'l-writingbox': 'writing box',
+  'secret-picture': 'picture', 'secret-floorboard': 'loose floorboard',
+};
