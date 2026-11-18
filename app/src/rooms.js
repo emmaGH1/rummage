@@ -71,6 +71,22 @@ export const ROOMS = {
     ],
     props: [],
   },
+  workshop: {
+    name: 'Toy workshop',
+    size: [6, 5.5],
+    theme: 'workshop',
+    items: [
+      { slug: 't-toolcabinet', x: -2.0, z: -2.3, rot: 0, h: 1.8 },
+      { slug: 't-dollhouse', x: -0.35, z: -2.25, rot: 0, h: 1.5 },
+      { slug: 't-workbench', x: 1.6, z: -2.2, rot: 0, h: 0.95 },
+      { slug: 't-cubbies', x: -2.55, z: -0.35, rot: 90, h: 0.9 },
+      { slug: 't-toychest', x: -2.4, z: 1.45, rot: 90, h: 0.65 },
+      { slug: 't-jackbox', x: 0.2, z: 0.3, rot: -10, h: 0.5 },
+      { slug: 't-trunk', x: 2.3, z: 0.55, rot: -40, h: 0.7 },
+      { slug: 't-paintbox', x: 0.95, z: 1.65, rot: 20, h: 0.35 },
+    ],
+    props: [],
+  },
 };
 
 // Comic Ink palettes per theme.
