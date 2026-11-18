@@ -8,7 +8,7 @@ function finish(g, thickness = 0.006) {
   return g;
 }
 
-export function makeKey(color = '#ffc82e', size = 1) {
+export function makeKey(color = '#ffc82e', size = 1.7) {
   const gold = toon(color);
   const k = new THREE.Group();
   const ring = new THREE.Mesh(new THREE.TorusGeometry(0.045, 0.016, 10, 24), gold);
@@ -30,7 +30,7 @@ export function makeKey(color = '#ffc82e', size = 1) {
 }
 
 // the small key that opens padlocked furniture
-export const makeLockKey = () => makeKey('#9fd8ff', 0.7);
+export const makeLockKey = () => makeKey('#9fd8ff', 1.2);
 
 export function makePadlock() {
   const g = new THREE.Group();
@@ -105,6 +105,7 @@ export const DECOY_LINES = {
 export const DECOY_TYPES = Object.keys(DECOYS);
 export function makeDecoy(type) {
   const g = DECOYS[type]();
+  g.scale.setScalar(1.6);
   g.userData.decoy = type;
   return finish(g);
 }
