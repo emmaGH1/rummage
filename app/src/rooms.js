@@ -61,6 +61,7 @@ export const ROOMS = {
       { slug: 'x-rope', x: -0.55, z: 1.7, rot: 0, h: 0.25 },
       { slug: 'x-parrotperch', x: 2.7, z: -0.85, rot: -30, h: 1.4 },
       { slug: 'x-treasurepile', x: -0.85, z: 0.9, rot: 20, h: 0.3 },
+      { slug: 'x-hangingfish', x: -1.1, z: -2.7, y: 1.75, rot: 0, h: 0.45 },
     ],
   },
   kitchen: {
@@ -88,6 +89,7 @@ export const ROOMS = {
       { slug: 'x-pumpkin', x: 1.3, z: 1.9, rot: 0, h: 0.45 },
       { slug: 'x-broomstick2', x: 2.6, z: -0.2, rot: -30, h: 0.9 },
       { slug: 'x-cat', x: -1.55, z: -1.6, rot: 40, h: 0.5 },
+      { slug: 'x-cakestand', x: 2.3, z: 0.85, y: 0.6, rot: 0, h: 0.4 },
     ],
   },
   workshop: {
@@ -113,6 +115,8 @@ export const ROOMS = {
       { slug: 'x-blocks', x: -0.6, z: -0.6, rot: 0, h: 0.35 },
       { slug: 'x-teddy', x: 1.2, z: -2.25, y: 0.95, rot: -10, h: 0.4 },
       { slug: 'x-easel', x: 2.6, z: -0.6, rot: -70, h: 1.3 },
+      { slug: 'x-trainset', x: 0.05, z: 1.7, rot: 30, h: 0.3 },
+      { slug: 'x-kite', x: -2.92, z: 0.7, y: 1.6, rot: 90, h: 0.8 },
     ],
   },
   library: {
@@ -142,6 +146,7 @@ export const ROOMS = {
       { slug: 'x-ladder', x: 3.15, z: -1.35, rot: -90, h: 2.3 },
       { slug: 'x-owl', x: 2.35, z: -2.55, y: 1.3, rot: -10, h: 0.45 },
       { slug: 'x-telescope', x: -2.4, z: 2.2, rot: 45, h: 1.5 },
+      { slug: 'x-plant2', x: 3.1, z: -2.6, rot: 0, h: 1.2 },
     ],
   },
 };
