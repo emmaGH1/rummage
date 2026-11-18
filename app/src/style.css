@@ -150,3 +150,34 @@ canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; c
   border: 3px solid var(--ink); border-radius: 999px; padding: 4px 12px; cursor: pointer; box-shadow: 3px 3px 0 var(--ink); }
 .badge { white-space: nowrap; }
 @media (max-width: 760px) { .hud-bottom { bottom: 12px; } .mute { bottom: 12px; font-size: 12px; } }
+
+/* ---- phones: nothing gets cut off ---- */
+.center { overflow-y: auto; justify-content: safe center; padding-top: max(16px, env(safe-area-inset-top)); padding-bottom: max(56px, env(safe-area-inset-bottom)); }
+@media (max-height: 520px) {
+  .badge.big { font-size: 40px; padding: 2px 18px 6px; }
+  .center { gap: 8px; }
+  .tag { font-size: 15px; }
+  .credit { display: none; }
+  .mapgrid { grid-template-columns: repeat(5, minmax(110px, 1fr)); gap: 8px; max-width: 96vw; }
+  .panel { min-height: 0; padding: 8px 10px; gap: 2px; }
+  .panel .num { font-size: 26px; }
+  .panel .pname { font-size: 15px; }
+  .panel .pstars { font-size: 15px; }
+  .panel .ptag { font-size: 11px; }
+  .card { padding: 8px 14px; }
+  .card.intro h2 { font-size: 24px; }
+  .rules { line-height: 1.4; margin-top: 4px; }
+  .stars { font-size: 36px; }
+  .num { font-size: 32px; }
+  .btn { font-size: 18px; padding: 6px 16px 8px; }
+  #hud .top { padding: 8px 12px; }
+  .pill.timer { font-size: 28px; min-width: 100px; }
+  .riddle { top: 70px; font-size: 13px; }
+}
+@media (max-width: 420px) {
+  .mapgrid { gap: 8px; }
+  .panel { min-height: 0; padding: 8px 10px; }
+  .panel .num { font-size: 28px; }
+  .panel .ptag { font-size: 11px; }
+  .badge.big { font-size: 46px; }
+}

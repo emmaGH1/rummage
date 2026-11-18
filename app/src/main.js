@@ -88,7 +88,7 @@ async function enterRoom(roomId) {
 function frameCamera() {
   const [w, d] = world.room.size;
   // portrait screens: step back so the whole room fits the narrow view
-  const k = camera.aspect < 1 ? Math.min(1.3, 0.6 / camera.aspect) : 1;
+  const k = camera.aspect < 1 ? Math.min(1.6, 0.72 / camera.aspect) : 1;
   camera.position.set(w * 1.0 * k, Math.max(w, d) * 0.95 * k, d * 1.3 * k);
   controls.target.set(0, 0.7, -0.2);
   controls.update();
@@ -635,7 +635,7 @@ function frame() {
   }
   if (S.mode === 'title' && world) {
     const a = now / 9000, [w, d] = world.room.size;
-    const k = camera.aspect < 1 ? Math.min(1.3, 0.6 / camera.aspect) : 1;
+    const k = camera.aspect < 1 ? Math.min(1.6, 0.72 / camera.aspect) : 1;
     controls.target.set(0, 0.7, -0.2);
     camera.position.set((w + Math.sin(a) * 1.5) * k, Math.max(w, d) * 0.95 * k, (d * 1.3 + Math.cos(a) * 1.5) * k);
   }
