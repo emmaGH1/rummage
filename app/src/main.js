@@ -4,7 +4,7 @@ import { ROOMS, TIME_OPTIONS } from './rooms.js';
 import { LEVELS, loadProgress, saveProgress, starsFor, rng, shuffle } from './levels.js';
 import { loadRoom, unloadRoom } from './world.js';
 import { makeKey, makeLockKey, makePadlock, makeDecoy, DECOY_TYPES, DECOY_LINES } from './items.js';
-import { sfx } from './sfx.js';
+import { sfx, toggleSfx, isSfxMuted } from './sfx.js';
 import { startMusic, toggleMute, isMuted } from './music.js';
 import './style.css';
 
@@ -288,13 +288,13 @@ function discover(p, where) {
   if (S.mode !== 'play') return;
   const run = S.run;
   const inside = items.filter((it) => it.part === p && !it.found);
-  if (!inside.length) { toast(EMPTY[(Math.random() * EMPTY.length) | 0], where); return; }
+  if (!inside.length) { sfx('empty'); toast(EMPTY[(Math.random() * EMPTY.length) | 0], where); return; }
   for (const it of inside) {
     it.found = true;
     it.pop = performance.now();
     if (it.kind === 'decoy') { sfx('nope'); toast(DECOY_LINES[it.obj.userData.decoy], where); }
     if (it.kind === 'lockkey') {
-      sfx('drop');
+      sfx('unlock');
       toast('A little brass key! Something unlocked…', where, 'good');
       world.pieces.forEach((pc) => {
         if (pc.locked) { pc.locked = false; pc.unlockAnim = performance.now(); }
@@ -648,8 +648,15 @@ function frame() {
 addEventListener('pointerdown', startMusic, { once: true });
 const muteBtn = $('muteBtn');
 const paintMute = () => (muteBtn.textContent = isMuted() ? 'Music: off' : 'Music: on');
-muteBtn.onclick = () => { startMusic(); toggleMute(); paintMute(); };
+muteBtn.onclick = (e) => { e.stopPropagation(); startMusic(); toggleMute(); paintMute(); };
 paintMute();
+const sfxBtn = $('sfxBtn');
+const paintSfx = () => (sfxBtn.textContent = isSfxMuted() ? 'Sounds: off' : 'Sounds: on');
+sfxBtn.onclick = (e) => { e.stopPropagation(); toggleSfx(); paintSfx(); sfx('click'); };
+paintSfx();
+// a click sound on every button, a soft tick on hover (mouse only)
+document.addEventListener('click', (e) => { if (e.target.closest('button') && !e.target.closest('.sound')) sfx('click'); }, true);
+document.addEventListener('pointerover', (e) => { if (e.pointerType === 'mouse' && e.target.closest('button:not(:disabled)')) sfx('hover'); });
 
 // ---------- boot ----------
 window.__rummage = { S, camera, controls, scene, get world() { return world; }, toggle, startLevel, beginPlay, items: () => items, levels: LEVELS, ROOMS };
