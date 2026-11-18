@@ -5,6 +5,7 @@ import { LEVELS, loadProgress, saveProgress, starsFor, rng, shuffle } from './le
 import { loadRoom, unloadRoom } from './world.js';
 import { makeKey, makeLockKey, makePadlock, makeDecoy, DECOY_TYPES, DECOY_LINES } from './items.js';
 import { sfx } from './sfx.js';
+import { startMusic, toggleMute, isMuted } from './music.js';
 import './style.css';
 
 // ---------- renderer / camera ----------
@@ -637,6 +638,13 @@ function frame() {
   renderer.render(scene, camera);
   requestAnimationFrame(frame);
 }
+
+// ---------- music ----------
+addEventListener('pointerdown', startMusic, { once: true });
+const muteBtn = $('muteBtn');
+const paintMute = () => (muteBtn.textContent = isMuted() ? 'Music: off' : 'Music: on');
+muteBtn.onclick = () => { startMusic(); toggleMute(); paintMute(); };
+paintMute();
 
 // ---------- boot ----------
 window.__rummage = { S, camera, controls, scene, get world() { return world; }, toggle, startLevel, beginPlay, items: () => items };
