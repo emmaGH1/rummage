@@ -87,6 +87,25 @@ export const ROOMS = {
     ],
     props: [],
   },
+  library: {
+    name: 'Grand library',
+    size: [7, 6],
+    theme: 'library',
+    // clue: shown as the riddle when this piece hides the last key (level 5)
+    items: [
+      { slug: 'l-bookcase', x: -2.3, z: -2.6, rot: 0, h: 2.3, clue: 'Behind glass, among a thousand stories.' },
+      { slug: 'l-clock', x: -0.85, z: -2.65, rot: 0, h: 2.2, clue: 'Where time swings back and forth.' },
+      { slug: 'l-cabinet', x: 0.65, z: -2.6, rot: 0, h: 2.0, clue: 'Among the curiosities, behind tall glass.' },
+      { slug: 'l-catalog', x: 2.35, z: -2.55, rot: 0, h: 1.3, clue: 'Filed away in a very small drawer.' },
+      { slug: 'l-safe', x: -3.05, z: -1.0, rot: 90, h: 0.7, clue: 'Guarded by a dial that never sleeps.' },
+      { slug: 'l-lectern', x: -2.85, z: 0.85, rot: 70, h: 1.2, clue: 'Beneath the place where the big book rests.' },
+      { slug: 'l-desk', x: 1.65, z: -0.3, rot: -20, h: 0.9, clue: 'Where the librarian writes her notes.' },
+      { slug: 'l-globe', x: -0.6, z: 0.15, rot: 0, h: 1.1, clue: 'Inside the whole wide world.' },
+      { slug: 'l-chest', x: 0.6, z: 1.9, rot: -10, h: 0.6, clue: 'Locked away with the scrolls of old.' },
+      { slug: 'l-sidetable', x: 2.8, z: 1.45, rot: -45, h: 0.65, clue: 'Small and round, by the reading chair.' },
+    ],
+    props: [],
+  },
 };
 
 // Comic Ink palettes per theme.
