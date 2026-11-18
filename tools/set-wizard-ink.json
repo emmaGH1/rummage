@@ -1,0 +1,30 @@
+{
+  "gen": {"style": "cartoon", "faceCount": 40000},
+  "skipSplit": true,
+  "objects": {
+    "w-drawers": {
+      "prompt": "cartoon chest of drawers for a wizard's study, three stacked drawers with round orange knobs, chunky simple shapes, flat mustard yellow paint, bold clean silhouette, single isolated object",
+      "motion": "Each of the three drawers slides straight out forward along its depth axis, about 60 percent of its depth."
+    },
+    "w-chest": {
+      "prompt": "cartoon treasure chest for a wizard's study, rounded lid, flat red-orange paint with yellow trim and a keyhole latch, chunky simple shapes, single isolated object, closed",
+      "motion": "The lid rotates open upward about the hinge along the back top edge, up to about 100 degrees."
+    },
+    "w-cabinet": {
+      "prompt": "cartoon tall cupboard for a wizard's study with two front doors and round orange knobs, flat mustard yellow paint, chunky simple shapes, single isolated object, doors closed",
+      "motion": "The two front doors swing open outward on vertical hinges at the left and right outer edges, about 110 degrees."
+    },
+    "w-desk": {
+      "prompt": "cartoon wooden writing desk for a wizard's study with two drawers stacked on the right side, flat mustard yellow paint, round orange knobs, chunky simple shapes, single isolated object",
+      "motion": "The two drawers on the right side each slide straight out forward along the depth axis, about 60 percent of their depth."
+    },
+    "w-bookcase": {
+      "prompt": "cartoon bookcase for a wizard's study, open shelves with a few colourful spell books on top and a closed two-door cupboard at the bottom, flat mustard yellow paint, chunky simple shapes, single isolated object",
+      "motion": "The two lower cupboard doors swing open outward on vertical hinges at their outer edges, about 110 degrees."
+    },
+    "w-potion": {
+      "prompt": "cartoon small potion cabinet for a wizard's study with one front door that has a star window and a drawer underneath, flat teal paint with orange knobs, chunky simple shapes, single isolated object",
+      "motion": "The front door swings open outward on a vertical hinge at its left edge, about 110 degrees, and the bottom drawer slides straight out forward about 60 percent of its depth."
+    }
+  }
+}
