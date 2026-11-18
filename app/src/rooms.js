@@ -24,6 +24,9 @@ export const ROOMS = {
       { slug: 'w-potion', x: -2.15, z: 1.35, rot: 90, h: 1.25 },
       { slug: 'w-desk', x: 1.75, z: 0.15, rot: -15, h: 0.85 },
       { slug: 'w-chest', x: 0.35, z: 0.85, rot: -20, h: 0.6 },
+      { slug: 'w-spellbox', x: 1.85, z: 0.1, y: 0.85, rot: -15, h: 0.22 },
+      { slug: 'w-nightstand', x: -0.05, z: -2.25, rot: 0, h: 0.7 },
+      { slug: 'w-hatbox', x: -2.1, z: -0.35, y: 1.05, rot: 30, h: 0.32 },
     ],
     props: [
       { slug: 'x-cauldron', x: -0.75, z: -0.85, rot: 20, h: 0.65 },
@@ -46,6 +49,9 @@ export const ROOMS = {
       { slug: 'p-seachest', x: 0.3, z: 0.4, rot: -10, h: 0.6 },
       { slug: 'p-barrel', x: 2.3, z: 0.2, rot: 0, h: 0.95 },
       { slug: 'p-crate', x: 1.4, z: 1.6, rot: 15, h: 0.6 },
+      { slug: 'p-strongbox', x: -2.35, z: 1.3, y: 1.0, rot: 90, h: 0.28 },
+      { slug: 'p-sidecabinet', x: 1.05, z: -1.15, rot: -20, h: 0.8 },
+      { slug: 'p-jewelbox', x: -0.2, z: -2.4, y: 1.2, rot: 10, h: 0.22 },
     ],
     props: [
       { slug: 'x-wheel', x: -1.05, z: -0.95, rot: 30, h: 1.15 },
@@ -68,6 +74,9 @@ export const ROOMS = {
       { slug: 'k-table', x: 0.45, z: 0.55, rot: 0, h: 0.8 },
       { slug: 'k-breadbin', x: 0.75, z: 0.45, y: 0.8, rot: -20, h: 0.32 },
       { slug: 'k-icebox', x: 2.3, z: 0.85, rot: -30, h: 0.6 },
+      { slug: 'k-spicerack', x: -2.5, z: 1.35, y: 1.1, rot: 90, h: 0.4 },
+      { slug: 'k-cookiejar', x: 0.1, z: 0.7, y: 0.8, rot: 15, h: 0.3 },
+      { slug: 'k-wallcupboard', x: 1.55, z: -2.5, y: 1.6, rot: 0, h: 0.6 },
     ],
     props: [
       { slug: 'x-pots', x: 1.55, z: -2.35, y: 1.0, rot: 0, h: 0.35 },
@@ -90,6 +99,9 @@ export const ROOMS = {
       { slug: 't-jackbox', x: 0.2, z: 0.3, rot: -10, h: 0.5 },
       { slug: 't-trunk', x: 2.3, z: 0.55, rot: -40, h: 0.7 },
       { slug: 't-paintbox', x: 0.95, z: 1.65, rot: 20, h: 0.35 },
+      { slug: 't-musicbox', x: 2.0, z: -2.15, y: 0.95, rot: -10, h: 0.22 },
+      { slug: 't-toolbox', x: 0.9, z: -1.0, rot: 25, h: 0.35 },
+      { slug: 't-lockers', x: 2.55, z: -1.55, rot: -90, h: 1.6 },
     ],
     props: [
       { slug: 'x-rockinghorse', x: -0.9, z: 1.5, rot: 40, h: 0.8 },
@@ -115,6 +127,9 @@ export const ROOMS = {
       { slug: 'l-globe', x: -0.6, z: 0.15, rot: 0, h: 1.1, clue: 'Inside the whole wide world.' },
       { slug: 'l-chest', x: 0.6, z: 1.9, rot: -10, h: 0.6, clue: 'Locked away with the scrolls of old.' },
       { slug: 'l-sidetable', x: 2.8, z: 1.45, rot: -45, h: 0.65, clue: 'Small and round, by the reading chair.' },
+      { slug: 'l-pianobench', x: -1.0, z: 1.35, rot: 10, h: 0.55 },
+      { slug: 'l-mapchest', x: -1.55, z: -1.3, rot: 0, h: 0.7 },
+      { slug: 'l-writingbox', x: 1.75, z: -0.35, y: 0.9, rot: -20, h: 0.24 },
     ],
     props: [
       { slug: 'x-armchair', x: 2.3, z: 2.25, rot: -60, h: 0.95 },
