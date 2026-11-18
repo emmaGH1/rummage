@@ -1,0 +1,38 @@
+{
+  "gen": {"style": "cartoon", "faceCount": 40000},
+  "skipSplit": true,
+  "objects": {
+    "k-fridge": {
+      "prompt": "cartoon old-fashioned rounded refrigerator with one big front door and a small freezer door on top, pastel mint green with chrome handles, chunky simple shapes, single isolated object, doors closed",
+      "motion": "The big lower front door and the small top freezer door each swing open outward on vertical hinges at their left edges, about 110 degrees."
+    },
+    "k-stove": {
+      "prompt": "cartoon cast iron kitchen stove with an oven door at the front that opens downward and a drawer below, purple paint with brass knobs, chunky simple shapes, single isolated object",
+      "motion": "The oven door rotates open downward about a hinge along its bottom edge, about 80 degrees, and the bottom drawer slides straight out forward about 60 percent of its depth."
+    },
+    "k-dresser": {
+      "prompt": "cartoon kitchen dresser cupboard with plates on open shelves on top, two doors below and two small drawers between, cream paint with green trim, chunky simple shapes, single isolated object",
+      "motion": "The two lower doors swing open outward on vertical hinges at their outer edges, about 110 degrees, and the two small drawers slide straight out forward about 60 percent of their depth."
+    },
+    "k-pantry": {
+      "prompt": "cartoon tall narrow pantry cupboard with one tall front door, purple paint with a crooked brass handle, slightly spooky, chunky simple shapes, single isolated object, door closed",
+      "motion": "The tall front door swings open outward on a vertical hinge at its left edge, about 110 degrees."
+    },
+    "k-sink": {
+      "prompt": "cartoon kitchen sink cabinet with a basin on top and two small doors underneath, mint green paint with chrome tap, chunky simple shapes, single isolated object",
+      "motion": "The two doors under the sink swing open outward on vertical hinges at their outer edges, about 110 degrees."
+    },
+    "k-breadbin": {
+      "prompt": "cartoon bread bin with a hinged front flap lid, red enamel with a cream BREAD label, chunky simple shapes, single isolated object, closed",
+      "motion": "The front flap lid rotates open upward about a hinge along the back top edge, about 100 degrees."
+    },
+    "k-table": {
+      "prompt": "cartoon farmhouse kitchen table with one wide drawer under the tabletop, honey yellow wood, chunky simple shapes, single isolated object",
+      "motion": "The drawer under the tabletop slides straight out forward along the depth axis, about 60 percent of its depth."
+    },
+    "k-icebox": {
+      "prompt": "cartoon wooden icebox chest with a top lid that lifts up, teal paint with brass latch, chunky simple shapes, single isolated object, closed",
+      "motion": "The top lid rotates open upward about the hinge along the back top edge, up to about 100 degrees."
+    }
+  }
+}
