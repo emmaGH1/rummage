@@ -1,0 +1,11 @@
+# node scripts/check-live.mjs  (2026-11-18 23:29 UTC)
+PASS  the live game answers (no login, no install)
+PASS  the ModelScope Studio page answers
+PASS  the live game ships 55 Lux3D pieces with 107 joints (60 revolute, 47 prismatic)
+PASS  every piece has a Lux3D articulation task id and a text-to-3D prompt and motion prompt
+PASS  every one of the 107 joints is read from Lux3D's own URDF on the live site (name and type match)
+PASS  each moving part is its own GLB from Lux3D (e.g. the wizard chest of drawers: body + 3 drawers)
+PASS  the public build makes no Lux3D API calls and holds no API key (pre-generated assets only)
+PASS  the live game is bilingual (English + Simplified Chinese)
+
+8 of 8 passed.

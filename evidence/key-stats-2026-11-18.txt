@@ -1,0 +1,10 @@
+L1 keys=1 spots=18 spotsEverUsed=16 | w-desk:drawer_top_joint 8% | w-bookcase:door_right_joint 8% | w-chest:chest_lid_joint 7% | w-cabinet:door_right_joint 7% | w-nightstand:top_drawer_joint 7%
+L2 keys=2 spots=22 spotsEverUsed=20 | p-strongbox:chest_lid_joint 12% | p-sidecabinet:door_left_joint 12% | p-cupboard:drawer_joint 11% | p-bunk:drawer_left_joint 11% | p-seachest:lid_joint 11%
+L3 keys=2 spots=25 spotsEverUsed=25 | k-cookiejar:lid_joint 15% | k-breadbin:lid_front_joint 14% | k-pantry:door_joint 14% | k-table:drawer_joint 13% | k-icebox:lid_joint 12%
+L4 keys=2 spots=25 spotsEverUsed=25 | t-paintbox:lid_joint 14% | t-toolbox:lid_joint 14% | t-trunk:lid_joint 13% | t-toychest:lid_joint 11% | t-musicbox:lid_joint 11%
+L5 keys=3 spots=27 spotsEverUsed=27 | l-globe:globe_top_half_joint 20% | l-chest:chest_lid_joint 18% | l-lectern:door_joint 17% | l-pianobench:lid_joint 16% | l-sidetable:drawer_joint 15%
+L6 keys=2 spots=18 spotsEverUsed=18 | secret:floorboard 16% | secret:picture 15% | w-chest:chest_lid_joint 14% | w-drawers:drawer_top_joint 12% | w-hatbox:lid_joint 11%
+L7 keys=2 spots=22 spotsEverUsed=22 | secret:floorboard 16% | secret:picture 15% | p-strongbox:chest_lid_joint 10% | p-wardrobe:door_left_joint 10% | p-cupboard:drawer_joint 10%
+L8 keys=3 spots=25 spotsEverUsed=25 | k-breadbin:lid_front_joint 21% | k-icebox:lid_joint 18% | k-pantry:door_joint 18% | k-cookiejar:lid_joint 18% | k-table:drawer_joint 17%
+L9 keys=3 spots=25 spotsEverUsed=25 | t-paintbox:lid_joint 18% | t-toolbox:lid_joint 17% | t-jackbox:lid_joint 16% | t-musicbox:lid_joint 15% | t-trunk:lid_joint 15%
+L10 keys=4 spots=27 spotsEverUsed=27 | l-globe:globe_top_half_joint 24% | l-lectern:door_joint 22% | l-chest:chest_lid_joint 21% | l-pianobench:lid_joint 20% | l-clock:door_1_joint 19%

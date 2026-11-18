@@ -8,11 +8,12 @@ Rubric: tools 30%, fun/engagement 25%, innovation 20%, completeness 20%, reach 5
 Sponsor intent (inference): compelling, reusable creative experiences enabled by Lux3D.
 
 ## Eligibility / delivery checklist
-- [ ] Registration and team confirmed (including solo).
-- [ ] Lux3D performs core work with evidence.
-- [ ] Rights to all input and output material established.
-- [ ] Submit before deadline.
-- [ ] Resolve X post requirement and reach scoring; no posting authorized.
+- [x] Registration and team confirmed (including solo). Evidence: registered and linked the Aholo account Nov 18 07:20 UTC; solo team; Lux3D credits used under that account.
+- [x] Lux3D performs core work with evidence. Evidence: `node scripts/check-live.mjs` → 8 of 8 ([evidence/check-live-2026-11-18.txt](../evidence/check-live-2026-11-18.txt)); every call in `docs/generation-log.md`.
+- [x] Rights to all input and output material established. Evidence: prompts are ours; Lux3D outputs used under the Aholo terms; fonts are OFL; sound effects CC0 or catalog-licensed (`video/assets/sfx/CREDITS.md`); all tools disclosed in the report.
+- [x] Demo link keeps working until Dec 31 2026. Evidence: static site, pre-generated assets, no API key in the bundle (check-live check 7).
+- [ ] Submit before deadline (Nov 19 11:00 UTC). Answers ready in `SUBMISSION.md`; the owner submits.
+- [ ] X post for reach (5%): needs the owner's yes; draft after submitting.
 
 ## Official rules — verified 2026-11-17 16:58 UTC
 Sources: https://www.aholo.ai/hackathon/registration , https://www.aholo.ai/hackathon/submission
