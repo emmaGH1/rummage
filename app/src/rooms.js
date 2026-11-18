@@ -67,7 +67,7 @@ export const ROOMS = {
       { slug: 'k-stove', x: -2.5, z: 1.35, rot: 90, h: 1.1 },
       { slug: 'k-table', x: 0.45, z: 0.55, rot: 0, h: 0.8 },
       { slug: 'k-breadbin', x: 0.75, z: 0.45, y: 0.8, rot: -20, h: 0.32 },
-      { slug: 'k-icebox', x: 2.25, z: 0.7, rot: -30, h: 0.75 },
+      { slug: 'k-icebox', x: 2.3, z: 0.85, rot: -30, h: 0.6 },
     ],
     props: [],
   },
@@ -77,7 +77,7 @@ export const ROOMS = {
 export const THEMES = {
   wizard: { bg: '#1d2a9e', wall: '#2f45d6', floor: '#2a3ab8', skirt: '#1b2580', rug: '#f0542a', rugBorder: '#fff6e6', decor: 'window' },
   pirate: { bg: '#0f5f6b', wall: '#16808f', floor: '#7a4a2a', skirt: '#0b4650', rug: '#c9302c', rugBorder: '#ffd23f', decor: 'porthole' },
-  kitchen: { bg: '#3b1f5c', wall: '#5b2f8a', floor: '#f2e6c9', skirt: '#2a1442', rug: '#2fbf71', rugBorder: '#14121f', decor: 'window' },
+  kitchen: { artZ: 1.3, bg: '#3b1f5c', wall: '#5b2f8a', floor: '#f2e6c9', skirt: '#2a1442', rug: '#2fbf71', rugBorder: '#14121f', decor: 'window' },
   workshop: { bg: '#a3341f', wall: '#e0562f', floor: '#f2c14e', skirt: '#7a2414', rug: '#2b59c3', rugBorder: '#fff6e6', decor: 'pegboard' },
   library: { bg: '#14213d', wall: '#7a1f2b', floor: '#3b2a1e', skirt: '#4a1018', rug: '#1f6f5c', rugBorder: '#f6c945', decor: 'window' },
 };

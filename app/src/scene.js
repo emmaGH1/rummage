@@ -139,14 +139,15 @@ export function buildRoom(scene, [w, d], t) {
       for (let j = 0; j < 5; j++) box(0.04, 0.04, 0.05, '#7a2414', 0.45 + i * 0.19, 1.62 + j * 0.19, dz + 0.01);
   }
   // left-wall picture frame with a bold zigzag (Comic Ink flourish)
-  box(0.04, 0.9, 1.1, '#14121f', -w / 2 + 0.02, 2.0, -0.6);
-  box(0.05, 0.8, 1.0, t.rugBorder, -w / 2 + 0.03, 2.0, -0.6);
+  const az = t.artZ ?? -0.6; // left-wall picture position, per theme so tall furniture doesn't cover it
+  box(0.04, 0.9, 1.1, '#14121f', -w / 2 + 0.02, 2.0, az);
+  box(0.05, 0.8, 1.0, t.rugBorder, -w / 2 + 0.03, 2.0, az);
   const zig = new THREE.Shape();
   zig.moveTo(-0.12, 0.3); zig.lineTo(0.1, 0.3); zig.lineTo(0, 0.05); zig.lineTo(0.14, 0.05);
   zig.lineTo(-0.1, -0.32); zig.lineTo(0, -0.05); zig.lineTo(-0.14, -0.05); zig.closePath();
   const bolt = new THREE.Mesh(new THREE.ExtrudeGeometry(zig, { depth: 0.02, bevelEnabled: false }), toon(t.rug));
   bolt.rotation.y = Math.PI / 2;
-  bolt.position.set(-w / 2 + 0.06, 2.0, -0.6);
+  bolt.position.set(-w / 2 + 0.06, 2.0, az);
   bolt.scale.setScalar(1.4);
   g.add(bolt);
   inkify(g, { thickness: 0.015 });
