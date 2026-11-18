@@ -115,11 +115,36 @@ export function buildRoom(scene, [w, d], t) {
   box(w + 0.14, H, 0.14, t.wall, -0.07, H / 2, -d / 2 - 0.07);
   // floorboards: thin ink lines across the floor
   for (let i = 1; i < Math.floor(d / 0.5); i++) box(w, 0.005, 0.015, t.skirt, 0, 0.002, -d / 2 + i * 0.5);
-  // rug with an inset border
+  // Secret hiding spots built into the room: each is a hinged group (wrap > pivot > meshes).
+  const secrets = [];
+  const hinged = (name, pivotPos, axis, open, spot) => {
+    const wrap = new THREE.Group();
+    wrap.position.copy(pivotPos);
+    const pivot = new THREE.Group();
+    wrap.add(pivot);
+    g.add(wrap);
+    secrets.push({ name, wrap, pivot, axis, open, spot });
+    return (sx, sy, sz, color, x, y, z) => {
+      const m = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz), toon(color));
+      m.position.set(x - pivotPos.x, y - pivotPos.y, z - pivotPos.z);
+      m.receiveShadow = true;
+      pivot.add(m);
+      return m;
+    };
+  };
+  // rug with an inset border (static)
   const rx = 0.3, rz = 0.6;
   box(w * 0.5, 0.02, d * 0.42, t.rug, rx, 0.01, rz);
   box(w * 0.43, 0.022, d * 0.35, t.rugBorder, rx, 0.011, rz);
   box(w * 0.41, 0.024, d * 0.33, t.rug, rx, 0.012, rz);
+  // a loose floorboard near the front: pops up on a hinge at its back edge, a dark gap below
+  const bx = t.boardX ?? -w / 2 + 1.15, bz = t.boardZ ?? d / 2 - 0.32;
+  box(0.86, 0.006, 0.24, '#0d0a1c', bx, 0.003, bz);
+  const board = hinged('floorboard', new THREE.Vector3(bx, 0.006, bz - 0.13), new THREE.Vector3(1, 0, 0), -1.05,
+    new THREE.Vector3(bx, 0.03, bz));
+  board(0.9, 0.035, 0.26, t.floor, bx, 0.02, bz);
+  board(0.9, 0.006, 0.02, t.skirt, bx, 0.04, bz + 0.12);
+  board(0.9, 0.006, 0.02, t.skirt, bx, 0.04, bz - 0.12);
   // skirting
   box(0.03, 0.2, d, t.skirt, -w / 2 + 0.015, 0.1, 0);
   box(w, 0.2, 0.03, t.skirt, 0, 0.1, -d / 2 + 0.015);
@@ -146,16 +171,23 @@ export function buildRoom(scene, [w, d], t) {
   }
   // left-wall picture frame with a bold zigzag (Comic Ink flourish)
   const az = t.artZ ?? -0.6; // left-wall picture position, per theme so tall furniture doesn't cover it
-  box(0.04, 0.9, 1.1, '#14121f', -w / 2 + 0.02, 2.0, az);
-  box(0.05, 0.8, 1.0, t.rugBorder, -w / 2 + 0.03, 2.0, az);
+  // a dark recess in the wall behind the picture, with a little ledge
+  box(0.01, 0.62, 0.78, '#0d0a1c', -w / 2 + 0.006, 2.0, az);
+  box(0.12, 0.03, 0.78, '#3a2a1a', -w / 2 + 0.06, 1.7, az);
+  // the picture swings out on a hinge at its back edge
+  const pic = hinged('picture', new THREE.Vector3(-w / 2 + 0.03, 2.0, az - 0.55), new THREE.Vector3(0, 1, 0), 1.3,
+    new THREE.Vector3(-w / 2 + 0.07, 1.74, az));
+  pic(0.04, 0.9, 1.1, '#14121f', -w / 2 + 0.03, 2.0, az);
+  pic(0.05, 0.8, 1.0, t.rugBorder, -w / 2 + 0.04, 2.0, az);
   const zig = new THREE.Shape();
   zig.moveTo(-0.12, 0.3); zig.lineTo(0.1, 0.3); zig.lineTo(0, 0.05); zig.lineTo(0.14, 0.05);
   zig.lineTo(-0.1, -0.32); zig.lineTo(0, -0.05); zig.lineTo(-0.14, -0.05); zig.closePath();
   const bolt = new THREE.Mesh(new THREE.ExtrudeGeometry(zig, { depth: 0.02, bevelEnabled: false }), toon(t.rug));
   bolt.rotation.y = Math.PI / 2;
-  bolt.position.set(-w / 2 + 0.06, 2.0, az);
+  bolt.position.set(-w / 2 + 0.07 - (-w / 2 + 0.03), 0, 0.55);
   bolt.scale.setScalar(1.4);
-  g.add(bolt);
+  secrets[1].pivot.add(bolt);
+  g.userData.secrets = secrets;
   inkify(g, { thickness: 0.015 });
   scene.add(g);
   return g;

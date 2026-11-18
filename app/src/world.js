@@ -105,6 +105,20 @@ export async function loadRoom(scene, roomId, onProgress = () => {}) {
     }),
   ]);
   // stable order so seeded runs reproduce
+  // secret spots in the room shell (lifting rug, swinging picture) behave like furniture parts
+  for (const sc of shell.userData.secrets || []) {
+    const key = sc.axis.x ? 'x' : sc.axis.y ? 'y' : 'z';
+    const joint = { name: sc.name, jointType: 'revolute', axis: sc.axis, parent: sc.wrap,
+      limit: { lower: Math.min(0, sc.open), upper: Math.max(0, sc.open) },
+      setJointValue: (v) => { sc.pivot.rotation[key] = v; } };
+    const piece = { slug: `secret-${sc.name}`, holder: sc.wrap, robot: sc.wrap, parts: [], secret: true };
+    const p = { id: `secret:${sc.name}`, slug: piece.slug, joint, link: sc.pivot, open: sc.open, value: 0, target: 0, piece, secret: sc };
+    sc.pivot.traverse((o) => o.isMesh && (o.userData.part = p));
+    piece.parts.push(p);
+    world.pieces.push(piece);
+    world.parts.push(p);
+    world.byId.set(p.id, p);
+  }
   world.parts.sort((a, b) => a.id.localeCompare(b.id));
   world.pieces.sort((a, b) => a.slug.localeCompare(b.slug));
   group.updateMatrixWorld(true);
