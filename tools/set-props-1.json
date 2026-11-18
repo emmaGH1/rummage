@@ -1,0 +1,16 @@
+{
+  "gen": {"style": "cartoon", "faceCount": 20000},
+  "skipSplit": true,
+  "objects": {
+    "x-cauldron": {"prompt": "cartoon black witch cauldron on three little legs with bubbling green potion, chunky simple shapes, single isolated object"},
+    "x-globe": {"prompt": "cartoon antique globe on a wooden stand, blue oceans and yellow continents, chunky simple shapes, single isolated object"},
+    "x-crystalball": {"prompt": "cartoon glowing purple crystal ball on a golden claw stand, chunky simple shapes, single isolated object"},
+    "x-plant": {"prompt": "cartoon potted plant with big round leaves in a terracotta pot, chunky simple shapes, single isolated object"},
+    "x-broom": {"prompt": "cartoon wizard broomstick standing upright, wooden handle and straw bristles, chunky simple shapes, single isolated object"},
+    "x-wheel": {"prompt": "cartoon ship steering wheel on a wooden post, red and yellow, chunky simple shapes, single isolated object"},
+    "x-cannon": {"prompt": "cartoon pirate cannon on a red wooden carriage with wheels, black barrel, chunky simple shapes, single isolated object"},
+    "x-anchor": {"prompt": "cartoon big iron anchor leaning, dark grey with a rope tied on, chunky simple shapes, single isolated object"},
+    "x-rope": {"prompt": "cartoon coil of thick ship rope on the floor, chunky simple shapes, single isolated object"},
+    "x-parrotperch": {"prompt": "cartoon wooden parrot perch stand with a colourful toy parrot on top, chunky simple shapes, single isolated object"}
+  }
+}

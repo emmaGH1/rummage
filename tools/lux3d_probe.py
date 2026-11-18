@@ -124,6 +124,8 @@ def run(slug):
                 {"prompt": o["prompt"], **GEN}, "base", o["prompt"])
     if not outs:
         return
+    if not o.get("motion"):
+        return  # prop: generation only, no articulation
     glb = next((u for u in outs if ".glb" in u.split("?")[0]), outs[0])
     step(slug, "articulation", "/global/lux3d/v1/articulation-animation/task/create",
          {"glbUrl": glb, "prompt": o["motion"]}, "articulated", o["motion"])
