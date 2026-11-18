@@ -34,9 +34,9 @@ export const ROOMS = {
     items: [
       { slug: 'p-wardrobe', x: -1.9, z: -2.4, rot: 0, h: 2.0 },
       { slug: 'p-mapcabinet', x: -0.2, z: -2.4, rot: 0, h: 1.2 },
-      { slug: 'p-bunk', x: 1.8, z: -2.1, rot: 0, h: 1.0 },
+      { slug: 'p-bunk', x: 1.85, z: -1.95, rot: 0, h: 1.6 },
       { slug: 'p-cupboard', x: -2.6, z: -0.6, rot: 90, h: 1.3 },
-      { slug: 'p-desk', x: -2.4, z: 1.3, rot: 90, h: 0.9 },
+      { slug: 'p-desk', x: -2.35, z: 1.3, rot: 90, h: 1.0 },
       { slug: 'p-seachest', x: 0.3, z: 0.4, rot: -10, h: 0.6 },
       { slug: 'p-barrel', x: 2.3, z: 0.2, rot: 0, h: 0.95 },
       { slug: 'p-crate', x: 1.4, z: 1.6, rot: 15, h: 0.6 },
