@@ -31,6 +31,36 @@
    }
   },
   {
+   "slug": "k-cookiejar",
+   "prompt": "cartoon ceramic cookie jar shaped like a fat cat with a hinged lid head, cream with orange spots, chunky simple shapes, single isolated object, closed",
+   "motion": "The lid on top rotates open upward about a hinge at the back of its rim, about 100 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "base",
+    "lid"
+   ],
+   "joints": [
+    {
+     "name": "lid_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.57
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 125,
+     "task": "8303943"
+    },
+    "articulate": {
+     "seconds": 153,
+     "task": "8304371"
+    }
+   }
+  },
+  {
    "slug": "k-dresser",
    "prompt": "cartoon kitchen dresser cupboard with plates on open shelves on top, two doors below and two small drawers between, cream paint with green trim, chunky simple shapes, single isolated object",
    "motion": "The two lower doors swing open outward on vertical hinges at their outer edges, about 110 degrees, and the two small drawers slide straight out forward about 60 percent of their depth.",
@@ -616,6 +646,88 @@
    }
   },
   {
+   "slug": "l-mapchest",
+   "prompt": "cartoon low map chest with three very wide flat drawers, honey wood with brass pulls, chunky simple shapes, single isolated object",
+   "motion": "Each of the three wide flat drawers slides straight out forward along the depth axis, about 60 percent of its depth.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "drawer_top",
+    "drawer_middle",
+    "drawer_bottom"
+   ],
+   "joints": [
+    {
+     "name": "drawer_top_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.289833
+     ]
+    },
+    {
+     "name": "drawer_middle_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.290029
+     ]
+    },
+    {
+     "name": "drawer_bottom_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.288939
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 90,
+     "task": "8304267"
+    },
+    "articulate": {
+     "seconds": 161,
+     "task": "8304405"
+    }
+   }
+  },
+  {
+   "slug": "l-pianobench",
+   "prompt": "cartoon piano bench with a hinged seat lid for sheet music storage, glossy black with gold legs, chunky simple shapes, single isolated object, closed",
+   "motion": "The seat lid rotates open upward about the hinge along the back edge, about 100 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "base",
+    "lid",
+    "wheel_1",
+    "wheel_2",
+    "wheel_3",
+    "wheel_4"
+   ],
+   "joints": [
+    {
+     "name": "lid_joint",
+     "type": "revolute",
+     "range": [
+      -1.57,
+      0.0
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 125,
+     "task": "8303941"
+    },
+    "articulate": {
+     "seconds": 197,
+     "task": "8304318"
+    }
+   }
+  },
+  {
    "slug": "l-safe",
    "prompt": "cartoon little iron safe with a round dial and a front door, dark green with gold dial, chunky simple shapes, single isolated object, closed",
    "motion": "The front door swings open outward on a vertical hinge at its left edge, about 110 degrees.",
@@ -672,6 +784,45 @@
     "articulate": {
      "seconds": 117,
      "task": "8300535"
+    }
+   }
+  },
+  {
+   "slug": "l-writingbox",
+   "prompt": "cartoon antique writing slope box with a slanted hinged lid and a small drawer at the front, mahogany with brass corners, chunky simple shapes, single isolated object, closed",
+   "motion": "The slanted lid rotates open upward about the hinge along the back edge, about 100 degrees, and the small front drawer slides straight out forward about 60 percent of its depth.",
+   "style": "cartoon",
+   "parts": [
+    "base",
+    "lid",
+    "drawer"
+   ],
+   "joints": [
+    {
+     "name": "lid_joint",
+     "type": "revolute",
+     "range": [
+      -2.094395,
+      0.0
+     ]
+    },
+    {
+     "name": "drawer_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.101963
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 99,
+     "task": "8304531"
+    },
+    "articulate": {
+     "seconds": 207,
+     "task": "8304667"
     }
    }
   },
@@ -858,6 +1009,36 @@
     "articulate": {
      "seconds": 145,
      "task": "8294404"
+    }
+   }
+  },
+  {
+   "slug": "p-jewelbox",
+   "prompt": "cartoon small treasure jewellery casket with a domed lid, gold with red gems, chunky simple shapes, single isolated object, closed",
+   "motion": "The domed lid rotates open upward about the hinge along the back top edge, about 100 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "lid"
+   ],
+   "joints": [
+    {
+     "name": "lid_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.57
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 99,
+     "task": "8304200"
+    },
+    "articulate": {
+     "seconds": 188,
+     "task": "8304453"
     }
    }
   },
@@ -1141,6 +1322,36 @@
     "articulate": {
      "seconds": 136,
      "task": "8298415"
+    }
+   }
+  },
+  {
+   "slug": "t-toolbox",
+   "prompt": "cartoon red metal toolbox with a hinged lid and a carry handle, chunky simple shapes, single isolated object, closed",
+   "motion": "The lid rotates open upward about the hinge along the back top edge, about 100 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "lid"
+   ],
+   "joints": [
+    {
+     "name": "lid_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      3.14159
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 126,
+     "task": "8304675"
+    },
+    "articulate": {
+     "seconds": 144,
+     "task": "8304890"
     }
    }
   },
@@ -1549,6 +1760,36 @@
     "articulate": {
      "seconds": 198,
      "task": "8289661"
+    }
+   }
+  },
+  {
+   "slug": "w-spellbox",
+   "prompt": "cartoon box shaped like a thick purple spell book with a hinged front cover lid and gold star clasp, chunky simple shapes, single isolated object, closed",
+   "motion": "The book-cover lid on top rotates open upward about the hinge along the spine edge, about 100 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "base",
+    "cover_front"
+   ],
+   "joints": [
+    {
+     "name": "cover_front_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      3.14
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 126,
+     "task": "8304110"
+    },
+    "articulate": {
+     "seconds": 189,
+     "task": "8304534"
     }
    }
   }
