@@ -93,10 +93,10 @@ export const ROOMS = {
     ],
     props: [
       { slug: 'x-rockinghorse', x: -0.9, z: 1.5, rot: 40, h: 0.8 },
-      { slug: 'x-robot', x: 2.55, z: -1.3, rot: -50, h: 0.8 },
+      { slug: 'x-robot', x: 2.5, z: 1.8, rot: -50, h: 0.75 },
       { slug: 'x-blocks', x: -0.6, z: -0.6, rot: 0, h: 0.35 },
       { slug: 'x-teddy', x: 1.2, z: -2.25, y: 0.95, rot: -10, h: 0.4 },
-      { slug: 'x-easel', x: 1.9, z: 1.9, rot: -45, h: 1.4 },
+      { slug: 'x-easel', x: 2.6, z: -0.6, rot: -70, h: 1.3 },
     ],
   },
   library: {
@@ -117,10 +117,10 @@ export const ROOMS = {
       { slug: 'l-sidetable', x: 2.8, z: 1.45, rot: -45, h: 0.65, clue: 'Small and round, by the reading chair.' },
     ],
     props: [
-      { slug: 'x-armchair', x: 2.2, z: 2.2, rot: -60, h: 1.1 },
+      { slug: 'x-armchair', x: 2.3, z: 2.25, rot: -60, h: 0.95 },
       { slug: 'x-bookstack', x: -1.7, z: 1.9, rot: 0, h: 0.7 },
       { slug: 'x-lamp', x: 3.05, z: 0.5, rot: 0, h: 1.8 },
-      { slug: 'x-ladder', x: -1.55, z: -2.4, rot: 0, h: 2.4 },
+      { slug: 'x-ladder', x: 3.15, z: -1.35, rot: -90, h: 2.3 },
       { slug: 'x-owl', x: 2.35, z: -2.55, y: 1.3, rot: -10, h: 0.45 },
     ],
   },
