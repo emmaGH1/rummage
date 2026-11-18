@@ -1,122 +1,122 @@
 [
  {
+  "id": "L00",
+  "text": "This is Rummage: a hide-and-seek game where every drawer, door and lid really opens.",
+  "start": 0.046,
+  "end": 5.84
+ },
+ {
   "id": "L01",
-  "text": "The wizard has lost the keys to his manor.",
-  "start": 0.058,
-  "end": 2.148
+  "text": "The wizard has lost his manor keys, and you have to rummage through his house to find them.",
+  "start": 6.246,
+  "end": 10.623
  },
  {
   "id": "L02",
-  "text": "Lucky for you, in this manor, everything opens.",
-  "start": 2.659,
-  "end": 5.271
- },
- {
-  "id": "L03",
-  "text": "Every drawer, door and lid you're about to see was made with Aholo Lux3D, starting from a single sentence.",
-  "start": 5.596,
-  "end": 12.504
+  "text": "We built it for the Aholo hackathon, and the whole game rests on one Lux3D feature: articulation.",
+  "start": 11.169,
+  "end": 18.436
  },
  {
   "id": "L04",
-  "text": "We describe a piece of furniture, and in about two minutes, Lux3D builds the 3D model.",
-  "start": 12.945,
-  "end": 18.553
+  "text": "For each piece, we wrote a single sentence. Lux3D turned it into a 3D model in about two minutes.",
+  "start": 19.307,
+  "end": 26.343
  },
  {
   "id": "L05",
-  "text": "Then Lux3D's articulation splits it into parts, and gives every drawer a real joint: which way it slides, and how far.",
-  "start": 19.064,
-  "end": 26.494
+  "text": "Then articulation split the model into parts, and gave each one a real joint: a drawer that slides, a door that swings, a lid that lifts.",
+  "start": 26.749,
+  "end": 36.362
  },
  {
   "id": "L06",
-  "text": "In the game, every one of those joints becomes a hiding spot.",
-  "start": 27.098,
-  "end": 30.337
+  "text": "We never rigged a hinge by hand. Every joint became a hiding spot.",
+  "start": 36.71,
+  "end": 41.238
  },
  {
   "id": "L07",
-  "text": "Fifty-five pieces. A hundred and seven working joints. Ten levels, by day and by night.",
-  "start": 30.616,
-  "end": 35.991
+  "text": "Fifty-five pieces, a hundred and seven joints, five rooms, and ten levels.",
+  "start": 41.703,
+  "end": 47.357
  },
  {
   "id": "L08",
-  "text": "Pick a room from the manor map, and start rummaging.",
-  "start": 36.432,
-  "end": 39.126
+  "text": "On top of that, we designed the game:",
+  "start": 47.995,
+  "end": 50.329
  },
  {
   "id": "L09",
-  "text": "Some spots hold decoys.",
-  "start": 39.822,
-  "end": 41.471
+  "text": "decoys to fool you,",
+  "start": 50.735,
+  "end": 52.024
  },
  {
   "id": "L10",
-  "text": "Some are padlocked, so find the little brass key first.",
-  "start": 41.75,
-  "end": 45.105
+  "text": "padlocks that need a brass key,",
+  "start": 52.372,
+  "end": 54.16
  },
  {
   "id": "L11",
-  "text": "And some lids bite back!",
-  "start": 45.279,
-  "end": 46.812
+  "text": "and lids that bite!",
+  "start": 54.381,
+  "end": 55.577
  },
  {
   "id": "L12",
-  "text": "At night, the lights go out. Search by flashlight, and check the walls: keys hide behind paintings, and under floorboards.",
-  "start": 47.253,
-  "end": 54.474
+  "text": "At night the lights go out, and keys can hide behind paintings and under floorboards.",
+  "start": 56.447,
+  "end": 61.846
  },
  {
   "id": "L13",
-  "text": "Stuck? A hint gives you a clue, not an arrow. Ask again, and the hiding spot glows.",
-  "start": 54.915,
-  "end": 61.034
+  "text": "Hints give clues, instead of arrows.",
+  "start": 62.392,
+  "end": 65.341
  },
  {
   "id": "L14",
-  "text": "Feeling lucky? Bet your time on a coin flip.",
-  "start": 61.545,
-  "end": 64.679
+  "text": "And if you feel lucky, you can bet your time on a coin flip.",
+  "start": 65.805,
+  "end": 69.311
  },
  {
   "id": "L15",
   "text": "Beat the clock,",
-  "start": 65.283,
-  "end": 66.142
+  "start": 69.857,
+  "end": 70.763
  },
  {
   "id": "L16",
   "text": "find every key, and earn your stars.",
-  "start": 66.293,
-  "end": 68.487
+  "start": 71.111,
+  "end": 73.851
  },
  {
   "id": "L17",
-  "text": "Run out of time, and the manor shows you exactly what you missed.",
-  "start": 68.998,
-  "end": 72.342
+  "text": "Run out of time, and the manor shows you what you missed.",
+  "start": 74.49,
+  "end": 77.891
  },
  {
   "id": "L18",
-  "text": "Then hide a key yourself, and send the challenge to a friend.",
-  "start": 72.853,
-  "end": 76.174
+  "text": "You can hide a key yourself, and send the challenge to a friend.",
+  "start": 78.437,
+  "end": 82.361
  },
  {
   "id": "L19",
-  "text": "Rummage runs in any browser, on desktop or on your phone.",
-  "start": 76.87,
-  "end": 80.388
+  "text": "It all runs in the browser, on desktop or phone, with nothing to install.",
+  "start": 82.907,
+  "end": 88.642
  },
  {
   "id": "L20",
-  "text": "Rummage. Built with Aholo Lux3D. Play free, right now.",
-  "start": 80.667,
-  "end": 85.624
+  "text": "That's Rummage, built with Aholo Lux3D. Come and play!",
+  "start": 89.188,
+  "end": 93.855
  }
 ]

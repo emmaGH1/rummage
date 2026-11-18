@@ -20,43 +20,45 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="120.1" data-width="1920" data-height="1080">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="127.5" data-width="1920" data-height="1080">
       <div id="ground"></div>
       <!-- real gameplay, recorded frame by frame from the live build (tools/video/capture.mjs); timeline in tools/video/build_edit.py -->
-      <video id="v-title" class="clip footage" style="z-index:1" src="assets/footage/title.mp4" data-start="0.0" data-duration="4.6" data-media-start="0.5" data-track-index="1" muted playsinline></video>
-      <video id="v-hook" class="clip footage" style="z-index:1" src="assets/footage/hook.mp4" data-start="4.6" data-duration="4.4" data-media-start="0.3" data-track-index="1" muted playsinline></video>
-      <video id="v-inroom" class="clip footage" style="z-index:1" src="assets/footage/in_room.mp4" data-start="32.8" data-duration="5.2" data-media-start="0.0" data-track-index="1" muted playsinline></video>
-      <video id="v-n1" class="clip footage" style="z-index:1" src="assets/footage/room_pirate.mp4" data-start="38.0" data-duration="2.6" data-media-start="0.1" data-track-index="1" muted playsinline></video>
-      <video id="v-n2" class="clip footage" style="z-index:1" src="assets/footage/room_kitchen.mp4" data-start="40.6" data-duration="2.6" data-media-start="0.1" data-track-index="1" muted playsinline></video>
-      <video id="v-n3" class="clip footage" style="z-index:1" src="assets/footage/room_workshop.mp4" data-start="43.2" data-duration="2.6" data-media-start="0.1" data-track-index="1" muted playsinline></video>
-      <video id="v-map" class="clip footage" style="z-index:1" src="assets/footage/map.mp4" data-start="45.8" data-duration="5.6" data-media-start="0.3" data-track-index="1" muted playsinline></video>
-      <video id="v-decoy" class="clip footage" style="z-index:1" src="assets/footage/decoy.mp4" data-start="51.4" data-duration="3.6" data-media-start="0.6" data-track-index="1" muted playsinline></video>
-      <video id="v-padlock" class="clip footage" style="z-index:1" src="assets/footage/padlock.mp4" data-start="55.0" data-duration="6.5" data-media-start="0.5" data-track-index="1" muted playsinline></video>
-      <video id="v-mimic" class="clip footage" style="z-index:1" src="assets/footage/mimic.mp4" data-start="61.5" data-duration="3.2" data-media-start="0.6" data-track-index="1" muted playsinline></video>
-      <video id="v-night" class="clip footage" style="z-index:1" src="assets/footage/night.mp4" data-start="64.7" data-duration="8.0" data-media-start="0.3" data-track-index="1" muted playsinline></video>
-      <video id="v-hint" class="clip footage" style="z-index:1" src="assets/footage/hint.mp4" data-start="72.7" data-duration="6.6" data-media-start="0.3" data-track-index="1" muted playsinline></video>
-      <video id="v-bet" class="clip footage" style="z-index:1" src="assets/footage/bet.mp4" data-start="79.3" data-duration="6.2" data-media-start="0.2" data-track-index="1" muted playsinline></video>
-      <video id="v-hurry" class="clip footage" style="z-index:1" src="assets/footage/hurry.mp4" data-start="85.5" data-duration="3.0" data-media-start="0.2" data-track-index="1" muted playsinline></video>
-      <video id="v-win" class="clip footage" style="z-index:1" src="assets/footage/win.mp4" data-start="88.5" data-duration="5.4" data-media-start="0.6" data-track-index="1" muted playsinline></video>
-      <video id="v-reveal" class="clip footage" style="z-index:1" src="assets/footage/reveal.mp4" data-start="93.9" data-duration="6.8" data-media-start="1.0" data-track-index="1" muted playsinline></video>
-      <video id="v-hide" class="clip footage" style="z-index:1" src="assets/footage/hide.mp4" data-start="100.7" data-duration="6.4" data-media-start="0.6" data-track-index="1" muted playsinline></video>
+      <video id="v-intro" class="clip footage" style="z-index:1" src="assets/footage/studio_explode.mp4" data-start="0.0" data-duration="7.4" data-media-start="0.2" data-track-index="1" muted playsinline></video>
+      <video id="v-title" class="clip footage" style="z-index:1" src="assets/footage/title.mp4" data-start="7.4" data-duration="5.0" data-media-start="0.5" data-track-index="1" muted playsinline></video>
+      <video id="v-hook" class="clip footage" style="z-index:1" src="assets/footage/hook.mp4" data-start="12.4" data-duration="4.4" data-media-start="0.3" data-track-index="1" muted playsinline></video>
+      <video id="v-inroom" class="clip footage" style="z-index:1" src="assets/footage/in_room.mp4" data-start="39.2" data-duration="5.6" data-media-start="0.0" data-track-index="1" muted playsinline></video>
+      <video id="v-n1" class="clip footage" style="z-index:1" src="assets/footage/room_pirate.mp4" data-start="44.8" data-duration="2.6" data-media-start="0.1" data-track-index="1" muted playsinline></video>
+      <video id="v-n2" class="clip footage" style="z-index:1" src="assets/footage/room_kitchen.mp4" data-start="47.4" data-duration="2.6" data-media-start="0.1" data-track-index="1" muted playsinline></video>
+      <video id="v-n3" class="clip footage" style="z-index:1" src="assets/footage/room_workshop.mp4" data-start="50.0" data-duration="2.6" data-media-start="0.1" data-track-index="1" muted playsinline></video>
+      <video id="v-map" class="clip footage" style="z-index:1" src="assets/footage/map.mp4" data-start="52.6" data-duration="5.6" data-media-start="0.3" data-track-index="1" muted playsinline></video>
+      <video id="v-decoy" class="clip footage" style="z-index:1" src="assets/footage/decoy.mp4" data-start="58.2" data-duration="3.6" data-media-start="0.6" data-track-index="1" muted playsinline></video>
+      <video id="v-padlock" class="clip footage" style="z-index:1" src="assets/footage/padlock.mp4" data-start="61.8" data-duration="6.5" data-media-start="0.5" data-track-index="1" muted playsinline></video>
+      <video id="v-mimic" class="clip footage" style="z-index:1" src="assets/footage/mimic.mp4" data-start="68.3" data-duration="3.2" data-media-start="0.6" data-track-index="1" muted playsinline></video>
+      <video id="v-night" class="clip footage" style="z-index:1" src="assets/footage/night.mp4" data-start="71.5" data-duration="8.0" data-media-start="0.3" data-track-index="1" muted playsinline></video>
+      <video id="v-hint" class="clip footage" style="z-index:1" src="assets/footage/hint.mp4" data-start="79.5" data-duration="6.6" data-media-start="0.3" data-track-index="1" muted playsinline></video>
+      <video id="v-bet" class="clip footage" style="z-index:1" src="assets/footage/bet.mp4" data-start="86.1" data-duration="6.2" data-media-start="0.2" data-track-index="1" muted playsinline></video>
+      <video id="v-hurry" class="clip footage" style="z-index:1" src="assets/footage/hurry.mp4" data-start="92.3" data-duration="3.0" data-media-start="0.2" data-track-index="1" muted playsinline></video>
+      <video id="v-win" class="clip footage" style="z-index:1" src="assets/footage/win.mp4" data-start="95.3" data-duration="5.4" data-media-start="0.6" data-track-index="1" muted playsinline></video>
+      <video id="v-reveal" class="clip footage" style="z-index:1" src="assets/footage/reveal.mp4" data-start="100.7" data-duration="6.8" data-media-start="1.0" data-track-index="1" muted playsinline></video>
+      <video id="v-hide" class="clip footage" style="z-index:1" src="assets/footage/hide.mp4" data-start="107.5" data-duration="6.4" data-media-start="0.6" data-track-index="1" muted playsinline></video>
       <div class="shift">
-        <video id="v-prompt" class="clip footage" src="assets/footage/studio_turn.mp4" data-start="16.8" data-duration="7.0" data-media-start="0.0" data-track-index="1" muted playsinline></video>
-        <video id="v-joints" class="clip footage" src="assets/footage/studio_explode.mp4" data-start="23.8" data-duration="9.0" data-media-start="0.0" data-track-index="1" muted playsinline></video>
+        <video id="v-prompt" class="clip footage" src="assets/footage/studio_turn.mp4" data-start="21.6" data-duration="7.6" data-media-start="0.0" data-track-index="1" muted playsinline></video>
+        <video id="v-joints" class="clip footage" src="assets/footage/studio_explode.mp4" data-start="29.2" data-duration="10.0" data-media-start="0.0" data-track-index="1" muted playsinline></video>
       </div>
-      <div id="phone-frame" class="clip" data-start="107.1" data-duration="6.0" data-track-index="3"></div>
-      <video id="v-phone" class="clip" src="assets/footage/phone.mp4" data-start="107.1" data-duration="6.0" data-media-start="0.3" data-track-index="4" muted playsinline></video>
+      <div id="phone-frame" class="clip" data-start="113.9" data-duration="6.6" data-track-index="3"></div>
+      <video id="v-phone" class="clip" src="assets/footage/phone.mp4" data-start="113.9" data-duration="6.6" data-media-start="0.3" data-track-index="4" muted playsinline></video>
 
-      <div id="card" data-composition-id="card" data-composition-src="compositions/card.html" data-start="9.0" data-duration="7.8" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:5"></div>
-      <div id="prompt" data-composition-id="prompt" data-composition-src="compositions/prompt.html" data-start="16.8" data-duration="7.0" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:5"></div>
-      <div id="joints" data-composition-id="joints" data-composition-src="compositions/joints.html" data-start="23.8" data-duration="9.0" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:5"></div>
-      <div id="numbers" data-composition-id="numbers" data-composition-src="compositions/numbers.html" data-start="38.0" data-duration="7.8" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:5"></div>
-      <div id="play" data-composition-id="play" data-composition-src="compositions/play.html" data-start="45.8" data-duration="61.3" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:5"></div>
-      <div id="phone" data-composition-id="phone" data-composition-src="compositions/phone.html" data-start="107.1" data-duration="6.0" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:2"></div>
-      <div id="endcard" data-composition-id="endcard" data-composition-src="compositions/endcard.html" data-start="113.1" data-duration="7.0" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:5"></div>
+      <div id="intro" data-composition-id="intro" data-composition-src="compositions/intro.html" data-start="0.0" data-duration="7.4" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:5"></div>
+      <div id="card" data-composition-id="card" data-composition-src="compositions/card.html" data-start="16.8" data-duration="4.8" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:5"></div>
+      <div id="prompt" data-composition-id="prompt" data-composition-src="compositions/prompt.html" data-start="21.6" data-duration="7.6" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:5"></div>
+      <div id="joints" data-composition-id="joints" data-composition-src="compositions/joints.html" data-start="29.2" data-duration="10.0" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:5"></div>
+      <div id="numbers" data-composition-id="numbers" data-composition-src="compositions/numbers.html" data-start="44.8" data-duration="7.8" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:5"></div>
+      <div id="play" data-composition-id="play" data-composition-src="compositions/play.html" data-start="52.6" data-duration="61.3" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:5"></div>
+      <div id="phone" data-composition-id="phone" data-composition-src="compositions/phone.html" data-start="113.9" data-duration="6.6" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:2"></div>
+      <div id="endcard" data-composition-id="endcard" data-composition-src="compositions/endcard.html" data-start="120.5" data-duration="7.0" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:5"></div>
 
       <!-- voice (ElevenLabs), music ducked under it, and sound effects at the moments the game played them -->
-      <audio id="master" class="clip" src="assets/audio/master.wav" data-start="0" data-duration="120.1" data-track-index="5" data-volume="1"></audio>
+      <audio id="master" class="clip" src="assets/audio/master.wav" data-start="0" data-duration="127.5" data-track-index="5" data-volume="1"></audio>
     </div>
     <script>
       window.__timelines["main"] = gsap.timeline({ paused: true });

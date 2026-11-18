@@ -20,27 +20,28 @@ VO = {l["id"]: l for l in json.loads((A / "voice/vo_lines.json").read_text())}
 
 # ---- the timeline: (id, footage shot or None, media start, duration, voice line, voice offset) ----
 SEGS = [
-    ("title", "title", 0.5, 4.6, "L01", 0.6),
-    ("hook", "hook", 0.3, 4.4, "L02", 0.5),
-    ("card", None, 0, 7.8, "L03", 0.4),
-    ("prompt", "studio_turn", 0.0, 7.0, "L04", 0.5),
-    ("joints", "studio_explode", 0.0, 9.0, "L05", 0.4),
-    ("inroom", "in_room", 0.0, 5.2, "L06", 0.6),
-    ("n1", "room_pirate", 0.1, 2.6, "L07", 0.5),
+    ("intro", "studio_explode", 0.2, 7.4, "L00", 0.9),
+    ("title", "title", 0.5, 5.0, "L01", 0.4),
+    ("hook", "hook", 0.3, 4.4, "L02", 0.4),
+    ("card", None, 0, 4.8, None, 0),
+    ("prompt", "studio_turn", 0.0, 7.6, "L04", 0.3),
+    ("joints", "studio_explode", 0.0, 10.0, "L05", 0.25),
+    ("inroom", "in_room", 0.0, 5.6, "L06", 0.4),
+    ("n1", "room_pirate", 0.1, 2.6, "L07", 0.4),
     ("n2", "room_kitchen", 0.1, 2.6, None, 0),
     ("n3", "room_workshop", 0.1, 2.6, None, 0),
     ("map", "map", 0.3, 5.6, "L08", 0.4),
-    ("decoy", "decoy", 0.6, 3.6, "L09", 0.4),
-    ("padlock", "padlock", 0.5, 6.5, "L10", 0.3),
+    ("decoy", "decoy", 0.6, 3.6, "L09", 0.5),
+    ("padlock", "padlock", 0.5, 6.5, "L10", 0.4),
     ("mimic", "mimic", 0.6, 3.2, "L11", 0.3),
-    ("night", "night", 0.3, 8.0, "L12", 0.4),
-    ("hint", "hint", 0.3, 6.6, "L13", 0.3),
+    ("night", "night", 0.3, 8.0, "L12", 0.5),
+    ("hint", "hint", 0.3, 6.6, "L13", 0.4),
     ("bet", "bet", 0.2, 6.2, "L14", 0.3),
     ("hurry", "hurry", 0.2, 3.0, "L15", 0.4),
     ("win", "win", 0.6, 5.4, "L16", 0.2),
     ("reveal", "reveal", 1.0, 6.8, "L17", 1.2),
     ("hide", "hide", 0.6, 6.4, "L18", 0.4),
-    ("phone", "phone", 0.3, 6.0, "L19", 0.5),
+    ("phone", "phone", 0.3, 6.6, "L19", 0.4),
     ("end", None, 0, 7.0, "L20", 0.6),
 ]
 t = 0.0
@@ -68,9 +69,12 @@ for s in TL:
         opts = MAP[name]; rot[name] = rot.get(name, -1) + 1
         events.append((round(s["at"] + tt - s["frm"], 3), opts[rot[name] % len(opts)]))
 # whooshes on the seams between sections, a sparkle on the Lux3D card, the coin, the clock
-for sid in ["card", "prompt", "n1", "map", "hide", "phone", "end"]:
+for sid in ["title", "card", "prompt", "n1", "map", "hide", "phone", "end"]:
     events.append((max(0, at[sid] - 0.25), "whoosh"))
-events += [(at["card"] + 0.5, "sparkle"), (at["bet"] + 2.2, "coinflip"), (at["hurry"] + 0.1, "clock"), (at["end"] + 0.3, "sparkle")]
+# the studio shots move their drawers directly (no game sound was logged): drawer slides where they open
+events += [(at["intro"] + 0.6, "drawer-a"), (at["joints"] + 0.8, "drawer-a"), (at["joints"] + 1.3, "drawer-b"), (at["joints"] + 1.8, "drawer-a"),
+           (at["joints"] + 4.4, "whoosh")]
+events += [(at["intro"] + 1.35, "whoosh"), (at["intro"] + 1.5, "pop"), (at["intro"] + 2.3, "sparkle"), (at["card"] + 0.3, "sparkle"), (at["bet"] + 2.2, "coinflip"), (at["hurry"] + 0.1, "clock"), (at["end"] + 0.3, "sparkle")]
 events.sort()
 
 def run(cmd):
@@ -150,6 +154,28 @@ TYPE = """    (() => {{ const el = document.querySelector('{s}'); const txt = el
 scenes = {}
 seg = {s["id"]: s for s in TL}
 
+# intro: the chest's top drawer opens and the logo bursts out of it -----------------
+scenes["intro"] = scene("intro", """
+  #i-dim { position: absolute; inset: 0; background: #1d2a9e; }
+  #i-logo { position: absolute; left: 510px; top: 150px; width: 900px; height: 498px; }
+  #i-logo img { width: 100%; height: 100%; }
+  #i-shine { position: absolute; inset: 0; -webkit-mask-image: url('assets/logo.png'); mask-image: url('assets/logo.png');
+    -webkit-mask-size: 100% 100%; mask-size: 100% 100%; overflow: hidden; }
+  #i-band { position: absolute; top: -20%; left: 0; width: 34%; height: 140%;
+    background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0) 100%); }
+  #i-tag { position: absolute; left: 0; right: 0; top: 700px; text-align: center; font-family: 'Lilita One', sans-serif; font-weight: 400;
+    color: #fff; font-size: 68px; }
+  #i-tag .w { display: inline-block; margin: 0 0.12em; } #i-tag .hl { color: #ffc82e; }
+""", """    <div id="i-dim"></div>
+    <div id="i-logo"><img src="assets/logo.png" alt="Rummage"><div id="i-shine"><div id="i-band"></div></div></div>
+    <div id="i-tag" class="ink"><span class="w">A</span><span class="w">hide-and-seek</span><span class="w">game</span><span class="w">where</span><span class="w hl">everything</span><span class="w hl">opens</span></div>""",
+"""    tl.fromTo('#i-dim', { opacity: 0 }, { opacity: 0.72, duration: 0.3, ease: 'power2.inOut' }, 1.3);
+    tl.fromTo('#i-logo', { opacity: 0, scale: 0.08, rotation: -14, y: 260 }, { opacity: 1, scale: 1, rotation: -2, y: 0, duration: 0.75, ease: 'back.out(1.7)' }, 1.35);
+    tl.fromTo('#i-logo', { scaleX: 1, scaleY: 1 }, { scaleX: 1.06, scaleY: 0.94, duration: 0.09, ease: 'power2.out', yoyo: true, repeat: 1 }, 2.1);
+    tl.fromTo('#i-band', { xPercent: -120 }, { xPercent: 320, duration: 0.75, ease: 'power2.inOut' }, 2.35);
+    tl.fromTo('#i-tag .w', { opacity: 0, filter: 'blur(6px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.13, stagger: 0.1 }, 2.9);
+    tl.to('#i-logo, #i-tag', { opacity: 0, filter: 'blur(8px)', duration: 0.22, ease: 'power3.in' }, 7.1);""")
+
 # Lux3D card (blue ground) -------------------------------------------------
 scenes["card"] = scene("card", """
   #c-ground { position: absolute; inset: 0; background: #1d2a9e; }
@@ -159,9 +185,9 @@ scenes["card"] = scene("card", """
 """, """    <div id="c-ground"></div>
     <div id="q1" class="q ink"><span class="w">Every</span><span class="w">drawer,</span><span class="w">door</span><span class="w">and</span><span class="w">lid:</span><br><span class="w">made</span><span class="w">with</span><span class="w hl">Aholo</span><span class="w hl">Lux3D</span></div>
     <div id="q2" class="q ink"><span class="w">starting</span><span class="w">from</span><span class="w">one</span><span class="w">sentence.</span></div>""",
-"""    tl.fromTo('#q1 .w', { opacity: 0, filter: 'blur(6px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.13, stagger: 0.12 }, 0.4);
-    tl.fromTo('#q2 .w', { opacity: 0, filter: 'blur(6px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.13, stagger: 0.14 }, 4.6);
-    tl.to('#q1, #q2', { opacity: 0, filter: 'blur(6px)', duration: 0.2 }, 7.5);""")
+"""    tl.fromTo('#q1 .w', { opacity: 0, filter: 'blur(6px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.13, stagger: 0.09 }, 0.15);
+    tl.fromTo('#q2 .w', { opacity: 0, filter: 'blur(6px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.13, stagger: 0.1 }, 1.9);
+    tl.to('#q1, #q2', { opacity: 0, filter: 'blur(6px)', duration: 0.2 }, 4.55);""")
 
 # step cards -----------------------------------------------------------------
 step_css = """
@@ -287,6 +313,7 @@ hosts = []
 def host(cid, start, dur, z=5):
     hosts.append(f'      <div id="{cid}" data-composition-id="{cid}" data-composition-src="compositions/{cid}.html" data-start="{start}" data-duration="{dur}" '
                  f'data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:{z}"></div>')
+host("intro", at["intro"], seg["intro"]["dur"])
 host("card", at["card"], seg["card"]["dur"])
 host("prompt", at["prompt"], seg["prompt"]["dur"])
 host("joints", at["joints"], seg["joints"]["dur"])
