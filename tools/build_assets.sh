@@ -17,5 +17,7 @@ for slug in "$@"; do
   done
   # free disk: the unzipped raw meshes can always be re-extracted from articulated.zip
   rm -rf "$src/meshes"
+  # disk is tight on this machine: the compressed copy in the app plus the task record/URDF are kept as provenance
+  rm -f "$zip"
   du -sh "$dst" | sed "s|$ROOT/||"
 done
