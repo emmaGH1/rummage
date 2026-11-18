@@ -1,0 +1,12 @@
+# secrets
+.env
+*.key
+# deps / builds
+node_modules/
+dist/
+# vendor docs snapshot
+vendor-docs/
+# raw Lux3D downloads are large; we keep task records + URDFs, the app keeps compressed models
+assets/raw/**/*.glb
+assets/raw/**/*.zip
+assets/raw/**/*.ply
