@@ -37,6 +37,42 @@ export const LEVELS = [
     par: { time: 150, opens: 14 },
     tip: 'Read the riddle: it names where one key is hiding.',
   },
+  // ---- Night: the same rooms with the lights out. Search with a flashlight; one key is always in a secret spot. ----
+  {
+    id: 6, room: 'wizard', night: true, name: 'Study by Candlelight',
+    blurb: 'Lights out. Your flashlight is all you have, and something is hidden outside the furniture.',
+    keys: 2, time: 150, hints: 2, decoys: 3, locks: 0, mimics: 0,
+    par: { time: 80, opens: 9 },
+    tip: 'Night: aim the flashlight. Check the walls and the floor too.',
+  },
+  {
+    id: 7, room: 'pirate', night: true, name: 'Midnight Mutiny',
+    blurb: 'The cabin creaks in the dark. Not every hiding spot is a drawer.',
+    keys: 2, time: 160, hints: 1, decoys: 5, locks: 0, mimics: 1,
+    par: { time: 95, opens: 11 },
+    tip: 'Night: decoys glint in the dark too.',
+  },
+  {
+    id: 8, room: 'kitchen', night: true, name: 'The Kitchen After Dark',
+    blurb: 'Padlocks, mimics and a secret. Find the brass key in the dark.',
+    keys: 3, time: 200, hints: 1, decoys: 4, locks: 1, mimics: 2,
+    par: { time: 120, opens: 14 },
+    tip: 'Night: the brass key opens the padlock.',
+  },
+  {
+    id: 9, room: 'workshop', night: true, name: 'Toys That Bite',
+    blurb: 'Three mimics are waiting in the dark workshop.',
+    keys: 3, time: 200, hints: 1, decoys: 4, locks: 1, mimics: 3,
+    par: { time: 130, opens: 15 },
+    tip: 'Night: three mimics. Choose carefully.',
+  },
+  {
+    id: 10, room: 'library', night: true, name: 'The Last Key',
+    blurb: 'The final rummage: four keys, a riddle, and a library swallowed by darkness.',
+    keys: 4, time: 260, hints: 1, decoys: 5, locks: 1, mimics: 2, riddle: true,
+    par: { time: 170, opens: 18 },
+    tip: 'Night: the riddle and your flashlight. Good luck.',
+  },
 ];
 
 const KEY = 'rummage.progress.v1';
