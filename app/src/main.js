@@ -532,18 +532,23 @@ function showMap() {
   history.replaceState(null, '', location.pathname);
   const grid = $('mapGrid');
   grid.innerHTML = '';
-  for (const l of LEVELS) {
-    const ready = !!ROOMS[l.room];
-    const open = ready && l.id <= progress.unlocked;
-    const b = document.createElement('button');
-    b.className = `panel theme-${l.room}${open ? '' : ' locked'}`;
-    const stars = progress.stars[l.id] || 0;
-    b.innerHTML = `<span class="num">${l.id}</span><span class="pname">${l.name}</span>
-      <span class="pstars">${'★'.repeat(stars)}<i>${'★'.repeat(3 - stars)}</i></span>
-      <span class="ptag">${ready ? (open ? l.tip : 'Locked: finish the room before') : 'Under construction'}</span>`;
-    b.disabled = !open;
-    b.onclick = () => { sfx('tick'); startLevel(l); };
-    grid.appendChild(b);
+  for (const [label, night] of [['☀ Day', false], ['🌙 Night', true]]) {
+    const h = document.createElement('div');
+    h.className = `map-row-label${night ? ' night' : ''}`;
+    h.textContent = label;
+    grid.appendChild(h);
+    for (const l of LEVELS.filter((x) => !!x.night === night)) {
+      const open = !!ROOMS[l.room] && l.id <= progress.unlocked;
+      const b = document.createElement('button');
+      b.className = `panel theme-${l.room}${night ? ' night' : ''}${open ? '' : ' locked'}`;
+      const stars = progress.stars[l.id] || 0;
+      b.title = open ? l.tip : 'Finish the previous room to unlock';
+      b.innerHTML = `<span class="num">${l.id}</span><span class="pname">${l.name}</span>
+        <span class="pstars">${open ? '★'.repeat(stars) + `<i>${'★'.repeat(3 - stars)}</i>` : '🔒'}</span>`;
+      b.disabled = !open;
+      b.onclick = () => { sfx('tick'); startLevel(l); };
+      grid.appendChild(b);
+    }
   }
   screen('map');
 }

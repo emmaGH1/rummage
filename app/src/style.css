@@ -241,3 +241,29 @@ body.embedded .center { padding-top: 64px; }
   .hud-logo img { height: 36px; }
   .chip-stat { font-size: 14px; }
 }
+
+/* ---- map v2: day row + night row ---- */
+.mapgrid { grid-template-columns: repeat(5, minmax(120px, 170px)); gap: 12px; max-width: 920px; }
+.map-row-label { grid-column: 1 / -1; font-family: 'Lilita One', sans-serif; font-size: 20px; color: #fff; text-align: left;
+  text-shadow: 2px 2px 0 var(--ink); margin-top: 4px; }
+.panel { min-height: 118px; padding: 10px 12px; gap: 4px; }
+.panel .num { font-size: 32px; }
+.panel .pname { font-size: 17px; line-height: 1.1; }
+.panel .pstars { font-size: 18px; margin-top: auto; }
+.panel.night { --panel: #15122b !important; box-shadow: 6px 6px 0 var(--ink), inset 0 0 0 3px rgba(255, 216, 74, 0.35); }
+.panel.night::after { content: ''; position: absolute; right: -20px; top: -20px; width: 70px; height: 70px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 241, 196, 0.55), transparent 70%); pointer-events: none; }
+@media (max-width: 760px) {
+  .mapgrid { grid-template-columns: repeat(5, 1fr); gap: 6px; max-width: 100%; }
+  .panel { min-height: 0; padding: 6px 6px 8px; border-width: 3px; border-radius: 12px; box-shadow: 3px 3px 0 var(--ink); }
+  .panel .num { font-size: 22px; }
+  .panel .pname { font-size: 11px; }
+  .panel .pstars { font-size: 11px; letter-spacing: 0; }
+  .map-row-label { font-size: 16px; }
+  .sound { top: auto; bottom: 12px; }
+  body.embedded .sound { top: 60px; bottom: auto; right: 10px; }
+}
+@media (max-height: 520px) {
+  .mapgrid { grid-template-columns: repeat(5, minmax(100px, 1fr)); }
+  .panel { min-height: 0; }
+}
