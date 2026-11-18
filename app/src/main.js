@@ -17,7 +17,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
 const controls = new OrbitControls(camera, canvas);
-Object.assign(controls, { enablePan: false, enableDamping: true, minDistance: 4, maxDistance: 16, minPolarAngle: 0.5, maxPolarAngle: 1.25 });
+Object.assign(controls, { enablePan: false, enableDamping: true, minDistance: 4, maxDistance: 22, minPolarAngle: 0.5, maxPolarAngle: 1.25 });
 
 scene.add(new THREE.HemisphereLight('#fff7e0', '#3040c0', 1.4));
 const sun = new THREE.DirectionalLight('#ffffff', 2.2);
@@ -35,7 +35,7 @@ function resize() {
   camera.fov = w / h < 1 ? 50 : 32;
   camera.updateProjectionMatrix();
 }
-addEventListener('resize', resize);
+addEventListener('resize', () => { resize(); if (world && S.mode !== 'title') frameCamera(); });
 resize();
 
 // ---------- DOM helpers ----------
@@ -87,7 +87,9 @@ async function enterRoom(roomId) {
 }
 function frameCamera() {
   const [w, d] = world.room.size;
-  camera.position.set(w * 1.0, Math.max(w, d) * 0.95, d * 1.3);
+  // portrait screens: step back so the whole room fits the narrow view
+  const k = camera.aspect < 1 ? Math.min(1.9, 1.05 / camera.aspect) : 1;
+  camera.position.set(w * 1.0 * k, Math.max(w, d) * 0.95 * k, d * 1.3 * k);
   controls.target.set(0, 0.7, -0.2);
   controls.update();
 }

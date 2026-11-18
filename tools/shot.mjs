@@ -5,7 +5,7 @@ const [url, out, clicksJson = '[]', wait = '6000'] = process.argv.slice(2);
 const browser = await puppeteer.launch({ executablePath: '/usr/bin/chromium', headless: true,
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--window-size=1600,900'] });
 const page = await browser.newPage();
-await page.setViewport({ width: 1600, height: 900 });
+await page.setViewport({ width: +(process.env.W || 1600), height: +(process.env.H || 900), deviceScaleFactor: +(process.env.DPR || 1), isMobile: !!process.env.MOBILE, hasTouch: !!process.env.MOBILE });
 const logs = [];
 page.on('console', (m) => logs.push(`[${m.type()}] ${m.text()}`));
 page.on('pageerror', (e) => logs.push(`[pageerror] ${e.message}`));
