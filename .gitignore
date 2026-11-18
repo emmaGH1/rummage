@@ -10,3 +10,4 @@ vendor-docs/
 assets/raw/**/*.glb
 assets/raw/**/*.zip
 assets/raw/**/*.ply
+__pycache__/
