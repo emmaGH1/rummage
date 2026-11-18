@@ -149,41 +149,82 @@ async function startLevel(level, seed = (Math.random() * 1e9) | 0) {
   setupLevel(level, seed);
   showIntro(level);
 }
+// How obvious a hiding spot is: big doors on tall furniture are where everyone looks first,
+// tiny drawers and small lidded boxes are sneaky. Measured from the part's world-space size.
+function obviousness(p) {
+  const b = new THREE.Box3().setFromObject(p.link);
+  const sz = b.getSize(new THREE.Vector3());
+  return sz.x * sz.y * sz.z;
+}
+// weighted pick: sneakiness^power, power grows with level difficulty
+function pickWeighted(pool, rand, weight) {
+  const ws = pool.map(weight);
+  const total = ws.reduce((a, b) => a + b, 0);
+  let r = rand() * total;
+  for (let i = 0; i < pool.length; i++) if ((r -= ws[i]) <= 0) return pool[i];
+  return pool[pool.length - 1];
+}
 function setupLevel(level, seed) {
   const rand = rng(seed);
   clearItems();
+  world.parts.forEach((p) => { p.joint.setJointValue(0); });
+  world.group.updateMatrixWorld(true);
+  const size = new Map(world.parts.map((p) => [p, obviousness(p)]));
+  const sizes = [...size.values()].sort((a, b) => a - b);
+  const median = sizes[sizes.length >> 1] || 1;
+  const sneak = (p) => median / size.get(p); // >1 for small spots
+  const power = 0.4 + (level.id - 1) * 0.35; // level 1 ~ fair, level 5 strongly favours sneaky spots
   const used = new Set();
-  const take = (pool) => {
-    const p = pool.find((q) => !used.has(q));
-    if (p) used.add(p);
-    return p;
-  };
+  const usedPieces = new Set();
+  const usedKinds = new Map();
+  const kind = (p) => (p.joint.jointType === 'prismatic' ? 'drawer' : Math.abs(p.joint.axis.y) > 0.9 ? 'door' : 'lid');
+  const free = () => world.parts.filter((p) => !used.has(p) && !p.piece.lockedFlag);
+  const claim = (p) => { used.add(p); return p; };
   const run = { kind: 'story', level, seed, keysTotal: level.keys, keysFound: 0, opened: 0, openedIds: new Set(),
     time: level.time, hints: level.hints, elapsed: 0, penalty: 0, t0: 0, mimics: new Set(), riddle: null };
-  const lockedPiece = level.locks ? shuffle(world.pieces.filter((pc) => pc.parts.length), rand)[0] : null;
-  const free = shuffle(world.parts.filter((p) => p.piece !== lockedPiece), rand);
+
+  // a padlocked piece always guards one key, so the brass key becomes a required detour
+  let lockedPiece = null;
+  if (level.locks) {
+    lockedPiece = shuffle(world.pieces.filter((pc) => pc.parts.length >= 1), rand)[0];
+    lockedPiece.lockedFlag = true;
+  }
   const keyParts = [];
-  if (lockedPiece) keyParts.push(take(shuffle(lockedPiece.parts, rand)));
-  while (keyParts.length < level.keys) keyParts.push(take(free));
+  if (lockedPiece) {
+    const p = claim(pickWeighted(lockedPiece.parts, rand, (q) => Math.pow(sneak(q), power)));
+    keyParts.push(p); usedPieces.add(p.piece); usedKinds.set(kind(p), 1);
+  }
+  while (keyParts.length < level.keys) {
+    // spread keys: never two in the same piece, and vary drawer / door / lid
+    const pool = free().filter((p) => !usedPieces.has(p.piece));
+    const p = claim(pickWeighted(pool.length ? pool : free(), rand, (q) => Math.pow(sneak(q), power) / (1 + 3 * (usedKinds.get(kind(q)) || 0))));
+    keyParts.push(p); usedPieces.add(p.piece); usedKinds.set(kind(p), (usedKinds.get(kind(p)) || 0) + 1);
+  }
   keyParts.forEach((p, i) => putItem(makeKey(), p, 'key', { n: i }));
   if (lockedPiece) {
-    putItem(makeLockKey(), take(free), 'lockkey');
+    // the brass key sits somewhere obvious-ish but far from the locked piece
+    const far = free().filter((p) => p.piece !== lockedPiece);
+    const lp = lockedPiece.holder.position;
+    putItem(makeLockKey(), claim(pickWeighted(far, rand, (q) => q.piece.holder.position.distanceTo(lp) ** 2)), 'lockkey');
     lockPiece(lockedPiece);
   }
+  // mimics bite on big, tempting doors and lids
   for (let i = 0; i < (level.mimics || 0); i++) {
-    const m = take(free.filter((p) => p.joint.jointType === 'revolute'));
-    if (m) run.mimics.add(m);
+    const pool = free().filter((p) => p.joint.jointType === 'revolute');
+    if (pool.length) run.mimics.add(claim(pickWeighted(pool, rand, (q) => 1 / sneak(q))));
   }
+  // decoys go where people look first: the most obvious spots
   const types = shuffle(DECOY_TYPES, rand);
   for (let i = 0; i < (level.decoys || 0); i++) {
-    const p = take(free);
-    if (p) putItem(makeDecoy(types[i % types.length]), p, 'decoy');
+    const pool = free();
+    if (pool.length) putItem(makeDecoy(types[i % types.length]), claim(pickWeighted(pool, rand, (q) => 1 / sneak(q))), 'decoy');
   }
   if (level.riddle) {
     const target = keyParts[keyParts.length - 1];
     const it = world.room.items.find((x) => x.slug === target.piece.slug);
     run.riddle = it?.clue || 'Where things are kept but never read…';
   }
+  world.pieces.forEach((pc) => delete pc.lockedFlag);
   S.run = run;
 }
 function startChallengeSeek() {
