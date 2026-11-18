@@ -1,0 +1,38 @@
+{
+  "gen": {"style": "cartoon", "faceCount": 40000},
+  "skipSplit": true,
+  "objects": {
+    "t-toychest": {
+      "prompt": "cartoon toy chest painted with stars, bright blue with yellow lid and red handles, chunky simple shapes, single isolated object, closed",
+      "motion": "The lid rotates open upward about the hinge along the back top edge, up to about 100 degrees."
+    },
+    "t-jackbox": {
+      "prompt": "cartoon jack-in-the-box toy, a cube box with red and yellow checker sides and a hinged top lid with a crank on the side, chunky simple shapes, single isolated object, closed",
+      "motion": "The top lid rotates open upward about the hinge along the back top edge, about 110 degrees."
+    },
+    "t-workbench": {
+      "prompt": "cartoon carpenter workbench with three drawers under the top, warm wood with blue drawers, chunky simple shapes, single isolated object",
+      "motion": "Each of the three drawers slides straight out forward along the depth axis, about 60 percent of its depth."
+    },
+    "t-toolcabinet": {
+      "prompt": "cartoon tall red metal tool cabinet with two doors on top and three drawers below, chunky simple shapes, single isolated object, closed",
+      "motion": "The two top doors swing open outward on vertical hinges at their outer edges, about 110 degrees, and the three drawers below slide straight out forward about 60 percent of their depth."
+    },
+    "t-dollhouse": {
+      "prompt": "cartoon dollhouse cabinet shaped like a little house with a pointed roof and two front doors that open like shutters, pink and yellow, chunky simple shapes, single isolated object",
+      "motion": "The two front doors swing open outward on vertical hinges at the left and right outer edges, about 120 degrees."
+    },
+    "t-paintbox": {
+      "prompt": "cartoon wooden paint supply box with a lid, colourful paint splashes, chunky simple shapes, single isolated object, closed",
+      "motion": "The lid rotates open upward about the hinge along the back top edge, up to about 100 degrees."
+    },
+    "t-cubbies": {
+      "prompt": "cartoon low shelf unit with four square cubby doors in a two by two grid, each door a different bright colour, chunky simple shapes, single isolated object",
+      "motion": "Each of the four cubby doors swings open outward on a vertical hinge at its left edge, about 110 degrees."
+    },
+    "t-trunk": {
+      "prompt": "cartoon circus steamer trunk with stripes and stars, red and white, rounded lid, chunky simple shapes, single isolated object, closed",
+      "motion": "The rounded lid rotates open upward about the hinge along the back top edge, up to about 100 degrees."
+    }
+  }
+}
