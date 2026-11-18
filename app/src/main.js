@@ -250,7 +250,12 @@ function beginPlay() {
   screen('hud');
   $('hudLevel').textContent = S.run.kind === 'story' ? `${S.run.level.id}. ${S.run.level.name}` : 'Challenge';
   $('riddle').classList.toggle('hidden', !S.run.riddle);
-  if (S.run.riddle) $('riddle').textContent = `Riddle: “${S.run.riddle}”`;
+  if (S.run.riddle) {
+    $('riddleText').textContent = `“${S.run.riddle}”`;
+    setRiddle(true);
+    clearTimeout(S.riddleTimer);
+    S.riddleTimer = setTimeout(() => setRiddle(false), 5000); // read it, then it tucks away
+  }
   hud();
 }
 
@@ -367,6 +372,11 @@ function focusOn(obj) {
 }
 
 // ---------- hints ----------
+function setRiddle(open) {
+  $('riddle').classList.toggle('open', open);
+  $('riddle').setAttribute('aria-expanded', String(open));
+}
+$('riddle').onclick = () => setRiddle(!$('riddle').classList.contains('open'));
 $('hintBtn').onclick = () => {
   const run = S.run;
   if (S.mode !== 'play' || run.hints <= 0) return;
@@ -375,7 +385,7 @@ $('hintBtn').onclick = () => {
   run.hints--;
   next.part.piece.sniff = performance.now();
   sfx('hint');
-  toast('Sniff sniff… around here!', next.part.piece.holder.getWorldPosition(new THREE.Vector3()).add(new THREE.Vector3(0, 1.4, 0)));
+  toast('Hint: look around here!', next.part.piece.holder.getWorldPosition(new THREE.Vector3()).add(new THREE.Vector3(0, 1.4, 0)));
   hud();
 };
 
@@ -436,12 +446,12 @@ function resultButtons(stars) {
 function hud() {
   const run = S.run;
   if (!run) return;
-  $('opened').textContent = `Opened: ${run.opened}`;
+  $('opened').textContent = `Opened ${run.opened}`;
   const left = run.time ? Math.max(0, run.time - run.elapsed) : run.elapsed;
   $('timer').textContent = fmt(left);
   $('timer').classList.toggle('urgent', !!run.time && left <= 10);
   $('keys').innerHTML = Array.from({ length: run.keysTotal }, (_, i) => `<span class="k${i < run.keysFound ? ' on' : ''}"></span>`).join('');
-  $('hintBtn').textContent = `Sniff (${run.hints})`;
+  $('hintCount').textContent = run.hints;
   $('hintBtn').disabled = run.hints <= 0;
 }
 const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
@@ -504,7 +514,7 @@ function showIntro(level) {
   $('introNum').textContent = `Room ${level.id}`;
   $('introName').textContent = level.name;
   $('introBlurb').textContent = level.blurb;
-  const rules = [`Find ${level.keys} key${level.keys > 1 ? 's' : ''}`, `${fmt(level.time)} on the clock`, `${level.hints} sniff hint${level.hints === 1 ? '' : 's'}`];
+  const rules = [`Find ${level.keys} key${level.keys > 1 ? 's' : ''}`, `${fmt(level.time)} on the clock`, `${level.hints} hint${level.hints === 1 ? "" : "s"} (the ? button)`];
   if (level.decoys) rules.push(`${level.decoys} decoys`);
   if (level.locks) rules.push('1 padlocked piece');
   if (level.mimics) rules.push(`${level.mimics} mimics`);
