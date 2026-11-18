@@ -57,7 +57,7 @@ def call(method, path, body=None, params=""):
 
 
 def create(path, body, label):
-    for attempt in range(40):
+    for attempt in range(120):  # concurrency limit: keep retrying for up to ~30 min
         r = call("POST", path, body)
         if r.get("c") == "0" and r.get("d"):
             return r["d"]
