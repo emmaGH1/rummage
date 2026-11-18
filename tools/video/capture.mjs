@@ -12,7 +12,8 @@ const base = process.argv[2] || 'http://localhost:4173/';
 const only = process.argv.slice(3);
 const OUT = new URL('../../video/assets/footage/', import.meta.url).pathname;
 mkdirSync(OUT, { recursive: true });
-const FPS = 30, W = 1920, H = 1080;
+// the game runs at 1280x720 CSS px, scaled 1.5x: a 1920x1080 frame with the UI half again as large
+const FPS = 30, W = 1280, H = 720, DPR = 1.5;
 
 // installed before the game's scripts run
 const VIRTUAL_CLOCK = () => {
@@ -54,7 +55,7 @@ const VIRTUAL_CLOCK = () => {
 const browser = await puppeteer.launch({ executablePath: '/usr/bin/chromium', headless: true,
   args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', `--window-size=${W},${H}`, '--hide-scrollbars'] });
 const page = await browser.newPage();
-await page.setViewport({ width: W, height: H });
+await page.setViewport({ width: W, height: H, deviceScaleFactor: DPR });
 page.on('pageerror', (e) => console.error('pageerror', e.message));
 page.on('console', (m) => m.type() === 'error' && console.error('console', m.text()));
 await page.evaluateOnNewDocument(VIRTUAL_CLOCK);
@@ -84,18 +85,29 @@ await page.evaluate(() => {
     // aim the camera: target point, then camera at an offset from it
     look(target, offset) { R.controls.target.copy(target); R.camera.position.copy(target).add(offset); R.controls.update(); },
     screen(v) { const p = v.clone().project(R.camera); return [Math.round((p.x * 0.5 + 0.5) * innerWidth), Math.round((-p.y * 0.5 + 0.5) * innerHeight)]; },
+    // ease the camera toward a point (a push-in on the action); call from perFrame via K.pushStep(t)
+    push(to, at, dur = 1.2, k = 0.4) { window.__push = { to: to.clone(), at, dur, k, t: R.controls.target.clone(), p: R.camera.position.clone() }; },
+    pushStep(t) {
+      const P = window.__push; if (!P) return;
+      const u = Math.max(0, Math.min(1, (t - P.at) / P.dur)); const e = u * u * (3 - 2 * u);
+      R.controls.target.lerpVectors(P.t, P.to, e * 0.85);
+      R.camera.position.copy(P.p).lerp(P.to, e * P.k);
+    },
     wave(parts, t0, gap) { parts.forEach((p, i) => setTimeout(() => { p.target = p.open; p.piece.squash = performance.now(); }, t0 + i * gap)); },
   };
   const st = document.createElement('style');
   st.textContent = `body.video-clean #hud, body.video-clean .center, body.video-clean .bottom, body.video-clean .sound,
-    body.video-clean .toast, body.video-clean #embedBar, body.video-clean #fsBtn { display: none !important; }`;
+    body.video-clean .toast, body.video-clean #embedBar, body.video-clean #fsBtn { display: none !important; }
+    .sound, #embedBar, #fsBtn { display: none !important; }`;
   document.head.appendChild(st);
 });
 
 for (const shot of SHOTS) {
   if (only.length && !only.includes(shot.name)) continue;
   const t0 = Date.now();
-  await page.evaluate(() => { window.__virt.stop(); });
+  await page.evaluate(() => { window.__virt.stop(); window.__push = null; });
+  const vp = shot.viewport || { width: W, height: H, deviceScaleFactor: DPR };
+  await page.setViewport(vp);
   const info = await page.evaluate(shot.setup);
   if (shot.perFrame) await page.evaluate(`window.__pf = ${shot.perFrame.toString()}`);
   else await page.evaluate(() => { window.__pf = null; });
@@ -112,7 +124,7 @@ for (const shot of SHOTS) {
       if (act.node) await act.node(page, t); else { const r = await page.evaluate(act, info); if (r) Object.assign(extra, r); }
     }
     if (shot.mouse) { const [x, y] = shot.mouse(t, info); await page.mouse.move(x, y); }
-    await page.evaluate((t) => { window.__pf?.(t, window.K); window.__virt.step(1000 / 30); }, t);
+    await page.evaluate((t) => { window.__pf?.(t, window.K); if (!window.__pf) window.K.pushStep(t); window.__virt.step(1000 / 30); }, t);
     const buf = await page.screenshot({ type: 'jpeg', quality: 92 });
     if (!ff.stdin.write(buf)) await new Promise((r) => ff.stdin.once('drain', r));
   }

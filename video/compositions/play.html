@@ -3,46 +3,48 @@
   @font-face { font-family: 'Lilita One'; src: url('assets/fonts/LilitaOne.woff2') format('woff2'); }
   #root { position: absolute; inset: 0; font-family: 'Nunito', sans-serif; font-weight: 800; color: #14121f; }
   .badge { position: absolute; font-family: 'Lilita One', sans-serif; font-weight: 400; color: #fff; background: #f0542a;
-    border: 5px solid #14121f; border-radius: 16px; padding: 4px 24px 10px; box-shadow: 6px 6px 0 #14121f;
-    -webkit-text-stroke: 2px #14121f; paint-order: stroke fill; font-size: 56px; white-space: nowrap; }
+    border: 5px solid #14121f; border-radius: 16px; padding: 4px 26px 10px; box-shadow: 6px 6px 0 #14121f;
+    -webkit-text-stroke: 2px #14121f; paint-order: stroke fill; font-size: 64px; white-space: nowrap; }
   .card { position: absolute; background: #fff6e6; border: 6px solid #14121f; border-radius: 22px; box-shadow: 8px 8px 0 #14121f; }
   .ink { -webkit-text-stroke: 3px #14121f; paint-order: stroke fill; }
-
-  .cap { position: absolute; left: 150px; top: 610px; width: 820px; }
-  .cap .badge { position: relative; display: inline-block; font-size: 64px; }
-  .cap .sub { margin-top: 18px; display: inline-block; font-size: 38px; line-height: 1.25; background: #fff6e6; border: 5px solid #14121f; border-radius: 16px; padding: 10px 22px 14px; box-shadow: 6px 6px 0 #14121f; }
+  .label { font-size: 30px; letter-spacing: 0.04em; text-transform: uppercase; color: #6b5f86; margin-bottom: 10px; }
+  .chip { position: absolute; font-size: 32px; background: #14121f; color: #fff6e6; border-radius: 12px; padding: 8px 18px; }
 
   </style>
   <div id="root" data-composition-id="play" data-width="1920" data-height="1080">
-    <div id="c-0" class="cap clip" data-start="0.30" data-duration="3.75"><div class="badge">Decoys</div><div class="sub">Not everything shiny is a key.</div></div>
-    <div id="c-1" class="cap clip" data-start="4.60" data-duration="5.85"><div class="badge">Padlocks</div><div class="sub">Find the little brass key first.</div></div>
-    <div id="c-2" class="cap clip" data-start="11.00" data-duration="2.85"><div class="badge">Mimics</div><div class="sub">Some lids bite back: +5 seconds.</div></div>
-    <div id="c-3" class="cap clip" data-start="14.40" data-duration="6.95"><div class="badge">Night levels</div><div class="sub">Search by flashlight. Some keys hide outside the furniture.</div></div>
-    <div id="c-4" class="cap clip" style="width: 560px" data-start="21.90" data-duration="8.15"><div class="badge">Hints and bets</div><div class="sub">Hints give clues. Or bet your time on a coin flip.</div></div>
-    <div id="c-5" class="cap clip" data-start="30.60" data-duration="3.25"><div class="badge">Beat the clock</div></div>
-    <div id="c-6" class="cap clip" data-start="34.40" data-duration="2.05"><div class="badge">Find every key</div></div>
+    <div id="b-0" class="badge clip" data-start="5.85" data-duration="3.30" style="left: 120px; bottom: 150px">Decoys</div>
+    <div id="b-1" class="badge clip" data-start="9.45" data-duration="6.20" style="left: 120px; bottom: 150px">Padlocks</div>
+    <div id="b-2" class="badge clip" data-start="15.95" data-duration="2.90" style="left: 120px; bottom: 150px">Mimics</div>
+    <div id="b-3" class="badge clip" data-start="19.15" data-duration="7.70" style="left: 120px; bottom: 150px">Night levels</div>
+    <div id="b-4" class="badge clip" data-start="27.15" data-duration="6.30" style="left: 120px; bottom: 150px">Hints</div>
+    <div id="b-5" class="badge clip" data-start="33.75" data-duration="5.90" style="left: 120px; bottom: 150px">Feeling lucky?</div>
+    <div id="b-6" class="badge clip" data-start="39.95" data-duration="2.70" style="left: 120px; bottom: 150px">Beat the clock</div>
+    <div id="b-7" class="badge clip" data-start="42.95" data-duration="5.10" style="left: 120px; bottom: 150px">Earn your stars</div>
+    <div id="b-8" class="badge clip" data-start="48.35" data-duration="6.50" style="left: 120px; top: 230px">Learn from a miss</div>
+    <div id="b-9" class="badge clip" data-start="55.15" data-duration="6.10" style="left: 120px; top: 230px">Challenge a friend</div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo('#c-0 .badge', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.45, ease: 'back.out(1.6)' }, 0.30);
-    tl.fromTo('#c-0 .sub', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: 'back.out(1.4)' }, 0.45);
-    tl.to('#c-0 > *', { opacity: 0, y: 20, duration: 0.2, ease: 'power3.in' }, 3.80);
-    tl.fromTo('#c-1 .badge', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.45, ease: 'back.out(1.6)' }, 4.60);
-    tl.fromTo('#c-1 .sub', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: 'back.out(1.4)' }, 4.75);
-    tl.to('#c-1 > *', { opacity: 0, y: 20, duration: 0.2, ease: 'power3.in' }, 10.20);
-    tl.fromTo('#c-2 .badge', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.45, ease: 'back.out(1.6)' }, 11.00);
-    tl.fromTo('#c-2 .sub', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: 'back.out(1.4)' }, 11.15);
-    tl.to('#c-2 > *', { opacity: 0, y: 20, duration: 0.2, ease: 'power3.in' }, 13.60);
-    tl.fromTo('#c-3 .badge', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.45, ease: 'back.out(1.6)' }, 14.40);
-    tl.fromTo('#c-3 .sub', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: 'back.out(1.4)' }, 14.55);
-    tl.to('#c-3 > *', { opacity: 0, y: 20, duration: 0.2, ease: 'power3.in' }, 21.10);
-    tl.fromTo('#c-4 .badge', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.45, ease: 'back.out(1.6)' }, 21.90);
-    tl.fromTo('#c-4 .sub', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: 'back.out(1.4)' }, 22.05);
-    tl.to('#c-4 > *', { opacity: 0, y: 20, duration: 0.2, ease: 'power3.in' }, 29.80);
-    tl.fromTo('#c-5 .badge', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.45, ease: 'back.out(1.6)' }, 30.60);
-    tl.to('#c-5 > *', { opacity: 0, y: 20, duration: 0.2, ease: 'power3.in' }, 33.60);
-    tl.fromTo('#c-6 .badge', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.45, ease: 'back.out(1.6)' }, 34.40);
-    tl.to('#c-6 > *', { opacity: 0, y: 20, duration: 0.2, ease: 'power3.in' }, 36.20);
+    tl.fromTo('#b-0', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.45, ease: 'back.out(1.6)' }, 5.85);
+    tl.to('#b-0', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 8.90);
+    tl.fromTo('#b-1', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.45, ease: 'back.out(1.6)' }, 9.45);
+    tl.to('#b-1', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 15.40);
+    tl.fromTo('#b-2', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.45, ease: 'back.out(1.6)' }, 15.95);
+    tl.to('#b-2', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 18.60);
+    tl.fromTo('#b-3', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.45, ease: 'back.out(1.6)' }, 19.15);
+    tl.to('#b-3', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 26.60);
+    tl.fromTo('#b-4', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.45, ease: 'back.out(1.6)' }, 27.15);
+    tl.to('#b-4', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 33.20);
+    tl.fromTo('#b-5', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.45, ease: 'back.out(1.6)' }, 33.75);
+    tl.to('#b-5', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 39.40);
+    tl.fromTo('#b-6', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.45, ease: 'back.out(1.6)' }, 39.95);
+    tl.to('#b-6', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 42.40);
+    tl.fromTo('#b-7', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.45, ease: 'back.out(1.6)' }, 42.95);
+    tl.to('#b-7', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 47.80);
+    tl.fromTo('#b-8', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.45, ease: 'back.out(1.6)' }, 48.35);
+    tl.to('#b-8', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 54.60);
+    tl.fromTo('#b-9', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -3, duration: 0.45, ease: 'back.out(1.6)' }, 55.15);
+    tl.to('#b-9', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 61.00);
     window.__timelines["play"] = tl;
   </script>
 </template>

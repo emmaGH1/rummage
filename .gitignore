@@ -15,3 +15,6 @@ video/assets/footage/
 video/renders/
 video/assets/audio/*.wav
 video/.hyperframes/
+video/.media/
+video/assets/voice/samples/
+video/assets/audio/*.wav

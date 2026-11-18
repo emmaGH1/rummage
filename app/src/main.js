@@ -977,7 +977,7 @@ addEventListener('resize', embedCheck);
 [500, 1500, 4000].forEach((ms) => setTimeout(embedCheck, ms));
 
 // ---------- boot ----------
-window.__rummage = { THREE, S, camera, controls, scene, get world() { return world; }, toggle, startLevel, setupLevel, beginPlay, lose, placeBet, items: () => items, levels: LEVELS, ROOMS };
+window.__rummage = { THREE, S, progress, showTitle, showMap, startHide, camera, controls, scene, get world() { return world; }, toggle, startLevel, setupLevel, beginPlay, lose, placeBet, items: () => items, levels: LEVELS, ROOMS };
 frame();
 (async () => {
   const params = new URLSearchParams(location.search);

@@ -1,0 +1,29 @@
+<template>
+  <style>
+  @font-face { font-family: 'Lilita One'; src: url('assets/fonts/LilitaOne.woff2') format('woff2'); }
+  #root { position: absolute; inset: 0; font-family: 'Nunito', sans-serif; font-weight: 800; color: #14121f; }
+  .badge { position: absolute; font-family: 'Lilita One', sans-serif; font-weight: 400; color: #fff; background: #f0542a;
+    border: 5px solid #14121f; border-radius: 16px; padding: 4px 26px 10px; box-shadow: 6px 6px 0 #14121f;
+    -webkit-text-stroke: 2px #14121f; paint-order: stroke fill; font-size: 64px; white-space: nowrap; }
+  .card { position: absolute; background: #fff6e6; border: 6px solid #14121f; border-radius: 22px; box-shadow: 8px 8px 0 #14121f; }
+  .ink { -webkit-text-stroke: 3px #14121f; paint-order: stroke fill; }
+  .label { font-size: 30px; letter-spacing: 0.04em; text-transform: uppercase; color: #6b5f86; margin-bottom: 10px; }
+  .chip { position: absolute; font-size: 32px; background: #14121f; color: #fff6e6; border-radius: 12px; padding: 8px 18px; }
+
+  #ph-ground { position: absolute; inset: 0; background: #1d2a9e; }
+  #ph-text { position: absolute; left: 160px; top: 330px; width: 820px; }
+  #ph-t1 { font-family: 'Lilita One', sans-serif; font-weight: 400; color: #fff; font-size: 96px; line-height: 1.05; }
+  #ph-t2 { margin-top: 26px; display: inline-block; font-size: 44px; background: #fff6e6; border: 5px solid #14121f; border-radius: 16px; padding: 8px 22px 12px; box-shadow: 6px 6px 0 #14121f; }
+
+  </style>
+  <div id="root" data-composition-id="phone" data-width="1920" data-height="1080">
+    <div id="ph-ground"></div>
+    <div id="ph-text"><div id="ph-t1" class="ink">Any browser.<br>Desktop or phone.</div><div id="ph-t2">No install. No account.</div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo('#ph-t1', { opacity: 0, filter: 'blur(8px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.2 }, 0.3);
+    tl.fromTo('#ph-t2', { opacity: 0, y: 30, rotation: -5 }, { opacity: 1, y: 0, rotation: -1.5, duration: 0.45, ease: 'back.out(1.6)' }, 0.9);
+    window.__timelines["phone"] = tl;
+  </script>
+</template>

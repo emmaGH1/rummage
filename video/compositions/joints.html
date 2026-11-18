@@ -3,46 +3,46 @@
   @font-face { font-family: 'Lilita One'; src: url('assets/fonts/LilitaOne.woff2') format('woff2'); }
   #root { position: absolute; inset: 0; font-family: 'Nunito', sans-serif; font-weight: 800; color: #14121f; }
   .badge { position: absolute; font-family: 'Lilita One', sans-serif; font-weight: 400; color: #fff; background: #f0542a;
-    border: 5px solid #14121f; border-radius: 16px; padding: 4px 24px 10px; box-shadow: 6px 6px 0 #14121f;
-    -webkit-text-stroke: 2px #14121f; paint-order: stroke fill; font-size: 56px; white-space: nowrap; }
+    border: 5px solid #14121f; border-radius: 16px; padding: 4px 26px 10px; box-shadow: 6px 6px 0 #14121f;
+    -webkit-text-stroke: 2px #14121f; paint-order: stroke fill; font-size: 64px; white-space: nowrap; }
   .card { position: absolute; background: #fff6e6; border: 6px solid #14121f; border-radius: 22px; box-shadow: 8px 8px 0 #14121f; }
   .ink { -webkit-text-stroke: 3px #14121f; paint-order: stroke fill; }
-
-  .step-card { left: 150px; top: 250px; width: 700px; padding: 74px 40px 36px; }
-  .step-card .badge { left: -18px; top: -44px; font-size: 52px; }
   .label { font-size: 30px; letter-spacing: 0.04em; text-transform: uppercase; color: #6b5f86; margin-bottom: 10px; }
+  .chip { position: absolute; font-size: 32px; background: #14121f; color: #fff6e6; border-radius: 12px; padding: 8px 18px; }
+
+  .step { left: 130px; top: 240px; width: 720px; padding: 74px 40px 36px; }
+  .step .badge { left: -18px; top: -46px; font-size: 54px; }
   .typed { font-size: 38px; line-height: 1.32; min-height: 250px; }
-  .chip { position: absolute; font-size: 30px; background: #14121f; color: #fff6e6; border-radius: 12px; padding: 8px 18px; }
 
   .jl { position: absolute; font-size: 30px; background: #ffc82e; border: 4px solid #14121f; border-radius: 12px; padding: 4px 14px 6px; box-shadow: 4px 4px 0 #14121f; white-space: nowrap; }
   .jl small { display: block; font-size: 28px; color: #4a3f63; line-height: 1.05; }
-  #j-chip { left: 190px; top: 760px; }
+  #j-chip { left: 170px; top: 770px; }
 
   </style>
   <div id="root" data-composition-id="joints" data-width="1920" data-height="1080">
-    <div id="j-card" class="card step-card clip" data-start="0.2" data-duration="8.7">
+    <div id="j-card" class="card step clip" data-start="0.2" data-duration="8.7">
       <div class="badge">2 · Articulation</div>
       <div class="label">Motion prompt</div>
       <div id="j-text" class="typed" data-text="Each of the three drawers slides straight out forward along its depth axis, about 60 percent of its depth.">Each of the three drawers slides straight out forward along its depth axis, about 60 percent of its depth.</div>
     </div>
-    <div id="j-chip" class="chip clip" data-start="3.8" data-duration="5.1">Split into 4 parts + 3 joints (URDF) · 145 s</div>
-    <div id="j-l0" class="jl clip" data-start="5.4" data-duration="3.5" style="left:1461px; top:479px"><small>prismatic joint</small>slides 0.23 m</div>
-    <div id="j-l1" class="jl clip" data-start="5.4" data-duration="3.5" style="left:1451px; top:625px"><small>prismatic joint</small>slides 0.23 m</div>
-    <div id="j-l2" class="jl clip" data-start="5.4" data-duration="3.5" style="left:1441px; top:759px"><small>prismatic joint</small>slides 0.23 m</div>
+    <div id="j-chip" class="chip clip" data-start="3.6" data-duration="5.3">Split into 4 parts + 3 joints (URDF) · 145 s</div>
+    <div id="j-l0" class="jl clip" data-start="5.4" data-duration="3.5" style="left:1462px; top:479px"><small>prismatic joint</small>slides 0.23 m</div>
+    <div id="j-l1" class="jl clip" data-start="5.4" data-duration="3.5" style="left:1452px; top:624px"><small>prismatic joint</small>slides 0.23 m</div>
+    <div id="j-l2" class="jl clip" data-start="5.4" data-duration="3.5" style="left:1442px; top:760px"><small>prismatic joint</small>slides 0.23 m</div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo('#j-card', { opacity: 0, y: 40, rotation: -7 }, { opacity: 1, y: 0, rotation: -1.5, duration: 0.45, ease: 'back.out(1.6)' }, 0.2);
+    tl.fromTo('#j-card', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -1.5, duration: 0.45, ease: 'back.out(1.6)' }, 0.20);
     (() => { const el = document.querySelector('#j-text'); const txt = el.dataset.text; const o = { n: 0 };
       tl.set(el, { textContent: '' }, 0);
-      tl.to(o, { n: txt.length, duration: txt.length / 38, ease: 'none', onUpdate: () => { el.textContent = txt.slice(0, Math.round(o.n)); } }, 0.6); })();
-    tl.fromTo('#j-chip', { opacity: 0, y: 40, rotation: -7 }, { opacity: 1, y: 0, rotation: -1, duration: 0.45, ease: 'back.out(1.6)' }, 3.8);
+      tl.to(o, { n: txt.length, duration: txt.length / 46, ease: 'none', onUpdate: () => { el.textContent = txt.slice(0, Math.round(o.n)); } }, 0.50); })();
+    tl.fromTo('#j-chip', { opacity: 0, y: 40, rotation: -8 }, { opacity: 1, y: 0, rotation: -1, duration: 0.45, ease: 'back.out(1.6)' }, 3.60);
     tl.fromTo('#j-l0', { opacity: 0, scale: 0.6, x: -30 }, { opacity: 1, scale: 1, x: 0, duration: 0.3, ease: 'back.out(2)' }, 5.40);
     tl.fromTo('#j-l1', { opacity: 0, scale: 0.6, x: -30 }, { opacity: 1, scale: 1, x: 0, duration: 0.3, ease: 'back.out(2)' }, 5.49);
     tl.fromTo('#j-l2', { opacity: 0, scale: 0.6, x: -30 }, { opacity: 1, scale: 1, x: 0, duration: 0.3, ease: 'back.out(2)' }, 5.58);
-    tl.to('#j-card', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 8.6);
-    tl.to('#j-chip', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 8.6);
-    tl.to('.jl', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 8.6);
+    tl.to('#j-card', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 8.60);
+    tl.to('#j-chip', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 8.60);
+    tl.to('.jl', { opacity: 0, y: 20, duration: 0.22, ease: 'power3.in' }, 8.60);
     window.__timelines["joints"] = tl;
   </script>
 </template>
