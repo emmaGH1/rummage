@@ -11,7 +11,7 @@ prompts = {}
 for f in sorted((ROOT / "tools").glob("set-*.json")):
     cfg = json.loads(f.read_text())
     for slug, o in cfg["objects"].items():
-        prompts[slug] = {"prompt": o["prompt"], "motion": o["motion"], "style": cfg.get("gen", {}).get("style", "photorealistic")}
+        prompts[slug] = {"prompt": o["prompt"], "motion": o.get("motion", ""), "style": cfg.get("gen", {}).get("style", "photorealistic")}
 
 timings = {}
 log = (ROOT / "docs" / "generation-log.md").read_text() if (ROOT / "docs" / "generation-log.md").exists() else ""

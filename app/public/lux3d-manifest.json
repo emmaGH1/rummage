@@ -1,6 +1,300 @@
 {
  "pieces": [
   {
+   "slug": "k-breadbin",
+   "prompt": "cartoon bread bin with a hinged front flap lid, red enamel with a cream BREAD label, chunky simple shapes, single isolated object, closed",
+   "motion": "The front flap lid rotates open upward about a hinge along the back top edge, about 100 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "lid_front"
+   ],
+   "joints": [
+    {
+     "name": "lid_front_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.57
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 108,
+     "task": "8294944"
+    },
+    "articulate": {
+     "seconds": 153,
+     "task": "8295308"
+    }
+   }
+  },
+  {
+   "slug": "k-dresser",
+   "prompt": "cartoon kitchen dresser cupboard with plates on open shelves on top, two doors below and two small drawers between, cream paint with green trim, chunky simple shapes, single isolated object",
+   "motion": "The two lower doors swing open outward on vertical hinges at their outer edges, about 110 degrees, and the two small drawers slide straight out forward about 60 percent of their depth.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "drawer_left",
+    "drawer_right",
+    "door_left",
+    "door_right"
+   ],
+   "joints": [
+    {
+     "name": "drawer_left_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.196714
+     ]
+    },
+    {
+     "name": "drawer_right_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.196634
+     ]
+    },
+    {
+     "name": "door_left_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.57
+     ]
+    },
+    {
+     "name": "door_right_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.57
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 126,
+     "task": "8294769"
+    },
+    "articulate": {
+     "seconds": 207,
+     "task": "8295086"
+    }
+   }
+  },
+  {
+   "slug": "k-fridge",
+   "prompt": "cartoon old-fashioned rounded refrigerator with one big front door and a small freezer door on top, pastel mint green with chrome handles, chunky simple shapes, single isolated object, doors closed",
+   "motion": "The big lower front door and the small top freezer door each swing open outward on vertical hinges at their left edges, about 110 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "freezer_door",
+    "refrigerator_door"
+   ],
+   "joints": [
+    {
+     "name": "freezer_door_joint",
+     "type": "revolute",
+     "range": [
+      -1.570796,
+      0.0
+     ]
+    },
+    {
+     "name": "refrigerator_door_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.570796
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 117,
+     "task": "8294927"
+    },
+    "articulate": {
+     "seconds": 181,
+     "task": "8295162"
+    }
+   }
+  },
+  {
+   "slug": "k-icebox",
+   "prompt": "cartoon wooden icebox chest with a top lid that lifts up, teal paint with brass latch, chunky simple shapes, single isolated object, closed",
+   "motion": "The top lid rotates open upward about the hinge along the back top edge, up to about 100 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "lid"
+   ],
+   "joints": [
+    {
+     "name": "lid_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.57
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 126,
+     "task": "8294767"
+    },
+    "articulate": {
+     "seconds": 171,
+     "task": "8296455"
+    }
+   }
+  },
+  {
+   "slug": "k-pantry",
+   "prompt": "cartoon tall narrow pantry cupboard with one tall front door, purple paint with a crooked brass handle, slightly spooky, chunky simple shapes, single isolated object, door closed",
+   "motion": "The tall front door swings open outward on a vertical hinge at its left edge, about 110 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "door"
+   ],
+   "joints": [
+    {
+     "name": "door_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.570796
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 100,
+     "task": "8294963"
+    },
+    "articulate": {
+     "seconds": 109,
+     "task": "8296669"
+    }
+   }
+  },
+  {
+   "slug": "k-sink",
+   "prompt": "cartoon kitchen sink cabinet with a basin on top and two small doors underneath, mint green paint with chrome tap, chunky simple shapes, single isolated object",
+   "motion": "The two doors under the sink swing open outward on vertical hinges at their outer edges, about 110 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "base",
+    "door_left",
+    "door_right"
+   ],
+   "joints": [
+    {
+     "name": "door_left_joint",
+     "type": "revolute",
+     "range": [
+      -1.570796,
+      0.0
+     ]
+    },
+    {
+     "name": "door_right_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.570796
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 90,
+     "task": "8294770"
+    },
+    "articulate": {
+     "seconds": 171,
+     "task": "8294973"
+    }
+   }
+  },
+  {
+   "slug": "k-stove",
+   "prompt": "cartoon cast iron kitchen stove with an oven door at the front that opens downward and a drawer below, purple paint with brass knobs, chunky simple shapes, single isolated object",
+   "motion": "The oven door rotates open downward about a hinge along its bottom edge, about 80 degrees, and the bottom drawer slides straight out forward about 60 percent of its depth.",
+   "style": "cartoon",
+   "parts": [
+    "base",
+    "oven_door",
+    "bottom_drawer"
+   ],
+   "joints": [
+    {
+     "name": "oven_door_joint",
+     "type": "revolute",
+     "range": [
+      -0.731579,
+      1.624615
+     ]
+    },
+    {
+     "name": "bottom_drawer_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.119711
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 144,
+     "task": "8294771"
+    },
+    "articulate": {
+     "seconds": 198,
+     "task": "8296887"
+    }
+   }
+  },
+  {
+   "slug": "k-table",
+   "prompt": "cartoon farmhouse kitchen table with one wide drawer under the tabletop, honey yellow wood, chunky simple shapes, single isolated object",
+   "motion": "The drawer under the tabletop slides straight out forward along the depth axis, about 60 percent of its depth.",
+   "style": "cartoon",
+   "parts": [
+    "table_body",
+    "drawer"
+   ],
+   "joints": [
+    {
+     "name": "drawer_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.239944694188
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 108,
+     "task": "8294768"
+    },
+    "articulate": {
+     "seconds": 99,
+     "task": "8296272"
+    }
+   }
+  },
+  {
    "slug": "p-barrel",
    "prompt": "cartoon wooden barrel with iron bands and a round hinged lid on top, orange wood with dark bands, chunky simple shapes, single isolated object, lid closed",
    "motion": "The round top lid rotates open upward about a hinge on one side of its rim, up to about 110 degrees.",
