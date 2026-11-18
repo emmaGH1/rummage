@@ -1,0 +1,27 @@
+{
+  "gen": {
+    "style": "cartoon",
+    "faceCount": 12000
+  },
+  "skipSplit": true,
+  "objects": {
+    "i-bottle": {
+      "prompt": "cartoon empty green glass bottle with a cork, single isolated object"
+    },
+    "x-hangingfish": {
+      "prompt": "cartoon stuffed swordfish trophy on a wooden plaque, chunky simple shapes, single isolated object"
+    },
+    "x-cakestand": {
+      "prompt": "cartoon three-tier cake stand with pink cupcakes, chunky simple shapes, single isolated object"
+    },
+    "x-kite": {
+      "prompt": "cartoon colourful diamond kite with a ribbon tail, chunky simple shapes, single isolated object"
+    },
+    "x-trainset": {
+      "prompt": "cartoon little red toy steam train engine, chunky simple shapes, single isolated object"
+    },
+    "x-plant2": {
+      "prompt": "cartoon tall potted fern in a blue ceramic pot, chunky simple shapes, single isolated object"
+    }
+  }
+}

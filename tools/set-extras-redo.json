@@ -1,0 +1,33 @@
+{
+  "gen": {
+    "style": "cartoon",
+    "faceCount": 30000
+  },
+  "skipSplit": true,
+  "objects": {
+    "w-nightstand": {
+      "prompt": "cartoon small round wizard nightstand with one drawer and a little door below, teal paint with orange knobs, chunky simple shapes, single isolated object",
+      "motion": "The top drawer slides straight out forward about 60 percent of its depth, and the small door below swings open outward on a vertical hinge at its left edge, about 110 degrees."
+    },
+    "w-hatbox": {
+      "prompt": "cartoon round hat box with a lid, striped purple and yellow, chunky simple shapes, single isolated object, closed",
+      "motion": "The round lid rotates open upward about a hinge on the back of its rim, about 100 degrees."
+    },
+    "p-strongbox": {
+      "prompt": "cartoon small iron strongbox with a hinged lid and rivets, dark teal with gold lock plate, chunky simple shapes, single isolated object, closed",
+      "motion": "The lid rotates open upward about the hinge along the back top edge, about 100 degrees."
+    },
+    "p-sidecabinet": {
+      "prompt": "cartoon short pirate side cabinet with two small doors and a ship's wheel carving, dark red wood, chunky simple shapes, single isolated object, doors closed",
+      "motion": "The two small doors swing open outward on vertical hinges at their outer edges, about 110 degrees."
+    },
+    "t-musicbox": {
+      "prompt": "cartoon wooden music box with a hinged lid and a tiny ballerina inside, pink and gold, chunky simple shapes, single isolated object, closed",
+      "motion": "The lid rotates open upward about the hinge along the back top edge, about 100 degrees."
+    },
+    "t-lockers": {
+      "prompt": "cartoon row of three tall narrow toy lockers with doors, blue yellow and green, chunky simple shapes, single isolated object, doors closed",
+      "motion": "Each of the three locker doors swings open outward on a vertical hinge at its left edge, about 110 degrees."
+    }
+  }
+}
