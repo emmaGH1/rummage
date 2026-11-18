@@ -155,33 +155,31 @@ export function buildRoom(scene, [w, d], t) {
 }
 
 // Generated bodies are exterior shells: once a door/lid/drawer is cut out there is no inside.
-// Add a dark inner box (rendered back-face only) to each parent link so openings reveal a cavity.
+// Give each parent link a dark inner skin: a slightly shrunken copy of its own shell rendered back-face only.
+// Because it matches the body's shape it never pokes out; through an opening you see a dark interior.
 const cavityMat = new THREE.MeshBasicMaterial({ color: '#231a4a', side: THREE.BackSide });
 export function addCavities(robot) {
   const parents = new Set(
     Object.values(robot.joints).filter((j) => j.jointType !== 'fixed').map((j) => j.parent),
   );
-  robot.updateMatrixWorld(true);
   for (const link of parents) {
-    const inv = new THREE.Matrix4().copy(link.matrixWorld).invert();
-    const box = new THREE.Box3();
+    const skins = [];
     link.traverse((o) => {
-      if (!o.isMesh || o.userData.isOutline) return;
-      // only this link's own meshes, not child links
+      if (!o.isMesh || o.userData.isOutline || o.userData.isCavity) return;
       let p = o.parent;
       while (p && !p.isURDFLink) p = p.parent;
-      if (p !== link) return;
+      if (p !== link) return; // only this link's own meshes, not child links
       o.geometry.computeBoundingBox();
-      const b = o.geometry.boundingBox.clone().applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv, o.matrixWorld));
-      box.union(b);
+      const c = o.geometry.boundingBox.getCenter(new THREE.Vector3());
+      const k = 0.94;
+      const skin = new THREE.Mesh(o.geometry, cavityMat);
+      skin.scale.setScalar(k);
+      skin.position.copy(c).multiplyScalar(1 - k);
+      skin.userData.isCavity = true;
+      skin.raycast = () => {};
+      skins.push([o, skin]);
     });
-    if (box.isEmpty()) continue;
-    const size = box.getSize(new THREE.Vector3()).multiply(new THREE.Vector3(0.86, 0.9, 0.86));
-    const cav = new THREE.Mesh(new THREE.BoxGeometry(size.x, size.y, size.z), cavityMat);
-    box.getCenter(cav.position);
-    cav.raycast = () => {};
-    cav.visible = false; // shown only while one of this link's parts is open (see main loop)
-    link.userData.cavity = cav;
-    link.add(cav);
+    skins.forEach(([o, skin]) => o.add(skin));
+    link.userData.cavity = { set visible(v) { skins.forEach(([, s]) => (s.visible = v)); } };
   }
 }
