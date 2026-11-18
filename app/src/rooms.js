@@ -34,6 +34,7 @@ export const ROOMS = {
       { slug: 'x-crystalball', x: -0.9, z: 1.95, rot: 0, h: 0.55 },
       { slug: 'x-plant', x: -2.15, z: -2.1, rot: 0, h: 0.95 },
       { slug: 'x-broom', x: 2.25, z: -2.25, rot: 10, h: 1.5 },
+      { slug: 'x-candles', x: 0.95, z: -2.2, y: 1.8, rot: 0, h: 0.3 },
     ],
   },
   pirate: {
@@ -59,6 +60,7 @@ export const ROOMS = {
       { slug: 'x-anchor', x: 0.95, z: -2.45, rot: 0, h: 1.0 },
       { slug: 'x-rope', x: -0.55, z: 1.7, rot: 0, h: 0.25 },
       { slug: 'x-parrotperch', x: 2.7, z: -0.85, rot: -30, h: 1.4 },
+      { slug: 'x-treasurepile', x: -0.85, z: 0.9, rot: 20, h: 0.3 },
     ],
   },
   kitchen: {
@@ -84,6 +86,8 @@ export const ROOMS = {
       { slug: 'x-sacks', x: 2.55, z: -1.2, rot: -40, h: 0.7 },
       { slug: 'x-ghostjar', x: -1.0, z: -2.45, y: 0, rot: 15, h: 0.6 },
       { slug: 'x-pumpkin', x: 1.3, z: 1.9, rot: 0, h: 0.45 },
+      { slug: 'x-broomstick2', x: 2.6, z: -0.2, rot: -30, h: 0.9 },
+      { slug: 'x-cat', x: -1.55, z: -1.6, rot: 40, h: 0.5 },
     ],
   },
   workshop: {
@@ -137,6 +141,7 @@ export const ROOMS = {
       { slug: 'x-lamp', x: 3.05, z: 0.5, rot: 0, h: 1.8 },
       { slug: 'x-ladder', x: 3.15, z: -1.35, rot: -90, h: 2.3 },
       { slug: 'x-owl', x: 2.35, z: -2.55, y: 1.3, rot: -10, h: 0.45 },
+      { slug: 'x-telescope', x: -2.4, z: 2.2, rot: 45, h: 1.5 },
     ],
   },
 };
