@@ -60,7 +60,16 @@ export async function loadRoom(scene, roomId, onProgress = () => {}) {
   let done = 0;
   await Promise.all([
     ...room.items.map(async (it) => {
-      const robot = await loadPiece(it.slug);
+      let robot;
+      try {
+        robot = await loadPiece(it.slug);
+      } catch (e) {
+        // a missing or broken model should cost one piece, not the whole room
+        console.warn('piece failed to load', it.slug, e);
+        cache.delete(it.slug);
+        onProgress(++done / total);
+        return;
+      }
       // reset joints in case this robot was used in an earlier run
       Object.values(robot.joints).forEach((j) => j.jointType !== 'fixed' && j.setJointValue(0));
       const holder = new THREE.Group();

@@ -652,7 +652,7 @@ muteBtn.onclick = () => { startMusic(); toggleMute(); paintMute(); };
 paintMute();
 
 // ---------- boot ----------
-window.__rummage = { S, camera, controls, scene, get world() { return world; }, toggle, startLevel, beginPlay, items: () => items };
+window.__rummage = { S, camera, controls, scene, get world() { return world; }, toggle, startLevel, beginPlay, items: () => items, levels: LEVELS, ROOMS };
 frame();
 (async () => {
   const params = new URLSearchParams(location.search);
