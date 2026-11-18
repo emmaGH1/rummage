@@ -1,0 +1,24 @@
+{
+  "gen": {"style": "cartoon", "faceCount": 12000},
+  "skipSplit": true,
+  "objects": {
+    "i-key": {"prompt": "cartoon big golden skeleton key with an ornate round bow and chunky teeth, shiny gold, single isolated object"},
+    "i-lockkey": {"prompt": "cartoon small light blue brass key with a simple round bow, single isolated object"},
+    "i-coins": {"prompt": "cartoon small pile of shiny gold coins, single isolated object"},
+    "i-bottle": {"prompt": "cartoon empty green glass bottle with a cork, single isolated object"},
+    "i-sock": {"prompt": "cartoon single striped orange and white sock, single isolated object"},
+    "i-teacup": {"prompt": "cartoon white teacup on a blue saucer, single isolated object"},
+    "i-spoon": {"prompt": "cartoon silver spoon, single isolated object"},
+    "i-rubberduck": {"prompt": "cartoon yellow rubber duck, single isolated object"},
+    "x-candles": {"prompt": "cartoon three melting candles of different heights on a brass holder, chunky simple shapes, single isolated object"},
+    "x-cat": {"prompt": "cartoon black cat sitting with big yellow eyes, chunky simple shapes, single isolated object"},
+    "x-treasurepile": {"prompt": "cartoon pile of gold coins and gems spilling, chunky simple shapes, single isolated object"},
+    "x-hangingfish": {"prompt": "cartoon stuffed swordfish trophy on a wooden plaque, chunky simple shapes, single isolated object"},
+    "x-broomstick2": {"prompt": "cartoon mop and bucket, blue bucket, chunky simple shapes, single isolated object"},
+    "x-cakestand": {"prompt": "cartoon three-tier cake stand with pink cupcakes, chunky simple shapes, single isolated object"},
+    "x-kite": {"prompt": "cartoon colourful diamond kite with a ribbon tail, chunky simple shapes, single isolated object"},
+    "x-trainset": {"prompt": "cartoon little red toy steam train engine, chunky simple shapes, single isolated object"},
+    "x-telescope": {"prompt": "cartoon brass telescope on a wooden tripod, chunky simple shapes, single isolated object"},
+    "x-plant2": {"prompt": "cartoon tall potted fern in a blue ceramic pot, chunky simple shapes, single isolated object"}
+  }
+}
