@@ -21,7 +21,8 @@ const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
 const controls = new OrbitControls(camera, canvas);
 Object.assign(controls, { enablePan: false, enableDamping: true, minDistance: 4, maxDistance: 22, minPolarAngle: 0.5, maxPolarAngle: 1.25 });
 
-scene.add(new THREE.HemisphereLight('#fff7e0', '#3040c0', 1.4));
+const hemi = new THREE.HemisphereLight('#fff7e0', '#3040c0', 1.4);
+scene.add(hemi);
 const sun = new THREE.DirectionalLight('#ffffff', 2.2);
 sun.position.set(4, 8, 5);
 sun.castShadow = true;
@@ -29,6 +30,20 @@ sun.shadow.mapSize.set(TOUCH ? 1024 : 2048, TOUCH ? 1024 : 2048);
 Object.assign(sun.shadow.camera, { left: -7, right: 7, top: 7, bottom: -7 });
 sun.shadow.bias = -0.0005;
 scene.add(sun);
+// Night mode: a flashlight from the camera that follows the pointer (or last touch)
+const torch = new THREE.SpotLight('#fff1c4', 0, 40, 0.15, 0.45, 1.0);
+scene.add(torch, torch.target);
+const aim = new THREE.Vector3(0, 0.6, 0);
+let night = false;
+function setNight(on) {
+  night = on;
+  hemi.intensity = on ? 0.025 : 1.4;
+  sun.intensity = on ? 0.06 : 2.2;
+  torch.intensity = on ? 90 : 0;
+  document.body.classList.toggle('night', on);
+  if (world) scene.background = new THREE.Color(on ? '#06050d' : world.theme.bg);
+  renderer.shadowMap.needsUpdate = true;
+}
 
 function resize() {
   const w = innerWidth, h = innerHeight;
@@ -109,6 +124,7 @@ function clearItems() {
   });
 }
 function itemSpot(part) {
+  if (part.secret) return { host: world.shell, world: part.secret.spot.clone() };
   const childBox = new THREE.Box3().setFromObject(part.link);
   const cc = childBox.getCenter(new THREE.Vector3());
   if (part.joint.jointType === 'prismatic') {
@@ -153,6 +169,7 @@ function lockPiece(piece) {
 async function startLevel(level, seed = (Math.random() * 1e9) | 0) {
   await enterRoom(level.room);
   setupLevel(level, seed);
+  setNight(!!level.night);
   showIntro(level);
 }
 // How obvious a hiding spot is: big doors on tall furniture are where everyone looks first,
@@ -179,7 +196,8 @@ function setupLevel(level, seed) {
   const sizes = [...size.values()].sort((a, b) => a - b);
   const median = sizes[sizes.length >> 1] || 1;
   const sneak = (p) => median / size.get(p); // >1 for small spots
-  const power = 0.4 + (level.id - 1) * 0.35; // level 1 ~ fair, level 5 strongly favours sneaky spots
+  const tier = level.night ? level.id - 4 : level.id; // night levels are one notch harder than their day room
+  const power = 0.4 + (tier - 1) * 0.35; // tier 1 ~ fair, higher tiers strongly favour sneaky spots
   const used = new Set();
   const usedPieces = new Set();
   const usedKinds = new Map();
@@ -192,13 +210,21 @@ function setupLevel(level, seed) {
   // a padlocked piece always guards one key, so the brass key becomes a required detour
   let lockedPiece = null;
   if (level.locks) {
-    lockedPiece = shuffle(world.pieces.filter((pc) => pc.parts.length >= 1), rand)[0];
+    lockedPiece = shuffle(world.pieces.filter((pc) => pc.parts.length >= 1 && !pc.secret), rand)[0];
     lockedPiece.lockedFlag = true;
   }
   const keyParts = [];
   if (lockedPiece) {
     const p = claim(pickWeighted(lockedPiece.parts, rand, (q) => Math.pow(sneak(q), power)));
     keyParts.push(p); usedPieces.add(p.piece); usedKinds.set(kind(p), 1);
+  }
+  // night: one key is always in a secret spot outside the furniture (behind the picture, under the floorboard)
+  if (level.night) {
+    const secrets = free().filter((p) => p.secret);
+    if (secrets.length) {
+      const p = claim(secrets[Math.floor(rand() * secrets.length)]);
+      keyParts.push(p); usedPieces.add(p.piece);
+    }
   }
   while (keyParts.length < level.keys) {
     // spread keys: never two in the same piece, and vary drawer / door / lid
@@ -242,7 +268,8 @@ function startChallengeSeek() {
 }
 function beginPlay() {
   world.parts.forEach((p) => { p.target = 0; });
-  setSong(world.room.theme);
+  setSong(S.run.level?.night ? 'night' : world.room.theme);
+  setNight(!!S.run.level?.night);
   S.lastSec = null;
   frameCamera();
   S.mode = 'play';
@@ -293,8 +320,18 @@ function setHover(p) {
   canvas.style.cursor = p ? 'pointer' : 'grab';
 }
 let down = null;
-canvas.addEventListener('pointerdown', (e) => (down = [e.clientX, e.clientY]));
+// flashlight aim: cheap raycast against the room shell only (walls + floor)
+const aimRay = new THREE.Raycaster();
+function aimAt(e) {
+  if (!night || !world) return;
+  const r = canvas.getBoundingClientRect();
+  aimRay.setFromCamera(new THREE.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1), camera);
+  const hit = aimRay.intersectObject(world.shell, true)[0];
+  if (hit) aim.copy(hit.point);
+}
+canvas.addEventListener('pointerdown', (e) => { down = [e.clientX, e.clientY]; aimAt(e); });
 canvas.addEventListener('pointermove', (e) => {
+  aimAt(e);
   if (['hide', 'play'].includes(S.mode) && e.pointerType === 'mouse') setHover(pick(e)?.part || null);
 });
 canvas.addEventListener('pointerup', (e) => {
@@ -486,9 +523,10 @@ function calmDown() {
 }
 
 // ---------- screens ----------
-function showTitle() { S.mode = 'title'; setSong('title'); calmDown(); screen('title'); }
+function showTitle() { S.mode = 'title'; setSong('title'); calmDown(); setNight(false); screen('title'); }
 function showMap() {
   S.mode = 'map';
+  setNight(false);
   setSong('title');
   calmDown();
   history.replaceState(null, '', location.pathname);
@@ -546,6 +584,7 @@ $('quitBtn').onclick = () => { duck(false); showMap(); };
 // ---------- challenge (2 players) ----------
 async function startHide() {
   sfx('tick');
+  setNight(false);
   const rooms = LEVELS.filter((l) => l.id <= progress.unlocked && ROOMS[l.room]);
   const room = (rooms[rooms.length - 1] || LEVELS[0]).room;
   await enterRoom(room);
@@ -737,6 +776,10 @@ function frame() {
     const k = camera.aspect < 1 ? Math.min(1.6, 0.72 / camera.aspect) : 1;
     controls.target.set(0, 0.7, -0.2);
     camera.position.set((w + Math.sin(a) * 1.5) * k, Math.max(w, d) * 0.95 * k, (d * 1.3 + Math.cos(a) * 1.5) * k);
+  }
+  if (night) {
+    torch.position.copy(camera.position);
+    torch.target.position.lerp(aim, 0.2);
   }
   controls.update();
   renderer.render(scene, camera);

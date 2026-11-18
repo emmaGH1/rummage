@@ -34,7 +34,6 @@ export const ROOMS = {
       { slug: 'x-crystalball', x: -0.9, z: 1.95, rot: 0, h: 0.55 },
       { slug: 'x-plant', x: -2.15, z: -2.1, rot: 0, h: 0.95 },
       { slug: 'x-broom', x: 2.25, z: -2.25, rot: 10, h: 1.5 },
-      { slug: 'x-candles', x: 0.95, z: -2.2, y: 1.8, rot: 0, h: 0.3 },
     ],
   },
   pirate: {
@@ -156,7 +155,7 @@ export const THEMES = {
   pirate: { bg: '#0f5f6b', wall: '#16808f', floor: '#7a4a2a', skirt: '#0b4650', rug: '#c9302c', rugBorder: '#ffd23f', decor: 'porthole' },
   kitchen: { artZ: 1.3, bg: '#3b1f5c', wall: '#5b2f8a', floor: '#f2e6c9', skirt: '#2a1442', rug: '#2fbf71', rugBorder: '#14121f', decor: 'window' },
   workshop: { bg: '#a3341f', wall: '#e0562f', floor: '#f2c14e', skirt: '#7a2414', rug: '#2b59c3', rugBorder: '#fff6e6', decor: 'pegboard' },
-  library: { bg: '#14213d', wall: '#7a1f2b', floor: '#3b2a1e', skirt: '#4a1018', rug: '#1f6f5c', rugBorder: '#f6c945', decor: 'window' },
+  library: { boardX: -1.1, bg: '#14213d', wall: '#7a1f2b', floor: '#3b2a1e', skirt: '#4a1018', rug: '#1f6f5c', rugBorder: '#f6c945', decor: 'window' },
 };
 
 export const DEFAULT_ROOM = 'wizard';
