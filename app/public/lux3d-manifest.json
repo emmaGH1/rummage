@@ -607,6 +607,337 @@
    }
   },
   {
+   "slug": "t-cubbies",
+   "prompt": "cartoon low shelf unit with four square cubby doors in a two by two grid, each door a different bright colour, chunky simple shapes, single isolated object",
+   "motion": "Each of the four cubby doors swings open outward on a vertical hinge at its left edge, about 110 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "door_top_left",
+    "door_top_right",
+    "door_bottom_left",
+    "door_bottom_right"
+   ],
+   "joints": [
+    {
+     "name": "door_top_left_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.570796
+     ]
+    },
+    {
+     "name": "door_top_right_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.570796
+     ]
+    },
+    {
+     "name": "door_bottom_left_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.570796
+     ]
+    },
+    {
+     "name": "door_bottom_right_joint",
+     "type": "revolute",
+     "range": [
+      -1.570796,
+      0.0
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 108,
+     "task": "8295887"
+    },
+    "articulate": {
+     "seconds": 207,
+     "task": "8296379"
+    }
+   }
+  },
+  {
+   "slug": "t-dollhouse",
+   "prompt": "cartoon dollhouse cabinet shaped like a little house with a pointed roof and two front doors that open like shutters, pink and yellow, chunky simple shapes, single isolated object",
+   "motion": "The two front doors swing open outward on vertical hinges at the left and right outer edges, about 120 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "door_left",
+    "door_right"
+   ],
+   "joints": [
+    {
+     "name": "door_left_joint",
+     "type": "revolute",
+     "range": [
+      -1.570796,
+      0.0
+     ]
+    },
+    {
+     "name": "door_right_joint",
+     "type": "revolute",
+     "range": [
+      -1.570796,
+      0.0
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 117,
+     "task": "8296089"
+    },
+    "articulate": {
+     "seconds": 145,
+     "task": "8298592"
+    }
+   }
+  },
+  {
+   "slug": "t-jackbox",
+   "prompt": "cartoon jack-in-the-box toy, a cube box with red and yellow checker sides and a hinged top lid with a crank on the side, chunky simple shapes, single isolated object, closed",
+   "motion": "The top lid rotates open upward about the hinge along the back top edge, about 110 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "lid",
+    "crank"
+   ],
+   "joints": [
+    {
+     "name": "lid_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      2.094395
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 126,
+     "task": "8296206"
+    },
+    "articulate": {
+     "seconds": 145,
+     "task": "8296901"
+    }
+   }
+  },
+  {
+   "slug": "t-paintbox",
+   "prompt": "cartoon wooden paint supply box with a lid, colourful paint splashes, chunky simple shapes, single isolated object, closed",
+   "motion": "The lid rotates open upward about the hinge along the back top edge, up to about 100 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "base",
+    "lid"
+   ],
+   "joints": [
+    {
+     "name": "lid_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.570796
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 144,
+     "task": "8295888"
+    },
+    "articulate": {
+     "seconds": 136,
+     "task": "8298415"
+    }
+   }
+  },
+  {
+   "slug": "t-toolcabinet",
+   "prompt": "cartoon tall red metal tool cabinet with two doors on top and three drawers below, chunky simple shapes, single isolated object, closed",
+   "motion": "The two top doors swing open outward on vertical hinges at their outer edges, about 110 degrees, and the three drawers below slide straight out forward about 60 percent of their depth.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "door_left",
+    "door_right",
+    "drawer_top",
+    "drawer_middle",
+    "drawer_bottom"
+   ],
+   "joints": [
+    {
+     "name": "door_left_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.570796
+     ]
+    },
+    {
+     "name": "door_right_joint",
+     "type": "revolute",
+     "range": [
+      -1.570796,
+      0.0
+     ]
+    },
+    {
+     "name": "drawer_top_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.287355
+     ]
+    },
+    {
+     "name": "drawer_middle_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.286956
+     ]
+    },
+    {
+     "name": "drawer_bottom_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.286659
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 126,
+     "task": "8295850"
+    },
+    "articulate": {
+     "seconds": 208,
+     "task": "8296433"
+    }
+   }
+  },
+  {
+   "slug": "t-toychest",
+   "prompt": "cartoon toy chest painted with stars, bright blue with yellow lid and red handles, chunky simple shapes, single isolated object, closed",
+   "motion": "The lid rotates open upward about the hinge along the back top edge, up to about 100 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "lid"
+   ],
+   "joints": [
+    {
+     "name": "lid_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.57
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 108,
+     "task": "8296205"
+    },
+    "articulate": {
+     "seconds": 145,
+     "task": "8296437"
+    }
+   }
+  },
+  {
+   "slug": "t-trunk",
+   "prompt": "cartoon circus steamer trunk with stripes and stars, red and white, rounded lid, chunky simple shapes, single isolated object, closed",
+   "motion": "The rounded lid rotates open upward about the hinge along the back top edge, up to about 100 degrees.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "lid"
+   ],
+   "joints": [
+    {
+     "name": "lid_joint",
+     "type": "revolute",
+     "range": [
+      0.0,
+      1.57
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 109,
+     "task": "8296256"
+    },
+    "articulate": {
+     "seconds": 154,
+     "task": "8296813"
+    }
+   }
+  },
+  {
+   "slug": "t-workbench",
+   "prompt": "cartoon carpenter workbench with three drawers under the top, warm wood with blue drawers, chunky simple shapes, single isolated object",
+   "motion": "Each of the three drawers slides straight out forward along the depth axis, about 60 percent of its depth.",
+   "style": "cartoon",
+   "parts": [
+    "body",
+    "drawer_top",
+    "drawer_middle",
+    "drawer_bottom"
+   ],
+   "joints": [
+    {
+     "name": "drawer_top_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.315559
+     ]
+    },
+    {
+     "name": "drawer_middle_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.298663
+     ]
+    },
+    {
+     "name": "drawer_bottom_joint",
+     "type": "prismatic",
+     "range": [
+      0.0,
+      0.298413
+     ]
+    }
+   ],
+   "timings": {
+    "generate": {
+     "seconds": 162,
+     "task": "8295849"
+    },
+    "articulate": {
+     "seconds": 171,
+     "task": "8296315"
+    }
+   }
+  },
+  {
    "slug": "w-bookcase",
    "prompt": "cartoon bookcase for a wizard's study, open shelves with a few colourful spell books on top and a closed two-door cupboard at the bottom, flat mustard yellow paint, chunky simple shapes, single isolated object",
    "motion": "The two lower cupboard doors swing open outward on vertical hinges at their outer edges, about 110 degrees.",
