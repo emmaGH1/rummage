@@ -584,7 +584,8 @@ function frame() {
     for (const p of world.parts) {
       if (p.value === p.target && !p.vel) continue;
       const k = p.target === 0 ? 260 : 140, damp = p.target === 0 ? 30 : 13;
-      p.vel = (p.vel || 0) + ((p.target - p.value) * k - p.vel * damp) * dt;
+      const v = p.vel || 0;
+      p.vel = v + ((p.target - p.value) * k - v * damp) * dt;
       p.value += p.vel * dt;
       if (Math.abs(p.target - p.value) < 1e-3 * Math.max(1, Math.abs(p.open)) && Math.abs(p.vel) < 1e-2) { p.value = p.target; p.vel = 0; }
       // never swing past closed into the body
