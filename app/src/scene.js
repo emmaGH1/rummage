@@ -69,11 +69,11 @@ export function whenMeshesReady(robot, timeoutMs = 20000) {
   return new Promise((resolve) => {
     const t0 = performance.now();
     (function poll() {
+      // count links whose OWN visual has its mesh (not meshes of child links further down the tree)
       let n = 0;
       Object.values(robot.links).forEach((l) => {
-        let has = false;
-        l.traverse((o) => (has ||= o.isMesh));
-        if (has) n++;
+        const vis = l.children.filter((c) => c.isURDFVisual);
+        if (vis.length && vis.every((v) => { let has = false; v.traverse((o) => (has ||= o.isMesh)); return has; })) n++;
       });
       if (n >= expected || performance.now() - t0 > timeoutMs) resolve();
       else setTimeout(poll, 80);
