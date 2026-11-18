@@ -43,6 +43,7 @@ const $ = (id) => document.getElementById(id);
 const SCREENS = ['loading', 'title', 'map', 'intro', 'hud', 'result', 'hidebar', 'ready', 'pause'];
 function screen(...ids) {
   SCREENS.forEach((id) => $(id)?.classList.toggle('hidden', !ids.includes(id)));
+  document.body.classList.toggle('in-play', ids.includes('hud'));
 }
 function toast(text, worldPos, kind = '') {
   const el = document.createElement('div');
@@ -738,9 +739,32 @@ const sfxBtn = $('sfxBtn');
 const paintSfx = () => (sfxBtn.textContent = isSfxMuted() ? 'Sounds: off' : 'Sounds: on');
 sfxBtn.onclick = (e) => { e.stopPropagation(); toggleSfx(); paintSfx(); sfx('click'); };
 paintSfx();
+$('pMusic').onclick = () => { muteBtn.click(); syncPause(); };
+$('pSfx').onclick = () => { sfxBtn.click(); syncPause(); };
+function syncPause() { $('pMusic').textContent = muteBtn.textContent; $('pSfx').textContent = sfxBtn.textContent; }
+syncPause();
 // a click sound on every button, a soft tick on hover (mouse only)
 document.addEventListener('click', (e) => { if (e.target.closest('button') && !e.target.closest('.sound')) sfx('click'); }, true);
 document.addEventListener('pointerover', (e) => { if (e.pointerType === 'mouse' && e.target.closest('button:not(:disabled)')) sfx('hover'); });
+
+// ---------- embedded on a phone ----------
+// ModelScope shows the game in an iframe that can be far larger than a phone screen, pushing controls off-screen.
+// Offer to open the game directly (full screen, real phone viewport).
+function embedCheck() {
+  let framed = false;
+  try { framed = window.top !== window; } catch { framed = true; }
+  const touch = matchMedia('(pointer: coarse)').matches;
+  const oversized = innerWidth > window.screen.width + 8 || innerHeight > window.screen.height + 8; // window.screen: `screen` is our own helper
+  if (framed && (touch || oversized)) {
+    const a = $('fullBtn');
+    a.href = location.origin + location.pathname;
+    a.classList.remove('hidden');
+    document.body.classList.add('embedded');
+  }
+}
+embedCheck();
+addEventListener('resize', embedCheck);
+[500, 1500, 4000].forEach((ms) => setTimeout(embedCheck, ms));
 
 // ---------- boot ----------
 window.__rummage = { S, camera, controls, scene, get world() { return world; }, toggle, startLevel, beginPlay, items: () => items, levels: LEVELS, ROOMS };
