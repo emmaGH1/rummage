@@ -1,5 +1,38 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import { toon, inkify } from './scene.js';
+
+// Lux3D-generated item models (public/props/i-*.glb). If one is missing we fall back to the primitive version.
+const templates = {};
+const ITEM_SIZES = { key: 0.24, lockkey: 0.16, coins: 0.14, bottle: 0.2, sock: 0.16, teacup: 0.13, spoon: 0.16, rubberduck: 0.14 };
+export async function preloadItems() {
+  const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
+  await Promise.all(Object.keys(ITEM_SIZES).map(async (name) => {
+    try {
+      const g = await loader.loadAsync(`${import.meta.env.BASE_URL}props/i-${name}.glb`);
+      const root = g.scene;
+      root.updateMatrixWorld(true); // node transforms must be current before measuring
+      const box = new THREE.Box3().setFromObject(root);
+      const size = box.getSize(new THREE.Vector3());
+      const c = box.getCenter(new THREE.Vector3());
+      const wrap = new THREE.Group();
+      root.position.sub(c).add(new THREE.Vector3(0, size.y / 2, 0));
+      wrap.add(root);
+      wrap.scale.setScalar(ITEM_SIZES[name] / Math.max(size.x, size.y, size.z));
+      inkify(wrap, { thickness: 0.004 });
+      wrap.traverse((o) => o.isMesh && (o.castShadow = true));
+      templates[name] = wrap;
+    } catch { /* keep the primitive fallback */ }
+  }));
+}
+function fromTemplate(name) {
+  const t = templates[name];
+  if (!t) return null;
+  const g = new THREE.Group();
+  g.add(t.clone(true));
+  return g;
+}
 
 // Chunky primitive items, styled to match the Comic Ink furniture.
 function finish(g, thickness = 0.006) {
@@ -8,7 +41,14 @@ function finish(g, thickness = 0.006) {
   return g;
 }
 
-export function makeKey(color = '#ffc82e', size = 1.7) {
+export function makeKey(color = '#ffc82e', size = 1.7, model = 'key') {
+  const lux = fromTemplate(model);
+  if (lux) {
+    const glow = new THREE.PointLight(color, 0, 1.2);
+    lux.add(glow);
+    lux.userData.glow = glow;
+    return lux;
+  }
   const gold = toon(color);
   const k = new THREE.Group();
   const ring = new THREE.Mesh(new THREE.TorusGeometry(0.045, 0.016, 10, 24), gold);
@@ -30,7 +70,7 @@ export function makeKey(color = '#ffc82e', size = 1.7) {
 }
 
 // the small key that opens padlocked furniture
-export const makeLockKey = () => makeKey('#9fd8ff', 1.2);
+export const makeLockKey = () => makeKey('#9fd8ff', 1.2, 'lockkey');
 
 export function makePadlock() {
   const g = new THREE.Group();
@@ -101,9 +141,13 @@ export const DECOY_LINES = {
   sock: 'A single sock. Gross.',
   teacup: 'A teacup. Not a key.',
   spoon: 'A spoon. Keep looking!',
+  rubberduck: 'Quack. Not a key.',
 };
-export const DECOY_TYPES = Object.keys(DECOYS);
+export const DECOY_TYPES = Object.keys(DECOY_LINES);
 export function makeDecoy(type) {
+  const lux = fromTemplate(type);
+  if (lux) { lux.userData.decoy = type; return lux; }
+  if (!DECOYS[type]) type = 'coins';
   const g = DECOYS[type]();
   g.scale.setScalar(1.6);
   g.userData.decoy = type;

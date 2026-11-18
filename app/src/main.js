@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { ROOMS, TIME_OPTIONS } from './rooms.js';
 import { LEVELS, loadProgress, saveProgress, starsFor, rng, shuffle } from './levels.js';
 import { loadRoom, unloadRoom } from './world.js';
-import { makeKey, makeLockKey, makePadlock, makeDecoy, DECOY_TYPES, DECOY_LINES } from './items.js';
+import { makeKey, makeLockKey, makePadlock, makeDecoy, DECOY_TYPES, DECOY_LINES, preloadItems } from './items.js';
 import { sfx, toggleSfx, isSfxMuted } from './sfx.js';
 import { startMusic, toggleMute, isMuted, setSong, setHurry, duck } from './music.js';
 import './style.css';
@@ -126,6 +126,8 @@ function putItem(obj, part, kind, extra = {}) {
   const s = 1 / host.getWorldScale(new THREE.Vector3()).x;
   obj.scale.multiplyScalar(s);
   obj.visible = false;
+  obj.userData.baseY = obj.position.y;
+  obj.userData.hostScale = 1 / s;
   const it = { obj, part, kind, found: false, ...extra };
   items.push(it);
   return it;
@@ -676,7 +678,10 @@ function frame() {
       if (it.pop && it.kind !== 'decoy') {
         const t = (now - it.pop) / 1000;
         if (it.obj.userData.glow) it.obj.userData.glow.intensity = 3 + Math.sin(t * 6) * 1.5;
-        it.obj.rotation.z = t * 2.5;
+        it.obj.rotation.y = t * 2.5;
+        // float up out of the hiding spot and bob
+        const lift = (Math.min(1, t * 2.5) * 0.18 + Math.sin(t * 4) * 0.015) / it.obj.userData.hostScale;
+        it.obj.position.y = it.obj.userData.baseY + lift;
       }
     }
     for (const pc of world.pieces) {
@@ -744,6 +749,7 @@ frame();
   const params = new URLSearchParams(location.search);
   const ch = decodeChallenge(params.get('c'));
   try {
+    await preloadItems();
     if (ch && ROOMS[ch.r]) {
       await enterRoom(ch.r);
       if (world.byId.has(ch.s)) {
