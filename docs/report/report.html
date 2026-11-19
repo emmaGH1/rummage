@@ -173,6 +173,10 @@
 <h3>Demo video</h3>
 <p>The 2-minute demo video is real footage of the live game. Because the build machine has no GPU, a screen recording would stutter, so we recorded frame by frame: the game's clock (timers, animations, physics springs) is frozen and stepped 1/30 s at a time while each frame is captured (<code>tools/video/capture.mjs</code>). The game logs every sound it plays, so the sound effects in the video land on the exact frames where the game played them. The edit, music bed and narration are assembled from one timeline (<code>tools/video/build_edit.py</code>). Three moments were set up to keep the video short: the coin flip is set to land heads, the "last key" shot starts with the first keys already found and the clock advanced, and the exploded view pulls the drawers out further than they open in the game.</p>
 
+<h3>Bonus: Snorfle</h3>
+<p>On the last morning we built a small second game from the same Lux3D furniture, linked from Rummage's title screen: <b>Snorfle</b> (https://snorfle-game.vercel.app), a ragebait escape room. The goal is to leave through the EXIT, which is right there. Deputy Latch, a petty little box with googly eyes, keeps adding rules to your exit checklist: the EXIT is a wardrobe, the key is decorative, an inspection stalls at 7 of 8, and his glove switches him back on when you try to turn him off. Three new Lux3D pieces were generated for it: the box (text-to-3D task 8412876, articulation 8413206), a cabinet (8412870, 8413151) and a glove (8412874). We only asked Lux3D to articulate the box's lid, but it also gave the toggle switch its own revolute joint, and the game's last act is built on that joint. The other six pieces are reused from Rummage. Source: the <code>useless/</code> folder in the repository.</p>
+<p><img src="img/snorfle-1.png" style="width:24%;border:2px solid #14121f;border-radius:8px"> <img src="img/snorfle-2.png" style="width:24%;border:2px solid #14121f;border-radius:8px"></p>
+
 <h2 class="page">6. Every Lux3D piece</h2>
 <table>
   <tr><th>Piece</th><th>Prompt (abridged)</th><th>Joints</th><th>Gen / Artic. (s)</th></tr>
