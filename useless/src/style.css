@@ -28,7 +28,7 @@ h1 { font-family: 'Lilita One', 'PingFang SC', sans-serif; font-weight: 400; mar
 .say.note { transform: translate(-50%, -50%) rotate(var(--r)) scale(.4); background: #fff27a; padding: 16px 14px; width: min(62vw, 230px); font-family: 'Courier New', monospace; font-size: 16px;
   box-shadow: 3px 6px 0 rgba(0,0,0,.35); border-top: 14px solid #f2d94e; }
 .say.note.on { transform: translate(-50%, -50%) rotate(var(--r)) scale(1); }
-.say.toast { top: max(10px, env(safe-area-inset-top)); left: 50%; transform: translate(-50%, -140%); background: rgba(250,250,255,.97); border-radius: 16px; padding: 8px 14px 10px;
+.say.toast { top: max(46px, calc(env(safe-area-inset-top) + 40px)); left: 50%; transform: translate(-50%, -140%); background: rgba(250,250,255,.97); border-radius: 16px; padding: 8px 14px 10px;
   width: min(92vw, 380px); font-size: 15px; box-shadow: 0 8px 24px rgba(0,0,0,.35); font-weight: 700; }
 .say.toast.on { transform: translate(-50%, 0); }
 .say.toast .th { font-size: 11px; font-weight: 800; opacity: .6; margin-bottom: 2px; }
@@ -102,3 +102,32 @@ footer { position: fixed; left: 0; right: 0; bottom: 0; padding: 0 16px max(12px
 .stats3 b { font-family: 'Lilita One', sans-serif; font-weight: 400; font-size: 28px; color: var(--red); }
 .stats3 span { font-size: 11px; font-weight: 800; }
 .endLine { font-weight: 800; font-style: italic; }
+
+.arrow { position: fixed; z-index: 4; font-size: 40px; transform: translate(-50%, -100%); pointer-events: none; animation: arr .6s ease-in-out infinite alternate; filter: drop-shadow(0 3px 0 #14121f); }
+@keyframes arr { to { margin-top: -14px; } }
+.dbar { position: fixed; left: 50%; bottom: calc(52px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 5; width: min(94vw, 560px); display: flex; gap: 10px; align-items: center;
+  background: #fff; border: 3px solid var(--ink); border-radius: 16px; padding: 8px 12px; box-shadow: 0 5px 0 var(--ink); pointer-events: none; }
+.dbar.pop { animation: pop .25s cubic-bezier(.2,1.6,.4,1); }
+@keyframes pop { from { transform: translateX(-50%) scale(.92); } }
+.portrait { flex: 0 0 auto; width: 58px; height: 50px; background: #e08a2e; border: 3px solid var(--ink); border-radius: 10px; display: flex; gap: 4px; align-items: center; justify-content: center; }
+.ge { width: 20px; height: 20px; background: #fff; border: 2px solid var(--ink); border-radius: 50%; position: relative; }
+.ge i { position: absolute; width: 9px; height: 9px; background: var(--ink); border-radius: 50%; left: 4px; top: 2px; animation: lookabout 3s ease-in-out infinite; }
+@keyframes lookabout { 30% { left: 7px; top: 3px; } 60% { left: 2px; top: 6px; } }
+.dtext { font-weight: 900; font-size: clamp(15px, 4vw, 19px); line-height: 1.25; min-height: 2.5em; }
+
+.check { position: fixed; left: 10px; top: max(84px, calc(env(safe-area-inset-top) + 74px)); z-index: 3; background: #fffdf0; border: 3px solid var(--ink); border-radius: 10px; padding: 6px 10px 6px 8px;
+  box-shadow: 0 3px 0 var(--ink); font-weight: 800; font-size: 12.5px; min-width: 150px; max-width: 58vw; transform: rotate(-1.5deg);
+  background-image: repeating-linear-gradient(#fffdf0 0 17px, #c9e3ff 17px 18px); }
+.check .ch { font-family: 'Lilita One', 'PingFang SC', sans-serif; font-weight: 400; font-size: 13px; letter-spacing: 1px; color: var(--red); }
+.check .ci { position: relative; line-height: 18px; white-space: nowrap; }
+.check .ci.ok { color: #888; text-decoration: line-through; }
+.check .ci.fresh { font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', cursive; color: #2b59c3; animation: pencil .7s ease-out; }
+@keyframes pencil { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+.check .bx { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--ink); margin-right: 5px; vertical-align: -1px; font-size: 10px; line-height: 9px; text-align: center; color: var(--green); }
+.check .stamp { position: absolute; right: -6px; top: -2px; color: var(--red); border: 2px solid var(--red); border-radius: 4px; font-size: 9px; padding: 0 3px; transform: rotate(-12deg);
+  text-decoration: none; font-family: 'Lilita One', sans-serif; font-weight: 400; animation: stamp .3s cubic-bezier(.2,1.8,.4,1); background: rgba(255,255,255,.7); }
+@keyframes stamp { from { transform: rotate(-12deg) scale(3); opacity: 0; } }
+.keybadge { top: auto !important; bottom: calc(150px + env(safe-area-inset-bottom)); left: 12px; }
+
+.captcha { top: auto !important; bottom: calc(150px + env(safe-area-inset-bottom)); }
+.keybadge { bottom: calc(230px + env(safe-area-inset-bottom)) !important; }

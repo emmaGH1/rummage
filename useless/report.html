@@ -23,30 +23,30 @@ th { background: #ffd166; }
 <div class="shots"><img src="shot-1.png"><img src="shot-2.png"><img src="shot-3.png"><img src="shot-4.png"></div>
 
 <h2>The idea</h2>
-<p>An entry for the Most Useless Award. Your only goal is to leave a small room, and a big green EXIT sign is right in front of you. Narrating everything is the Oracle, a small wooden box that talks by flapping its Lux3D lid and only knows extremely obvious facts ("Fact: water is wet." "Fact: you are now breathing manually."). Every step of the escape is a real joint that Lux3D generated:</p>
+<p>An entry for the Most Useless Award. Your only goal is to leave a small room, and a big green EXIT sign is right in front of you. Narrating everything is Deputy Latch, a small wooden box that talks by flapping its Lux3D lid and only knows extremely obvious facts ("Fact: water is wet." "Fact: you are now breathing manually."). Every step of the escape is a real joint that Lux3D generated:</p>
 <ol>
 <li><b>Tap the EXIT.</b> The doors swing open. "Fact: that is a wardrobe. Wardrobes are not exits." The sign changes to EXIT?</li>
 <li><b>Find the key.</b> "Keys live in drawers. Drawers are the things that slide." Not here. Not here either. Warmer. The fourth drawer you open has the key, whichever one it is.</li>
 <li><b>Use the key.</b> "Wardrobes don't have locks. The key was decorative."</li>
-<li><b>Prove you are not a robot.</b> A CAPTCHA: open every object that opens. It stalls at 7/8. The eighth is the Oracle itself: "It is very visible. It is talking to you."</li>
+<li><b>Prove you are not a robot.</b> A CAPTCHA: open every object that opens. It stalls at 7/8. The eighth is Deputy Latch itself: "It is very visible. It is talking to you."</li>
 <li><b>Put the room back.</b> Close everything. One drawer slides back out: "That drawer has concerns."</li>
 <li><b>Exit quiz.</b> "Is water wet?" "A kilo of bricks or a kilo of feathers?" "Are you still in the room?"</li>
-<li><b>Turn off the Oracle.</b> Flip its switch, a real Lux3D joint, and it does the opposite of a useless box: its glove comes out and turns it back on. Twice. The third time the glove gives up and waves, and every door in the room swings open in a victory chord.</li>
+<li><b>Turn off Deputy Latch.</b> Flip its switch, a real Lux3D joint, and it does the opposite of a useless box: its glove comes out and turns it back on. Twice. The third time the glove gives up and waves, and every door in the room swings open in a victory chord.</li>
 <li><b>Leave.</b> You walk through the EXIT into the wardrobe. The share card reads: "I spent 2:25 escaping a room. I escaped into a wardrobe. Fact: water is wet." Wisdom gained: 0.</li>
 </ol>
 
 <h2>Built to waste your time</h2>
 <ul>
-<li><b>The Oracle talks everywhere:</b> a speech bubble over its lid, a sticky note, a phone notification, a BREAKING news ticker, a ransom note, a Windows-98 style "Oracle.exe" alert, or a giant wobbling shout.</li>
+<li><b>Deputy Latch</b> is a petty exit clerk with googly eyes that follow your finger and roll at you. His story lines are salty ("A wardrobe. Well, your coat can leave." "A key! My supervision has paid off." "Fine. Get in the wardrobe. I will put you down as a coat."). An EXIT CHECKLIST gets new rules pencilled in every time you get close, each stamped APPROVED when done. He also interrupts you with a sticky note, a phone notification, a BREAKING news ticker, a ransom note, a Windows-98 style "Oracle.exe" alert, or a giant wobbling shout.</li>
 <li><b>Quitting does not work.</b> "Are you sure?" The Yes button runs away twice. A progress bar calculates how much time you wasted and sticks at 99.99%, then lists what you could have done instead (boiled 0.4 eggs, done 87 push-ups, called your mum 0.7 times, finished your hackathon project 0 times) and says you are never getting that time back. "Type QUIT to confirm." "Did you mean QUILT?" Your quit request is number 4,812 in a queue that only gets longer. Finally: "Fact: this is a website. Websites cannot close themselves. Close the tab." The Close button is decorative. Closing the tab asks "Leave site?" one more time.</li>
 <li><b>Elevator music</b>, synthesized, that drifts further out of tune every loop, with a random kazoo. Muting it says "it is still playing in your head" and plays one more kazoo.</li>
 <li><b>Small things:</b> tapping a wall ("Walls: 0 doors. Very consistent."), the rug or the floor gets a fact; useless notifications ("Your battery is lower than when you started."); the timer renames itself (Time wasted, Time wasted (well), Time you won't get back, Life, ticking); the EXIT sign flickers to EXlT.</li>
 </ul>
 <h2>How Lux3D built it</h2>
-<p>Every interactive object in the room is a URDF returned by Lux3D articulation, loaded with three.js and urdf-loader. Every door, drawer, lid and the switch moves on its Lux3D joint, and none was rigged by hand. The Oracle, its switch and the glove were generated for this entry today; the other pieces come from our main entry, Rummage, and were generated by the same pipeline.</p>
+<p>Every interactive object in the room is a URDF returned by Lux3D articulation, loaded with three.js and urdf-loader. Every door, drawer, lid and the switch moves on its Lux3D joint, and none was rigged by hand. Deputy Latch, its switch and the glove were generated for this entry today; the other pieces come from our main entry, Rummage, and were generated by the same pipeline.</p>
 <table>
 <tr><th>Piece</th><th>Text-to-3D task</th><th>Articulation task</th><th>Joints used</th></tr>
-<tr><td>The Oracle (useless box), new</td><td>8412876 (135 s)</td><td>8413206 (135 s)</td><td>lid, toggle switch</td></tr>
+<tr><td>Deputy Latch (useless box), new</td><td>8412876 (135 s)</td><td>8413206 (135 s)</td><td>lid, toggle switch</td></tr>
 <tr><td>Mint cabinet, new</td><td>8412870 (108 s)</td><td>8413151 (181 s)</td><td>2 doors, 1 drawer</td></tr>
 <tr><td>Glove, new</td><td>8412874 (95 s)</td><td>n/a (prop)</td><td>moved by code</td></tr>
 <tr><td>Wardrobe (the EXIT)</td><td>8292708</td><td>8293004</td><td>2 doors</td></tr>
@@ -56,7 +56,7 @@ th { background: #ffd166; }
 <tr><td>Toy chest</td><td>8296205</td><td>8296437</td><td>lid</td></tr>
 <tr><td>Jack-in-the-box</td><td>8296206</td><td>8296901</td><td>lid</td></tr>
 </table>
-<p><b>The surprise:</b> for the Oracle we only asked for the lid to move ("The top lid swings upward and backward on a hinge along its back edge"). Lux3D's articulation also found the toggle switch and gave it its own revolute joint (±30°), mounted on the lid. The whole last act of the game is built on that joint.</p>
+<p><b>The surprise:</b> for Deputy Latch we only asked for the lid to move ("The top lid swings upward and backward on a hinge along its back edge"). Lux3D's articulation also found the toggle switch and gave it its own revolute joint (±30°), mounted on the lid. The whole last act of the game is built on that joint.</p>
 
 <h2>What is ours, not Lux3D's</h2>
 <p>The story, the facts, the CAPTCHA and quiz, the glove's path, the room shell (walls, floor, rug, EXIT sign), synthesized sounds, toon shading with ink outlines, and web compression of the meshes (gltf-transform). The loading, shading and joint code is shared with Rummage. English and Simplified Chinese (废话文学), following the browser language.</p>
