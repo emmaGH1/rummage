@@ -81,6 +81,10 @@ Every call is logged with its prompt, task id, duration and result: [docs/genera
 | No hiding spot dominates (most-used spot: 24% of 1,000 runs) | [key-stats output](evidence/key-stats-2026-11-18.txt) · `node tools/key_stats.mjs` |
 | The public demo needs no API key and keeps working | check 7 in [check-live](evidence/check-live-2026-11-18.txt): static site, pre-generated assets |
 
+## Bonus: Snorfle
+
+[Snorfle](https://snorfle-game.vercel.app) is a small ragebait escape room built from the same Lux3D furniture plus three new Lux3D pieces: a petty box with googly eyes (whose toggle switch Lux3D articulated on its own) won't let you leave. Source in [`useless/`](useless/). Also linked from Rummage's title screen.
+
 ## Run it
 
 ```bash
