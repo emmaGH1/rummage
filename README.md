@@ -5,6 +5,7 @@
 <p align="center">
   <a href="https://rummage-game.vercel.app"><b>▶ Play now</b></a> ·
   <a href="https://www.modelscope.ai/studios/heisemma/rummage">ModelScope Studio</a> ·
+  <a href="https://github.com/emmaGH1/rummage/releases/download/demo-video/rummage-demo.mp4">Demo video</a> ·
   <a href="docs/report/Rummage-report.pdf">Project report (PDF)</a> ·
   <a href="#judges-start-here">Judges start here</a>
 </p>

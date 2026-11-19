@@ -28,7 +28,8 @@ How Lux3D builds it: one sentence per piece → Lux3D text-to-3D (median 117 s) 
 - Play: https://rummage-game.vercel.app
 - ModelScope Studio: https://www.modelscope.ai/studios/heisemma/rummage
 - Source: https://github.com/emmaGH1/rummage (judges start here: README → JUDGES.md, `node scripts/check-live.mjs`)
-- Demo video: <add the link once the video is uploaded>
+- Demo video: https://github.com/emmaGH1/rummage/releases/download/demo-video/rummage-demo.mp4
+- X post: https://x.com/_HEISEMMA/status/2123284040677474348
 
 **Track:** Games (plus any other track the dropdown offers that fits: interactive / creative tools).
 **Special awards it qualifies for:** "3D AI New Species" (an interactive, playable use of Lux3D articulation).
@@ -41,5 +42,5 @@ How Lux3D builds it: one sentence per piece → Lux3D text-to-3D (median 117 s) 
 
 ## After submitting (needs the owner's yes)
 
-- X post with the demo video, one line, #Manycorehackathon and the Aholo account tagged. Register it for the popularity award by Nov 30 04:00 EST.
+- [x] X post with the demo video, @ManycoreTech tagged, #Manycorehackathon: https://x.com/_HEISEMMA/status/2123284040677474348. Register it for the popularity award by Nov 30 04:00 EST.
 - Tag the submitted commit `submitted`; keep both sites up until results are out.

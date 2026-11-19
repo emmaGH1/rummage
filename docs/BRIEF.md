@@ -13,7 +13,7 @@ Sponsor intent (inference): compelling, reusable creative experiences enabled by
 - [x] Rights to all input and output material established. Evidence: prompts are ours; Lux3D outputs used under the Aholo terms; fonts are OFL; sound effects CC0 or catalog-licensed (`video/assets/sfx/CREDITS.md`); all tools disclosed in the report.
 - [x] Demo link keeps working until Dec 31 2026. Evidence: static site, pre-generated assets, no API key in the bundle (check-live check 7).
 - [ ] Submit before deadline (Nov 19 11:00 UTC). Answers ready in `SUBMISSION.md`; the owner submits.
-- [ ] X post for reach (5%): needs the owner's yes; draft after submitting.
+- [x] X post for reach (5%): https://x.com/_HEISEMMA/status/2123284040677474348
 
 ## Official rules — verified 2026-11-17 16:58 UTC
 Sources: https://www.aholo.ai/hackathon/registration , https://www.aholo.ai/hackathon/submission
