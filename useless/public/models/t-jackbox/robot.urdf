@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<robot name="robot">
+  <link name="body">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/body.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="lid">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/lid.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="crank">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/crank.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <joint name="lid_joint" type="revolute">
+    <parent link="body" />
+    <child link="lid" />
+    <origin rpy="0 0 0" xyz="-0.01378300 0.16128951 -0.07917800" />
+    <axis xyz="-0.99999600 -0.00206600 0.00188800" />
+    <limit lower="0.000000" upper="2.094395" effort="10" velocity="1" />
+  </joint>
+  <joint name="crank_joint" type="continuous">
+    <parent link="body" />
+    <child link="crank" />
+    <origin rpy="0 0 0" xyz="0.05980000 0.08463251 0.00130000" />
+    <axis xyz="0.99991300 0.00350000 -0.01270000" />
+  </joint>
+</robot>

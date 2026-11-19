@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<robot name="robot">
+  <link name="body">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/body.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="freezer_door">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/freezer_door.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="refrigerator_door">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/refrigerator_door.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <joint name="freezer_door_joint" type="revolute">
+    <parent link="body" />
+    <child link="freezer_door" />
+    <origin rpy="0 0 0" xyz="0.66133500 2.74258746 0.45446000" />
+    <axis xyz="-0.01045400 -0.99987600 0.01178700" />
+    <limit lower="-1.570796" upper="0.000000" effort="10" velocity="1" />
+  </joint>
+  <joint name="refrigerator_door_joint" type="revolute">
+    <parent link="body" />
+    <child link="refrigerator_door" />
+    <origin rpy="0 0 0" xyz="0.68151400 1.49587146 0.46700700" />
+    <axis xyz="-0.00035600 0.99998600 0.00537100" />
+    <limit lower="0.000000" upper="1.570796" effort="10" velocity="1" />
+  </joint>
+</robot>
