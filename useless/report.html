@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><title>The Useless Box report</title>
+<html lang="en"><head><meta charset="utf-8"><title>The Obvious Oracle report</title>
 <style>
 @font-face { font-family: 'Lilita One'; src: url('../app/src/fonts/LilitaOne.woff2'); }
 @font-face { font-family: 'Nunito'; src: url('../app/src/fonts/Nunito.woff2'); font-weight: 200 1000; }
@@ -16,15 +16,14 @@ td, th { border: 1px solid #bbb; padding: 4px 6px; text-align: left; vertical-al
 th { background: #ffd166; }
 .fine { font-size: 9pt; opacity: .8; }
 </style></head><body>
-<h1>The Useless Box</h1>
-<p class="lead">A box with one job: turning itself off. Every moving part was generated and articulated by Aholo Lux3D.</p>
-<p class="links">Play: https://the-useless-box.vercel.app · Source: https://github.com/emmaGH1/rummage/tree/main/useless</p>
+<h1>The Obvious Oracle</h1>
+<p class="lead">A wooden oracle that reveals extremely obvious facts, then turns itself off. Every moving part was generated and articulated by Aholo Lux3D.</p>
+<p class="links">Play: https://the-obvious-oracle.vercel.app · Source: https://github.com/emmaGH1/rummage/tree/main/useless</p>
 
-<div class="shots"><img src="shot-idle.png"><img src="shot-press.png"><img src="shot-press-zh.png"></div>
+<div class="shots"><img src="shot-idle.png"><img src="shot-fact.png"><img src="shot-fact-zh.png"></div>
 
 <h2>The idea</h2>
-<p>The useless box is a classic desk toy: you flip the switch on, a hand comes out of the lid and flips it off. That's all it does. We built it entirely from Lux3D output. Lux3D generated the box and, from a one-line motion prompt, returned a URDF in which both the lid and the toggle switch are real joints. The game drives those joints directly. Flip the switch (tap the box, or the big switch at the bottom) and the box turns itself off, with a growing personality: fake-outs where the lid peeks and shuts, angry slams, a wave before the press, naps, and at some point the cabinet next to it opens its doors and drawer in solidarity. Tap the cabinet and it's empty. Open its drawer to file a complaint, which will be ignored. A counter keeps score: work done is always 0.</p>
-
+<p>It starts from a classic useless machine: flip the switch on, a hand comes out of the lid and flips it off. We gave it a job, and the job is useless. Flip the switch to receive wisdom: a drumroll, the lid creaks open, the glove rises, and the oracle reveals <b>FACT #n</b>, picked from 50 hand-written facts that are all completely true and completely obvious: <i>"Water is wet."</i> <i>"Every 60 seconds in Africa, a minute passes."</i> <i>"You are now breathing manually."</i> Then the glove smugly flips the switch off and the lid shuts. You can react with 🤯 Mind blown (the oracle answers "no it wasn't.") or 🙄 I knew that ("everyone knew that."). The counter tracks facts revealed, facts you already knew (always the same number) and wisdom gained (always 0). The cabinet next to it agrees with the facts now and then by flinging its doors and drawer open; inside the cabinet is the inside of the cabinet. In Chinese the oracle speaks 废话文学, the internet genre of saying obvious things with full confidence.</p>
 <h2>How Lux3D built it</h2>
 <table>
 <tr><th>Piece</th><th>Lux3D call</th><th>Prompt</th><th>Task id</th><th>Time</th></tr>
@@ -38,7 +37,7 @@ th { background: #ffd166; }
 <p>Result: 2 articulated pieces with 5 joints straight from Lux3D's URDF (lid, switch, two doors, drawer), none rigged by hand. Loaded in the browser with three.js and urdf-loader.</p>
 
 <h2>What is ours, not Lux3D's</h2>
-<p>The glove's path and aim, the box's moods and lines, the synthesized sounds, the desk and lighting, toon shading with ink outlines, and web compression of the meshes (gltf-transform). The loading, shading and joint code is shared with our main entry, Rummage. English and Simplified Chinese, following the browser language.</p>
+<p>The glove's path and aim, the 50 facts and the oracle's replies, the synthesized sounds, the desk and lighting, toon shading with ink outlines, and web compression of the meshes (gltf-transform). The loading, shading and joint code is shared with our main entry, Rummage. English and Simplified Chinese, following the browser language.</p>
 
 <h2>Tools used</h2>
 <p>Aholo Lux3D (text-to-3D, articulation), three.js, urdf-loader, gltf-transform, Vite, Vercel. Claude and Codex as coding assistants. Built in about two hours on Nov 19 2026.</p>

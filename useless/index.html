@@ -3,23 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>The Useless Box</title>
-  <meta name="description" content="A box whose only job is to turn itself off. Built with Aholo Lux3D text-to-3D and articulation." />
+  <title>The Obvious Oracle</title>
+  <meta name="description" content="A wooden oracle that reveals extremely obvious facts, then turns itself off. Built with Aholo Lux3D text-to-3D and articulation." />
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./src/style.css" />
 </head>
 <body>
   <canvas id="c"></canvas>
   <header>
-    <h1 data-t="title">The Useless Box</h1>
-    <p class="sub" data-t="sub">It has one job: turning itself off.</p>
+    <h1 data-t="title">The Obvious Oracle</h1>
+    <p class="sub" data-t="sub">Ancient wisdom. Mostly things you already knew.</p>
   </header>
   <div id="say" class="say"></div>
+  <div id="fact" class="fact">
+    <div class="no" id="factNo"></div>
+    <div class="txt" id="factText"></div>
+    <div class="react"><button id="blown" class="mini" data-t="blown">🤯 Mind blown</button><button id="knew" class="mini" data-t="knew">🙄 I knew that</button></div>
+  </div>
   <footer>
     <button id="sw" class="switch" aria-label="switch">
       <span class="track"><span class="knob"></span></span>
       <span class="lbl" id="swl">OFF</span>
     </button>
+    <div class="hint" data-t="hint">Flip the switch to receive wisdom</div>
     <div class="stats" id="stats"></div>
     <div class="row">
       <button id="lang" class="mini">中文</button>
