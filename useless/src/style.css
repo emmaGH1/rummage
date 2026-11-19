@@ -131,3 +131,17 @@ footer { position: fixed; left: 0; right: 0; bottom: 0; padding: 0 16px max(12px
 
 .captcha { top: auto !important; bottom: calc(150px + env(safe-area-inset-bottom)); }
 .keybadge { bottom: calc(230px + env(safe-area-inset-bottom)) !important; }
+
+.intro .card { text-align: center; }
+.intro h2 { font-size: 44px; margin: 0; color: #fff; -webkit-text-stroke: 2px var(--ink); paint-order: stroke fill; text-shadow: 0 4px 0 var(--ink); }
+.intro .ih { font-family: 'Lilita One', 'PingFang SC', sans-serif; color: var(--red); letter-spacing: 1px; margin: 6px 0 2px; }
+.intro .big1 { font-family: 'Lilita One', 'PingFang SC', sans-serif; font-size: 24px; line-height: 1.15; margin: 0 0 6px; }
+.intro .est { font-weight: 900; background: #ffd166; display: inline-block; padding: 2px 10px; border-radius: 999px; border: 2px solid var(--ink); }
+.intro .start { position: static; transform: none; margin-top: 6px; font-size: 26px; animation: none; }
+.check { font-size: 11px !important; min-width: 0 !important; max-width: 46vw !important; padding: 4px 8px !important; }
+.check .ci { line-height: 16px !important; overflow: hidden; text-overflow: ellipsis; }
+.check .stamp { position: static !important; display: inline-block; margin-left: 4px; font-size: 8px !important; vertical-align: 1px; }
+.check .ci.ok { text-decoration: none !important; color: #999; }
+.say.toast { top: 0 !important; z-index: 30 !important; border-radius: 0 0 16px 16px; }
+.say.note, .say.ransom, .say.shout, .say.ticker { z-index: 4; }
+.quiz { z-index: 8; top: 45% !important; }
