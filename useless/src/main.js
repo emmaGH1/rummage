@@ -3,17 +3,18 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import { loadArticulated, whenMeshesReady, movableParts, inkify, addCavities } from '../../app/src/scene.js';
 import { sfx, toggleSfx, isSfxMuted } from '../../app/src/sfx.js';
+import { startMusic, toggleMusic, isMusicMuted } from './music.js';
 
 // ================= language =================
 let LANG = 'en';
-try { LANG = new URLSearchParams(location.search).get('lang') || localStorage.getItem('exit.lang') || ''; } catch { /* storage off */ }
+try { LANG = new URLSearchParams(location.search).get('lang') || localStorage.getItem('snorfle.lang') || ''; } catch { /* storage off */ }
 if (!LANG) LANG = (navigator.languages || [navigator.language]).some((l) => /^zh/i.test(l)) ? 'zh' : 'en';
 const L = (en, zh) => (LANG === 'zh' ? zh : en);
 const $ = (s) => document.querySelector(s);
 
 const UI = {
-  title: ['The Exit Is Right There', '出口就在那儿'],
-  sub: ['Goal: leave the room. That\'s it.', '目标：离开房间。就这样。'],
+  title: ['Snorfle', '斯诺弗'],
+  sub: ['The exit is right there.', '出口就在那儿。'],
   loading: ['Building a room you cannot leave…', '正在搭建一个出不去的房间…'],
   start: ['Enter the room', '进入房间'],
   aboutBtn: ['How it was made', '制作方式'],
@@ -25,6 +26,9 @@ const UI = {
   close: ['Close', '关闭'],
   wasted: ['Time wasted', '浪费时间'],
   oracle: ['THE ORACLE', '神谕'],
+  quit: ['Quit', '退出'],
+  couldHave: ['In that time you could have:', '这段时间里，你本可以：'],
+  never: ['You are never getting that time back.', '这些时间你永远也拿不回来了。'],
   capTitle: ['Prove you are not a robot', '请证明你不是机器人'],
   capText: ['Open every object that opens.', '打开所有能打开的东西。'],
   endTitle: ['You escaped!', '你逃出来了！'],
@@ -57,6 +61,12 @@ const FACTS = [
   ['Fact: time is passing. Yours, specifically.', '真理：时间在流逝。准确地说，是你的时间。'],
   ['Fact: fish cannot open drawers.', '真理：鱼打不开抽屉。'],
 ];
+const SURFACE = {
+  wall: [['Fact: that is a wall. It does not open. We checked.', '真理：那是墙。打不开。我们试过了。'], ['Walls: 0 doors. Very consistent.', '墙：零扇门。非常稳定。'], ['You tapped a wall. The wall felt nothing.', '你点了墙。墙毫无感觉。']],
+  floor: [['Fact: floor.', '真理：地板。'], ['The floor is holding up well. Unlike you.', '地板撑得很好。不像你。']],
+  rug: [['Fact: this rug is round. All the way round.', '真理：这块地毯是圆的。一圈都是圆的。'], ['There is nothing under the rug. There is floor under the rug.', '地毯下面什么都没有。地毯下面是地板。']],
+  sign: [['Fact: signs do not open.', '真理：牌子打不开。'], ['It says EXIT. Reading is half the battle.', '上面写着出口。识字是成功的一半。']],
+};
 const PIECE_FACT = {
   'k-fridge': ['Fact: the fridge is cold inside. You\'re welcome.', '真理：冰箱里面是冷的。不客气。'],
   'l-safe': ['Fact: the safe was not locked. It is a safe, not a secure.', '真理：保险箱没锁。它只是箱，不保险。'],
@@ -84,17 +94,18 @@ scene.add(sun);
 
 // a little room: floor, back wall, side walls, skirting, a rug
 const mat = (c) => new THREE.MeshToonMaterial({ color: c });
-function slab(w, h, d, c, x, y, z) {
+function slab(w, h, d, c, x, y, z, what) {
   const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat(c));
+  m.userData.what = what;
   m.position.set(x, y, z); m.receiveShadow = true; scene.add(m); return m;
 }
-slab(6, 0.1, 5.2, '#c98b52', 0, -0.05, 0.1);              // floor
-slab(6, 3.2, 0.1, '#ffb3c7', 0, 1.6, -2.1);               // back wall
-slab(0.1, 3.2, 5.2, '#ffd166', -3, 1.6, 0.1);             // left wall
-slab(0.1, 3.2, 5.2, '#8fdcc0', 3, 1.6, 0.1);              // right wall
+slab(6, 0.1, 5.2, '#c98b52', 0, -0.05, 0.1, 'floor');              // floor
+slab(6, 3.2, 0.1, '#ffb3c7', 0, 1.6, -2.1, 'wall');               // back wall
+slab(0.1, 3.2, 5.2, '#ffd166', -3, 1.6, 0.1, 'wall');             // left wall
+slab(0.1, 3.2, 5.2, '#8fdcc0', 3, 1.6, 0.1, 'wall');              // right wall
 slab(6, 0.18, 0.06, '#14121f', 0, 0.09, -2.03);           // skirting
 const rug = new THREE.Mesh(new THREE.CylinderGeometry(1.25, 1.25, 0.02, 48), mat('#6c63ff'));
-rug.position.set(0, 0.01, 0.55); rug.receiveShadow = true; scene.add(rug);
+rug.position.set(0, 0.01, 0.55); rug.receiveShadow = true; rug.userData.what = 'rug'; scene.add(rug);
 // wallpaper dots
 for (let i = 0; i < 40; i++) {
   const d = new THREE.Mesh(new THREE.CircleGeometry(0.06, 16), new THREE.MeshBasicMaterial({ color: '#ff8fab' }));
@@ -105,7 +116,9 @@ for (let i = 0; i < 40; i++) {
 const signCv = document.createElement('canvas'); signCv.width = 512; signCv.height = 160;
 const signTex = new THREE.CanvasTexture(signCv); signTex.colorSpace = THREE.SRGBColorSpace;
 const sign = new THREE.Mesh(new THREE.PlaneGeometry(0.95, 0.3), new THREE.MeshBasicMaterial({ map: signTex }));
+sign.userData.what = 'sign';
 scene.add(sign);
+let signText = 'EXIT', signBg = '#1fbf5a';
 function drawSign(text, bg = '#1fbf5a') {
   const g = signCv.getContext('2d');
   g.fillStyle = '#14121f'; g.fillRect(0, 0, 512, 160);
@@ -190,12 +203,58 @@ const openCount = () => Object.values(pieces).reduce((n, pc) => n + pc.parts.fil
 let oracle, lid, sw3d, hand;
 const handRest = new THREE.Vector3(), handUp = new THREE.Vector3();
 let lidBusy = false;
-// the oracle "speaks" by flapping its Lux3D lid
-function say(en, zh, ms) {
+// the oracle "speaks" by flapping its Lux3D lid, and its words show up anywhere, in any form
+const FORMS = ['bubble', 'bubble', 'bubble', 'note', 'toast', 'ticker', 'ransom', 'alert', 'shout'];
+let lastForm = '';
+function pickForm(text) {
+  let f;
+  do { f = FORMS[Math.floor(Math.random() * FORMS.length)]; } while ((f === lastForm && f !== 'bubble') || (f === 'shout' && text.length > 26) || (f === 'ransom' && text.length > 46));
+  return (lastForm = f);
+}
+function screenOf(v) {
+  const p = v.clone().project(camera);
+  return { x: (p.x * 0.5 + 0.5) * innerWidth, y: (-p.y * 0.5 + 0.5) * innerHeight };
+}
+const rand = (a, b) => a + Math.random() * (b - a);
+let sayEl;
+function showText(text, form) {
+  sayEl?.classList.add('gone');
+  const old = sayEl; setTimeout(() => old?.remove(), 300);
+  const el = document.createElement('div');
+  el.className = `say ${form}`;
+  const who = `<span class="who">${UI.oracle[LANG === 'zh' ? 1 : 0]}</span>`;
+  const esc = (t) => t.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  const H = innerHeight, W = innerWidth;
+  if (form === 'bubble') {
+    el.innerHTML = who + esc(text);
+    const at = oracle ? screenOf(oracle.holder.position.clone().add(new THREE.Vector3(0, oracle.size.y + 0.12, 0))) : { x: W / 2, y: H * 0.7 };
+    el.style.left = `${Math.min(Math.max(at.x, 150), W - 150)}px`;
+    el.style.top = `${at.y}px`;
+  } else if (form === 'note') {
+    el.innerHTML = esc(text);
+    el.style.left = `${rand(0.3, 0.7) * W}px`; el.style.top = `${rand(0.3, 0.55) * H}px`;
+    el.style.setProperty('--r', `${rand(-9, 9)}deg`);
+  } else if (form === 'toast') {
+    el.innerHTML = `<div class="th">🔔 ${UI.oracle[LANG === 'zh' ? 1 : 0]} · ${L('now', '刚刚')}</div>${esc(text)}`;
+  } else if (form === 'ticker') {
+    el.innerHTML = `<span class="tag">${L('BREAKING', '突发')}</span><span class="run">${esc(text)} ★ ${esc(text)} ★ ${esc(text)}</span>`;
+  } else if (form === 'ransom') {
+    el.innerHTML = [...text].map((c) => (c === ' ' ? '<i class="sp"> </i>' : `<i style="--r:${rand(-12, 12)}deg;--b:${['#fff', '#ffd166', '#ff8fab', '#8fdcc0', '#14121f', '#6c63ff'][Math.floor(rand(0, 6))]};--f:${['Lilita One', 'Georgia', 'Courier New', 'Impact', 'Nunito'][Math.floor(rand(0, 5))]}">${esc(c)}</i>`)).join('');
+    el.style.top = `${rand(0.3, 0.55) * H}px`;
+  } else if (form === 'alert') {
+    el.innerHTML = `<div class="ah"><span>⚠ Oracle.exe</span><span>✕</span></div><div class="ab">${esc(text)}</div><div class="af"><span class="ok">OK</span></div>`;
+  } else if (form === 'shout') {
+    el.innerHTML = esc(text);
+    el.style.top = `${rand(0.3, 0.5) * H}px`;
+  }
+  document.body.appendChild(el);
+  requestAnimationFrame(() => el.classList.add('on'));
+  sayEl = el;
+}
+function say(en, zh, ms, form) {
   const text = L(en, zh);
-  const el = $('#say');
-  $('#sayText').textContent = text;
-  el.classList.remove('on'); void el.offsetWidth; el.classList.add('on');
+  showText(text, form || pickForm(text));
+  lastSay = performance.now();
   sfx('hover');
   if (lid && !lidBusy) {
     lidBusy = true;
@@ -205,8 +264,9 @@ function say(en, zh, ms) {
       lidBusy = false;
     })();
   }
-  return wait(ms ?? 900 + text.length * (LANG === 'zh' ? 90 : 38));
+  return wait(ms ?? 1000 + text.length * (LANG === 'zh' ? 95 : 40));
 }
+let lastSay = 0;
 function setSwitch(on, dur = 90) {
   if (!sw3d) return;
   jointTo(sw3d, on ? Number(sw3d.joint.limit.lower) : Number(sw3d.joint.limit.upper), dur);
@@ -230,6 +290,7 @@ function randomFact() {
   let i; do { i = Math.floor(Math.random() * FACTS.length); } while (i === lastFact);
   lastFact = i; return FACTS[i];
 }
+const _unused = 0;
 const tidyText = (n) => L(`Close everything (${n} still open)`, `把东西都关上（还开着 ${n} 个）`);
 
 async function start() {
@@ -253,7 +314,7 @@ async function onOpen(p) {
     await say('Fact: that is a wardrobe. Wardrobes are not exits.', '真理：那是衣柜。衣柜不是出口。');
     sfx('shut');
     await Promise.all(p.pc.parts.map((q) => jointTo(q, 0, 140)));
-    drawSign(L('EXIT?', '出口？'), '#e8a21a');
+    signText = L('EXIT?', '出口？'); signBg = '#e8a21a'; drawSign(signText, signBg);
     await say('The real exit needs a key. Keys live in drawers. Drawers are the things that slide.', '真正的出口需要钥匙。钥匙住在抽屉里。抽屉就是会滑出来的那种东西。');
     stage = 'key';
     drawerOpens = 0;
@@ -275,7 +336,7 @@ async function onOpen(p) {
     await say('A key! Fact: keys open things.', '钥匙！真理：钥匙能打开东西。');
     await say('Go on. Use it on the exit.', '去吧。用它开出口。');
     stage = 'door2';
-    drawSign(L('EXIT', '出口'));
+    signText = L('EXIT', '出口'); signBg = '#1fbf5a'; drawSign(signText, signBg);
     task(L('Use the key on the EXIT', '用钥匙开出口'));
     return;
   }
@@ -444,7 +505,7 @@ async function tapOracle() {
   await wait(700);
   await Promise.all(all.filter((q) => q.pc.slug !== 'p-wardrobe').map((q) => jointTo(q, 0, 260)));
   await Promise.all(pieces['p-wardrobe'].parts.map((q) => jointTo(q, 0, 260)));
-  drawSign(L('EXIT ✓', '出口 ✓'), '#1fbf5a');
+  signText = L('EXIT ✓', '出口 ✓'); signBg = '#1fbf5a'; drawSign(signText, signBg);
   stage = 'exit';
   task(L('Leave. Through the EXIT.', '离开。从出口走。'));
 }
@@ -467,10 +528,12 @@ async function ending() {
   await wait(500);
   $('#endTime').textContent = time;
   $('#endDoors').textContent = opens;
-  const text = L(`I spent ${time} escaping a room. I escaped into a wardrobe. Fact: water is wet.`,
-    `我花了 ${time} 逃出一个房间，结果逃进了衣柜。真理：水是湿的。`);
+  const text = L(`I spent ${time} in Snorfle trying to leave a room. I escaped into a wardrobe. Fact: water is wet.`,
+    `我在斯诺弗花了 ${time} 想离开一个房间，结果逃进了衣柜。真理：水是湿的。`);
   $('#endLine').textContent = text;
   $('#end').classList.remove('hidden');
+  quitDone = true;
+  $('#endList').innerHTML = wastedList(s);
   $('#share').onclick = async () => {
     const url = location.origin + location.pathname;
     try {
@@ -487,8 +550,13 @@ canvas.addEventListener('pointerdown', async (e) => {
   if (!oracle || stage === 'loading' || stage === 'end') return;
   const v = new THREE.Vector2((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
   ray.setFromCamera(v, camera);
-  const hit = ray.intersectObjects(scene.children, true).find((h) => h.object.isMesh && (h.object.userData.part || h.object.userData.pc));
-  if (!hit) return;
+  const hits = ray.intersectObjects(scene.children, true).filter((h) => h.object.isMesh && !h.object.userData.isOutline);
+  const hit = hits.find((h) => h.object.userData.part || h.object.userData.pc);
+  if (!hit || (hits[0] && hits[0].object.userData.what && hits[0].distance < hit.distance - 0.01)) {
+    const w = hits[0]?.object.userData.what;
+    if (w && stage !== 'busy' && stage !== 'ready' && performance.now() - lastSay > 1200) say(...SURFACE[w][Math.floor(Math.random() * SURFACE[w].length)], 1400);
+    return;
+  }
   let p = hit.object.userData.part;
   const pc = p ? p.pc : hit.object.userData.pc;
   if (pc.slug === 'u-box') return tapOracle();
@@ -531,7 +599,8 @@ renderer.setAnimationLoop(() => {
   applyLang();
   resize();
   drawSign(L('EXIT', '出口'));
-  document.fonts?.ready.then(() => stage === 'loading' || stage === 'ready' ? drawSign(L('EXIT', '出口')) : 0);
+  signText = L('EXIT', '出口');
+  document.fonts?.ready.then(() => drawSign(signText, signBg));
   const prog = $('#prog');
   const LAYOUT = [
     ['p-wardrobe', 1.75, 0, -1.6, 0],
@@ -575,13 +644,145 @@ renderer.setAnimationLoop(() => {
 })().catch((e) => { $('#loading p').textContent = String(e); });
 
 // ================= ui =================
-$('#startBtn').addEventListener('click', () => { $('#startBtn').classList.add('hidden'); sfx('click'); start(); });
+$('#startBtn').addEventListener('click', () => {
+  $('#startBtn').classList.add('hidden'); sfx('click'); startMusic(); start();
+  // closing the tab: one last ragebait (the browser shows its own "leave site?" box)
+  addEventListener('beforeunload', (e) => { if (stage !== 'end' && !quitDone) { e.preventDefault(); e.returnValue = ''; } });
+});
+$('#music').textContent = isMusicMuted() ? '🎵✕' : '🎵';
+$('#music').addEventListener('click', () => {
+  const m = toggleMusic();
+  $('#music').textContent = m ? '🎵✕' : '🎵';
+  if (m && t0) say('Music muted. Fact: it is still playing in your head.', '音乐已静音。真理：它还在你脑子里播放。', 1800);
+});
+
+// ================= quitting (it does not work) =================
+let quitDone = false, prevStage = '';
+const fmt = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+function quitCard(html) { $('#quitBody').innerHTML = html; $('#quit').classList.remove('hidden'); }
+function closeQuit(msg) {
+  $('#quit').classList.add('hidden');
+  if (prevStage) stage = prevStage;
+  if (msg) say(...msg, 1800);
+}
+function wastedList(s) {
+  const n = (x) => (x >= 10 ? Math.round(x) : Math.round(x * 10) / 10);
+  const items = [
+    [`boiled ${n(s / 420)} eggs`, `煮了 ${n(s / 420)} 个鸡蛋`],
+    [`read ${n(s / 90)} pages of a good book`, `读了 ${n(s / 90)} 页好书`],
+    [`drunk ${n(s / 25)} glasses of water (water is wet)`, `喝了 ${n(s / 25)} 杯水（水是湿的）`],
+    [`done ${Math.round(s / 2)} push-ups`, `做了 ${Math.round(s / 2)} 个俯卧撑`],
+    [`learned "hello" in ${Math.max(1, Math.round(s / 15))} languages`, `学会用 ${Math.max(1, Math.round(s / 15))} 种语言说"你好"`],
+    [`called your mum ${n(s / 240)} times`, `给妈妈打了 ${n(s / 240)} 次电话`],
+    [`watched ${n(s / 30)} cat videos`, `看了 ${n(s / 30)} 个猫咪视频`],
+    [`taken ${Math.round(s / 4)} deep breaths (you are breathing manually now)`, `深呼吸 ${Math.round(s / 4)} 次（你现在在手动呼吸）`],
+    [`finished your hackathon project ${n(s / 172800)} times`, `完成了 ${n(s / 172800)} 次黑客松项目`],
+  ];
+  return items.map((i) => `<li>${L(...i)}</li>`).join('');
+}
+$('#quitBtn').addEventListener('click', () => {
+  if (!t0 || stage === 'end' || !$('#quit').classList.contains('hidden')) return;
+  prevStage = stage; stage = 'busy';
+  sfx('nope');
+  quitStep1();
+});
+function quitStep1() {
+  quitCard(`<h2>${L('Are you sure you want to quit?', '你确定要退出吗？')}</h2>
+    <p>${L('Fact: quitting is the opposite of staying.', '真理：退出是留下的反面。')}</p>
+    <div class="row qrow"><button class="mini big" id="qYes">${L('Yes, quit', '是，退出')}</button><button class="mini big" id="qNo">${L('No', '不')}</button></div>`);
+  let dodges = 0;
+  const yes = $('#qYes');
+  const dodge = () => {
+    if (dodges >= 2) return false;
+    dodges++;
+    yes.style.position = 'relative';
+    yes.style.left = `${rand(-90, 90)}px`; yes.style.top = `${rand(-60, 60)}px`;
+    yes.textContent = [L('Nope', '才不'), L('Too slow', '太慢了')][dodges - 1];
+    sfx('hint');
+    return true;
+  };
+  yes.addEventListener('pointerenter', (e) => e.pointerType === 'mouse' && dodge());
+  yes.addEventListener('click', () => { if (!dodge()) quitStep2(); });
+  $('#qNo').addEventListener('click', () => closeQuit(['Correct choice. Fact: you are still here.', '正确的选择。真理：你还在这里。']));
+}
+async function quitStep2() {
+  quitCard(`<h2>${L('Calculating how much time you wasted…', '正在计算你浪费了多少时间……')}</h2><div class="bar wide"><i id="qBar"></i></div><p id="qPct">0%</p>`);
+  const bar = $('#qBar'), pct = $('#qPct');
+  for (let i = 0; i <= 99; i += Math.ceil(rand(3, 14))) { bar.style.width = `${Math.min(i, 99)}%`; pct.textContent = `${Math.min(i, 99)}%`; await wait(90); }
+  bar.style.width = '99%'; pct.textContent = '99%';
+  await wait(900); pct.textContent = '99.9%';
+  await wait(900); pct.textContent = '99.99%';
+  await wait(700);
+  const s = Math.floor((performance.now() - t0) / 1000);
+  quitCard(`<h2>${L(`You have wasted ${fmt(s)}.`, `你已经浪费了 ${fmt(s)}。`)}</h2>
+    <p>${L('In that time you could have:', '这段时间里，你本可以：')}</p><ul class="wl">${wastedList(s)}</ul>
+    <p class="never">${L('You are never getting that time back.', '这些时间你永远也拿不回来了。')}</p>
+    <div class="row qrow"><button class="mini big" id="qGo">${L('Continue quitting', '继续退出')}</button><button class="mini big" id="qStay">${L('Stay (obviously)', '留下（显然）')}</button></div>`);
+  $('#qGo').onclick = quitStep3;
+  $('#qStay').onclick = () => closeQuit(['Good. More time to waste.', '很好。还有更多时间可以浪费。']);
+}
+function quitStep3() {
+  quitCard(`<h2>${L('To confirm, type QUIT', '请输入 QUIT 以确认')}</h2>
+    <input id="qIn" class="qin" autocomplete="off" autocapitalize="characters" placeholder="QUIT">
+    <div class="row qrow"><button class="mini big" id="qOk">${L('Confirm', '确认')}</button></div>`);
+  $('#qOk').onclick = () => {
+    const v = ($('#qIn').value || '').trim() || 'QUIT';
+    quitCard(`<h2>${L(`Did you mean "${v === 'QUIT' ? 'QUILT' : 'QUIT'}"? 🛏`, `你是想输入"${v === 'QUIT' ? 'QUILT（被子）' : 'QUIT'}"吗？🛏`)}</h2>
+      <div class="row qrow"><button class="mini big" id="qA">${L('Yes', '是')}</button><button class="mini big" id="qB">${L('No', '不是')}</button></div>`);
+    $('#qA').onclick = $('#qB').onclick = quitStep4;
+  };
+}
+async function quitStep4() {
+  let q = 4812;
+  quitCard(`<h2>${L('Please hold.', '请稍候。')}</h2><p>${L('Your quit request is number', '你的退出请求排在第')} <b id="qQ">${q}</b> ${L('in the queue.', '位。')}</p><p class="fine">${L('Fact: queues are lines.', '真理：排队就是排成一队。')}</p>`);
+  for (let i = 0; i < 14; i++) { await wait(260); q += Math.floor(rand(1, 40)); $('#qQ').textContent = q.toLocaleString(); }
+  quitCard(`<h2>${L('Fact: this is a website.', '真理：这是一个网站。')}</h2>
+    <p>${L('Websites cannot close themselves. To exit, close the browser tab. It is the ✕ up there. Obviously.', '网站没法自己关掉。想退出，请关闭浏览器标签页。就是上面那个 ✕。显而易见。')}</p>
+    <div class="row qrow"><button class="mini big" id="qClose">${L('Close', '关闭')}</button><button class="mini big" id="qFine">${L('Fine, I\'ll stay', '好吧，我留下')}</button></div>`);
+  $('#qClose').onclick = () => {
+    try { window.close(); } catch { /* it never works */ }
+    $('#qClose').textContent = L('That button was decorative.', '这个按钮是装饰用的。');
+    $('#qClose').disabled = true;
+    quitDone = true; // ok, the tab may close now without the extra prompt
+  };
+  $('#qFine').onclick = () => closeQuit(['Welcome back. Nothing has changed.', '欢迎回来。什么都没变。']);
+}
+
+// ================= little annoyances =================
+const TOASTS = [
+  ['Your time has been successfully wasted.', '你的时间已成功浪费。'],
+  ['Oracle update available: same facts, new font.', '神谕有更新：同样的废话，新的字体。'],
+  ['Reminder: water is still wet.', '提醒：水依然是湿的。'],
+  ['Your battery is lower than when you started.', '你的电量比开始时低了。'],
+  ['The music is now slightly more out of tune. You\'re welcome.', '音乐现在更跑调了一点。不客气。'],
+  ['Did you know? You could leave at any time. You won\'t.', '你知道吗？你随时可以离开。但你不会。'],
+  ['This notification has no purpose.', '这条通知没有任何用处。'],
+];
+let toastI = 0;
+setInterval(() => {
+  if (!t0 || stage === 'end' || stage === 'busy' || stage === 'quiz' || !$('#quit').classList.contains('hidden')) return;
+  if (performance.now() - lastSay < 6000) return;
+  say(...TOASTS[toastI++ % TOASTS.length], 2400, 'toast');
+}, 23000);
+const TIMER_LABELS = [['Time wasted', '浪费时间'], ['Time wasted (well)', '浪费得很好'], ['Time you won\'t get back', '回不来的时间'], ['Life, ticking', '生命在流逝']];
+setInterval(() => {
+  if (!t0) return;
+  const i = Math.floor((performance.now() - t0) / 20000) % TIMER_LABELS.length;
+  $('#timerL').textContent = L(...TIMER_LABELS[i]);
+  if (Math.random() < 0.25 && stage !== 'end') { drawSignFlicker(); }
+  if (stage !== 'busy' && stage !== 'end' && stage !== 'quiz' && performance.now() - lastSay > 14000 && $('#quit').classList.contains('hidden')) {
+    say(...[['Still here? Fact: so am I.', '还在？真理：我也在。'], ['Take your time. It is already gone.', '慢慢来。反正时间已经没了。'], ['Hint: the exit is right there.', '提示：出口就在那儿。']][Math.floor(rand(0, 3))]);
+  }
+}, 4000);
+async function drawSignFlicker() {
+  for (let i = 0; i < 3; i++) { drawSign(L('EXlT', '出囗'), '#555'); await wait(70); drawSign(signText, signBg); await wait(90); }
+}
 $('#again').addEventListener('click', () => location.reload());
 $('#mute').textContent = isSfxMuted() ? '🔇' : '🔊';
 $('#mute').addEventListener('click', () => ($('#mute').textContent = toggleSfx() ? '🔇' : '🔊'));
 $('#lang').addEventListener('click', () => {
   const next = LANG === 'zh' ? 'en' : 'zh';
-  try { localStorage.setItem('exit.lang', next); } catch { /* ignore */ }
+  try { localStorage.setItem('snorfle.lang', next); } catch { /* ignore */ }
   location.search = `?lang=${next}`;
 });
 $('#about').addEventListener('click', () => $('#aboutPanel').classList.remove('hidden'));

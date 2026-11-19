@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>The Exit Is Right There</title>
-  <meta name="description" content="A ragebait escape room where the exit is right there. Every door, drawer and lid is Aholo Lux3D articulation." />
+  <title>Snorfle</title>
+  <meta name="description" content="Snorfle: a ragebait escape room. The exit is right there. Every door, drawer and lid is Aholo Lux3D articulation." />
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./src/style.css" />
 </head>
 <body>
   <canvas id="c"></canvas>
   <header>
-    <h1 data-t="title">The Exit Is Right There</h1>
-    <p class="sub" data-t="sub">Goal: leave the room. That's it.</p>
+    <h1 data-t="title">Snorfle</h1>
+    <p class="sub" data-t="sub">The exit is right there.</p>
   </header>
-  <div class="timer"><span data-t="wasted">Time wasted</span> <b id="time">0:00</b></div>
+  <button id="quitBtn" class="quitBtn">✕ <span data-t="quit">Quit</span></button>
+  <div class="timer"><span id="timerL" data-t="wasted">Time wasted</span> <b id="time">0:00</b></div>
   <div id="key" class="keybadge hidden">🔑</div>
 
-  <div id="say" class="say"><span class="who" data-t="oracle">THE ORACLE</span><span id="sayText"></span></div>
   <div id="task" class="task hidden"></div>
 
   <div id="captcha" class="captcha hidden">
@@ -37,11 +37,13 @@
     <div class="row">
       <button id="lang" class="mini">中文</button>
       <button id="mute" class="mini">🔊</button>
+      <button id="music" class="mini">🎵</button>
       <button id="about" class="mini" data-t="aboutBtn">How it was made</button>
     </div>
   </footer>
 
   <div id="fade" class="fade"></div>
+  <div id="quit" class="panel quit hidden"><div class="card" id="quitBody"></div></div>
   <div id="end" class="panel end hidden">
     <div class="card">
       <h2 data-t="endTitle">You escaped!</h2>
@@ -52,6 +54,8 @@
         <div><b>0</b><span data-t="endWisdomL">Wisdom gained</span></div>
       </div>
       <p id="endLine" class="endLine"></p>
+      <p class="fine" data-t="couldHave">In that time you could have:</p><ul id="endList" class="wl"></ul>
+      <p class="never" data-t="never">You are never getting that time back.</p>
       <div class="row"><button id="share" class="mini big" data-t="share">Share my shame</button><button id="again" class="mini big" data-t="again">Again (why?)</button></div>
     </div>
   </div>
