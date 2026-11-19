@@ -1,0 +1,2 @@
+{ "name": "useless-box", "private": true, "type": "module",
+  "scripts": { "dev": "vite --host --port 5180", "build": "vite build", "preview": "vite preview --host --port 4180" } }

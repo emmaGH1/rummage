@@ -1,0 +1,17 @@
+{
+  "gen": {"style": "cartoon", "faceCount": 12000},
+  "skipSplit": true,
+  "objects": {
+    "u-box": {
+      "prompt": "cartoon wooden useless box toy, a small rectangular wooden box with a flat hinged lid on top and one big red toggle switch sticking up from the top front, chunky simple shapes, flat warm honey wood paint, single isolated object",
+      "motion": "The top lid swings upward and backward on a hinge along its back edge, opening about 100 degrees"
+    },
+    "u-cabinet": {
+      "prompt": "cartoon small cabinet with two front doors and one drawer underneath, chunky simple shapes, flat mint green paint with round pink knobs, single isolated object",
+      "motion": "The two front doors swing outward on vertical hinges at their outer edges, about 110 degrees, and the bottom drawer slides straight out forward about 60 percent of its depth"
+    },
+    "u-hand": {
+      "prompt": "cartoon white glove hand with the index finger pointing forward, like a toy robot hand on a short stick, chunky simple shapes, single isolated object"
+    }
+  }
+}

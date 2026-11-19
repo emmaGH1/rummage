@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>The Useless Box report</title>
+<style>
+@font-face { font-family: 'Lilita One'; src: url('../app/src/fonts/LilitaOne.woff2'); }
+@font-face { font-family: 'Nunito'; src: url('../app/src/fonts/Nunito.woff2'); font-weight: 200 1000; }
+@page { size: A4; margin: 16mm 15mm; }
+body { font-family: 'Nunito', sans-serif; color: #14121f; font-size: 10.5pt; line-height: 1.45; }
+h1 { font-family: 'Lilita One'; font-weight: 400; font-size: 34pt; margin: 0; }
+h2 { font-family: 'Lilita One'; font-weight: 400; font-size: 16pt; margin: 16px 0 6px; }
+.lead { font-size: 13pt; font-weight: 800; margin: 4px 0 10px; }
+.links { font-weight: 700; }
+.shots { display: flex; gap: 10px; margin: 10px 0; }
+.shots img { width: 32%; border: 2px solid #14121f; border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: 9.5pt; }
+td, th { border: 1px solid #bbb; padding: 4px 6px; text-align: left; vertical-align: top; }
+th { background: #ffd166; }
+.fine { font-size: 9pt; opacity: .8; }
+</style></head><body>
+<h1>The Useless Box</h1>
+<p class="lead">A box with one job: turning itself off. Every moving part was generated and articulated by Aholo Lux3D.</p>
+<p class="links">Play: https://the-useless-box.vercel.app · Source: https://github.com/emmaGH1/rummage/tree/main/useless</p>
+
+<div class="shots"><img src="shot-idle.png"><img src="shot-press.png"><img src="shot-press-zh.png"></div>
+
+<h2>The idea</h2>
+<p>The useless box is a classic desk toy: you flip the switch on, a hand comes out of the lid and flips it off. That's all it does. We built it entirely from Lux3D output. Lux3D generated the box and, from a one-line motion prompt, returned a URDF in which both the lid and the toggle switch are real joints. The game drives those joints directly. Flip the switch (tap the box, or the big switch at the bottom) and the box turns itself off, with a growing personality: fake-outs where the lid peeks and shuts, angry slams, a wave before the press, naps, and at some point the cabinet next to it opens its doors and drawer in solidarity. Tap the cabinet and it's empty. Open its drawer to file a complaint, which will be ignored. A counter keeps score: work done is always 0.</p>
+
+<h2>How Lux3D built it</h2>
+<table>
+<tr><th>Piece</th><th>Lux3D call</th><th>Prompt</th><th>Task id</th><th>Time</th></tr>
+<tr><td>Box</td><td>text-to-3D (G1-Turbo, cartoon)</td><td>cartoon wooden useless box toy, a small rectangular wooden box with a flat hinged lid on top and one big red toggle switch sticking up from the top front…</td><td>8412876</td><td>135 s</td></tr>
+<tr><td>Box</td><td>articulation</td><td>The top lid swings upward and backward on a hinge along its back edge, opening about 100 degrees</td><td>8413206</td><td>135 s</td></tr>
+<tr><td>Cabinet</td><td>text-to-3D</td><td>cartoon small cabinet with two front doors and one drawer underneath, chunky simple shapes, flat mint green paint with round pink knobs…</td><td>8412870</td><td>108 s</td></tr>
+<tr><td>Cabinet</td><td>articulation</td><td>The two front doors swing outward on vertical hinges at their outer edges, about 110 degrees, and the bottom drawer slides straight out forward about 60 percent of its depth</td><td>8413151</td><td>181 s</td></tr>
+<tr><td>Glove hand</td><td>text-to-3D</td><td>cartoon white glove hand with the index finger pointing forward, like a toy robot hand on a short stick…</td><td>8412874</td><td>95 s</td></tr>
+</table>
+<p><b>The surprise:</b> we only asked for the lid to move, but Lux3D's articulation also found the toggle switch and gave it its own revolute joint (<code>switch_joint</code>, ±30°), mounted on the lid. So the switch flips on a Lux3D joint too, and because it sits on the lid, the glove has to chase it as the lid opens. We kept that: it's funnier.</p>
+<p>Result: 2 articulated pieces with 5 joints straight from Lux3D's URDF (lid, switch, two doors, drawer), none rigged by hand. Loaded in the browser with three.js and urdf-loader.</p>
+
+<h2>What is ours, not Lux3D's</h2>
+<p>The glove's path and aim, the box's moods and lines, the synthesized sounds, the desk and lighting, toon shading with ink outlines, and web compression of the meshes (gltf-transform). The loading, shading and joint code is shared with our main entry, Rummage. English and Simplified Chinese, following the browser language.</p>
+
+<h2>Tools used</h2>
+<p>Aholo Lux3D (text-to-3D, articulation), three.js, urdf-loader, gltf-transform, Vite, Vercel. Claude and Codex as coding assistants. Built in about two hours on Nov 19 2026.</p>
+<p class="fine">Static site with pre-generated assets: no API key in the browser, keeps working past Dec 31 2026. All Lux3D calls are logged in docs/generation-log.md (rows starting with u-).</p>
+</body></html>

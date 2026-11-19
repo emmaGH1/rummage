@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<robot name="robot">
+  <link name="base">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/base.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="lid">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/lid.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <link name="switch">
+    <visual>
+      <geometry>
+        <mesh filename="meshes/switch.glb" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <joint name="lid_joint" type="revolute">
+    <parent link="base" />
+    <child link="lid" />
+    <origin rpy="0 0 0" xyz="-0.04811200 0.07029136 -0.05195400" />
+    <axis xyz="-0.99997600 -0.00691200 0.00061500" />
+    <limit lower="0.000000" upper="1.570796" effort="10" velocity="1" />
+  </joint>
+  <joint name="switch_joint" type="revolute">
+    <parent link="lid" />
+    <child link="switch" />
+    <origin rpy="0 0 0" xyz="0.05430500 0.01040000 0.05187200" />
+    <axis xyz="1.00000000 0.00000000 0.00000000" />
+    <limit lower="-0.523599" upper="0.523599" effort="10" velocity="1" />
+  </joint>
+</robot>
