@@ -313,3 +313,6 @@ body.embedded .center { padding-top: 64px; }
 body.zh .lux-title { text-transform: none; }
 body.zh .panel .pname { font-size: 20px; }
 @media (max-width: 600px) { body.zh .panel .pname { font-size: 15px; line-height: 1.15; } }
+
+.bonus { display: inline-flex; align-items: center; gap: 4px; margin-top: 10px; padding: 5px 14px; background: #ffd166; color: #14121f; border: 2px solid #14121f; border-radius: 999px; box-shadow: 0 3px 0 #14121f; font-size: 13px; font-weight: 800; text-decoration: none; transform: rotate(-2deg); }
+.bonus:active { transform: rotate(-2deg) translateY(2px); box-shadow: 0 1px 0 #14121f; }
